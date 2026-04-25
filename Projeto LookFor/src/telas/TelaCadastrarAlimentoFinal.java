@@ -25,6 +25,7 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 	private JTextField txtDescricaoItem;
 	private JTextField txtDataVencimento;
 	private JTextField txtDataFabricacao;
+	private JTextField txtIgredientes;
 
 	/**
 	 * Launch the application.
@@ -88,7 +89,7 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 						precoConvertido,
 						txtCodigoItem.getText(),
 						txtDescricaoItem.getText(),
-						"",
+						txtIgredientes.getText(),
 						txtDataVencimento.getText(),
 						txtDataFabricacao.getText());
 			}
@@ -136,6 +137,16 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		txtDataFabricacao.setColumns(10);
 		txtDataFabricacao.setBounds(167, 234, 203, 20);
 		contentPane.add(txtDataFabricacao);
+		
+		JLabel lblgredientes = new JLabel("Igredientes");
+		lblgredientes.setFont(new Font("Arial", Font.BOLD, 14));
+		lblgredientes.setBounds(10, 277, 154, 14);
+		contentPane.add(lblgredientes);
+		
+		txtIgredientes = new JTextField();
+		txtIgredientes.setColumns(10);
+		txtIgredientes.setBounds(167, 275, 203, 20);
+		contentPane.add(txtIgredientes);
 
 	}
 }
