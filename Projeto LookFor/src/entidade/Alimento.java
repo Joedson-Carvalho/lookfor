@@ -2,7 +2,7 @@ package entidade;
 
 public class Alimento extends CadastrarItem {
 	
-	String tabelaNutricional;
+	String ingredientes;
 	String dataVencimento;
 	String dataFabricacao;
 	
@@ -11,12 +11,12 @@ public class Alimento extends CadastrarItem {
 			double preco, 
 			String codItem, 
 			String descItem, 
-			String tabelaNutricional, 
+			String ingredientes, 
 			String dataVencimento,
 			String dataFabricacao)
 	{
 		super(nome, preco, codItem, descItem);
-		this.tabelaNutricional = tabelaNutricional;
+		this.ingredientes = ingredientes;
 		this.dataFabricacao = dataFabricacao;
 		this.dataVencimento = dataVencimento;
 	}
@@ -25,7 +25,5 @@ public class Alimento extends CadastrarItem {
 	{
 		return this.dataVencimento.trim().isEmpty();
 	}
-	
-	
-	
+
 }
