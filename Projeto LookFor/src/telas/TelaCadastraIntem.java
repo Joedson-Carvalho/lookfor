@@ -16,10 +16,6 @@ public class TelaCadastraIntem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_4;
 
 	/**
 	 * Launch the application.
@@ -48,60 +44,30 @@ public class TelaCadastraIntem extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("DESCRIÇÃO DO ITEM:");
-		lblNewLabel_3.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(10, 168, 154, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_1 = new JLabel("CÓDIGO  DO ITEM:");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(10, 123, 134, 23);
-		contentPane.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel = new JLabel("PREÇO:");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 85, 70, 14);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_4 = new JLabel("NOME:");
+		JLabel lblNewLabel_4 = new JLabel("Selecione o Tipo de item a ser cadastrado");
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(10, 50, 59, 14);
+		lblNewLabel_4.setBounds(56, 77, 323, 14);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("CADASTRAR ITEM");
 		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_5.setBounds(112, 11, 203, 14);
+		lblNewLabel_5.setBounds(137, 11, 203, 14);
 		contentPane.add(lblNewLabel_5);
 		
-		JButton btnProximo = new JButton("PRÓXIMO");
+		JButton btnProximo = new JButton("Eletrônico");
 		btnProximo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
 		btnProximo.setFont(new Font("Arial", Font.BOLD, 12));
-		btnProximo.setBounds(309, 270, 89, 23);
+		btnProximo.setBounds(46, 154, 134, 52);
 		contentPane.add(btnProximo);
 		
-		textField = new JTextField();
-		textField.setBounds(167, 48, 203, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(167, 83, 203, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(167, 125, 203, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(167, 166, 203, 20);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		JButton btnAlimento = new JButton("Alimento");
+		btnAlimento.setFont(new Font("Arial", Font.BOLD, 12));
+		btnAlimento.setBounds(256, 154, 134, 52);
+		contentPane.add(btnAlimento);
 
 	}
 
