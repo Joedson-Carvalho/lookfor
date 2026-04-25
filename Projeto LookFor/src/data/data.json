@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nome": "TechNova Soluções Digitais",
+    "email": "contato@technova.com.br",
+    "telefone": "(11) 4002-8922",
+    "cnpj": "12.345.678/0001-90"
+  },
+  {
+    "id": 2,
+    "nome": "Alimentos Grão de Ouro",
+    "email": "vendas@graodeouro.com",
+    "telefone": "(31) 3344-5566",
+    "cnpj": "98.765.432/0001-10"
+  },
+  {
+    "id": 3,
+    "nome": "Logística Veloz Express",
+    "email": "sac@velozexpress.com.br",
+    "telefone": "(21) 98877-6655",
+    "cnpj": "45.678.901/0001-22"
+  }
+]

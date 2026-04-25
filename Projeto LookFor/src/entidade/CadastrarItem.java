@@ -9,7 +9,8 @@ public class CadastrarItem {
 	String descricaoItem;
 	
 	public CadastrarItem(String nome, double preco, String codItem, String 
-			descricaoItem) {
+			descricaoItem) 
+	{
 		
 		this.nome = nome;
 		this.preco = preco;
