@@ -2,17 +2,18 @@ package entidade;
 
 public class Empresa {
 		
+		int id;
 		String nome;
 		String email;
 		String telefone;
-		int id;
+		String cnpj;
 		
-		public Empresa(String nomeEmpresa, String email, String telefone, int id) {
+		public Empresa(String nomeEmpresa, String email, String telefone, String cnpj) 
+		{
 			this.nome = nomeEmpresa;
 			this.email = email;
 			this.telefone = telefone;
-			this.id = id;
-
-	}
+			this.cnpj = cnpj;
+		}
 
 }
