@@ -138,7 +138,7 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		txtDataFabricacao.setBounds(167, 234, 203, 20);
 		contentPane.add(txtDataFabricacao);
 		
-		JLabel lblgredientes = new JLabel("Igredientes");
+		JLabel lblgredientes = new JLabel("Ingredientes");
 		lblgredientes.setFont(new Font("Arial", Font.BOLD, 14));
 		lblgredientes.setBounds(10, 277, 154, 14);
 		contentPane.add(lblgredientes);
