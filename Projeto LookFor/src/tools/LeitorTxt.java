@@ -10,7 +10,7 @@ import entidade.CadastrarItem;
 
 public class LeitorTxt {
 	 public static void main(String[] args) {
-	 String path = "C:\\Users\\Admin\\Documents\\GitHub\\lookfor\\Projeto LookFor\\src\\data\\data.txt";
+	 String path = "src\\data\\data.txt";
 	
 	 List<CadastrarItem> list = new ArrayList<CadastrarItem>();
 	 
