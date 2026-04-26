@@ -14,12 +14,12 @@ public class TelaCadastraAlimento extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtDescricao;
+	private JTextField txtCodItem;
+	private JTextField txtPreco;
+	private JTextField txtNome;
+	private JTextField txtDataFabricacao;
+	private JTextField txtDataVencimento;
 
 	/**
 	 * Launch the application.
@@ -48,25 +48,25 @@ public class TelaCadastraAlimento extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("CADASTRAR PRODUTO");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel.setBounds(112, 11, 214, 27);
-		contentPane.add(lblNewLabel);
+		JLabel lblCadastrarProduto = new JLabel("CADASTRAR PRODUTO");
+		lblCadastrarProduto.setFont(new Font("Arial", Font.BOLD, 16));
+		lblCadastrarProduto.setBounds(112, 11, 214, 27);
+		contentPane.add(lblCadastrarProduto);
 		
 		JLabel lblDescricaoItem = new JLabel("Descrição:");
 		lblDescricaoItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDescricaoItem.setBounds(20, 183, 119, 19);
 		contentPane.add(lblDescricaoItem);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(191, 183, 217, 20);
-		contentPane.add(textField);
+		txtDescricao = new JTextField();
+		txtDescricao.setColumns(10);
+		txtDescricao.setBounds(191, 183, 217, 20);
+		contentPane.add(txtDescricao);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(191, 141, 217, 20);
-		contentPane.add(textField_1);
+		txtCodItem = new JTextField();
+		txtCodItem.setColumns(10);
+		txtCodItem.setBounds(191, 141, 217, 20);
+		contentPane.add(txtCodItem);
 		
 		JLabel lblCodItem = new JLabel("Codigo do Item:");
 		lblCodItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -78,15 +78,15 @@ public class TelaCadastraAlimento extends JFrame {
 		lblPreco.setBounds(20, 105, 119, 19);
 		contentPane.add(lblPreco);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(191, 105, 217, 20);
-		contentPane.add(textField_2);
+		txtPreco = new JTextField();
+		txtPreco.setColumns(10);
+		txtPreco.setBounds(191, 105, 217, 20);
+		contentPane.add(txtPreco);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(191, 67, 217, 20);
-		contentPane.add(textField_3);
+		txtNome = new JTextField();
+		txtNome.setColumns(10);
+		txtNome.setBounds(191, 67, 217, 20);
+		contentPane.add(txtNome);
 		
 		JLabel lblNomeItem = new JLabel("Nome:");
 		lblNomeItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -106,15 +106,15 @@ public class TelaCadastraAlimento extends JFrame {
 		lblFabricacao.setBounds(20, 214, 140, 19);
 		contentPane.add(lblFabricacao);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(191, 214, 217, 20);
-		contentPane.add(textField_4);
+		txtDataFabricacao = new JTextField();
+		txtDataFabricacao.setColumns(10);
+		txtDataFabricacao.setBounds(191, 214, 217, 20);
+		contentPane.add(txtDataFabricacao);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(191, 262, 217, 20);
-		contentPane.add(textField_5);
+		txtDataVencimento = new JTextField();
+		txtDataVencimento.setColumns(10);
+		txtDataVencimento.setBounds(191, 262, 217, 20);
+		contentPane.add(txtDataVencimento);
 		
 		JLabel lblDataDoVencimento = new JLabel("Data do Vencimento:");
 		lblDataDoVencimento.setFont(new Font("Tahoma", Font.PLAIN, 15));
