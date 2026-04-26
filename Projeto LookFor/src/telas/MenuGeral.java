@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuGeral extends JFrame {
 
@@ -155,6 +157,10 @@ public class MenuGeral extends JFrame {
 		contentPane_3.add(lblCadastrarEletronico);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSalvar.setBounds(309, 323, 89, 23);
 		contentPane_3.add(btnSalvar);
 		

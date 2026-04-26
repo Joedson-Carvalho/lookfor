@@ -1,22 +1,30 @@
 package tools;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class ConversorJson 
-{
-	private static final ObjectMapper mapper = new ObjectMapper();
+public class ConversorJson {
 
-    /**
-     * Converte um JSON String para uma LISTA de objetos da classe informada.
-     */
-    public static <T> List<T> desserializarLista(String json, Class<T> classeAlvo) {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+
+    public static String serializarParaString(Object objeto) {
         try {
-            // Cria um tipo de lista dinâmico para o Jackson entender
-            return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, classeAlvo));
-        } catch (Exception e) {
-            System.err.println("Erro ao converter JSON: " + e.getMessage());
-            return new ArrayList<>();
+
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objeto);
+        } catch (JsonProcessingException e) {
+            System.err.println("Erro ao converter objeto para String JSON: " + e.getMessage());
+            return "{}";
         }
-    }	
+    }
+
+
+    public static <T> T desserializarDaString(String json, Class<T> classeAlvo) {
+        try {
+            return mapper.readValue(json, classeAlvo);
+        } catch (JsonProcessingException e) {
+            System.err.println("Erro ao ler Objeto da String JSON: " + e.getMessage());
+            return null;
+        }
+    }
 }

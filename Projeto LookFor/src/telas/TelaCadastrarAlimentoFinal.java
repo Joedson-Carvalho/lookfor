@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import entidade.Alimento;
+import tools.ConversorJson;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class TelaCadastrarAlimentoFinal extends JFrame {
 
@@ -48,7 +50,7 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 	 */
 	public TelaCadastrarAlimentoFinal() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 408);
+		setBounds(100, 100, 450, 521);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,6 +81,10 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		lblTitulo.setBounds(112, 11, 203, 14);
 		contentPane.add(lblTitulo);
 		
+		JTextArea txtArea = new JTextArea();
+		txtArea.setBounds(46, 393, 290, 65);
+		contentPane.add(txtArea);
+		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,6 +98,13 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 						txtIgredientes.getText(),
 						txtDataVencimento.getText(),
 						txtDataFabricacao.getText());
+				
+				var aliSeria = ConversorJson.serializarParaString(alimento);
+				
+				var desAlime = ConversorJson.desserializarDaString(aliSeria, Alimento.class);
+				
+				if (desAlime != null)
+					txtArea.setText(desAlime.getNome());
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -152,6 +165,8 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnCancelar.setBounds(10, 335, 89, 23);
 		contentPane.add(btnCancelar);
+		
+		
 
 	}
 }

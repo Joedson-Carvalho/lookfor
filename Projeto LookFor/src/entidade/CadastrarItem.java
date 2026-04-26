@@ -8,6 +8,9 @@ public class CadastrarItem {
 	int id;
 	String descricaoItem;
 	
+	public CadastrarItem()
+	{}
+	
 	public CadastrarItem(String nome, double preco, String codItem, String 
 			descricaoItem) 
 	{

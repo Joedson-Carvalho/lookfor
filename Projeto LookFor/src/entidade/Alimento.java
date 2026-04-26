@@ -6,6 +6,9 @@ public class Alimento extends CadastrarItem {
 	String dataVencimento;
 	String dataFabricacao;
 	
+	public Alimento()
+	{}
+	
 	public Alimento(
 			String nome, 
 			double preco, 
