@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaLoginLojista extends JFrame {
 
@@ -75,10 +77,22 @@ public class TelaLoginLojista extends JFrame {
 		contentPane.add(btnEntrar);
 		
 		JButton btnRecuperarSenha = new JButton("ESQUECEU SUA SENHA?");
+		btnRecuperarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaRecuperaSenha recuperar = new TelaRecuperaSenha();
+				recuperar.setVisible(true);
+			}
+		});
 		btnRecuperarSenha.setBounds(138, 162, 199, 23);
 		contentPane.add(btnRecuperarSenha);
 		
 		JButton btnCadastrar = new JButton("CADASTRAR");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaCadastrarLojista nova = new TelaCadastrarLojista();
+				nova.setVisible(true);
+			}
+		});
 		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnCadastrar.setBounds(321, 227, 103, 23);
 		contentPane.add(btnCadastrar);
