@@ -14,7 +14,7 @@ public class TelaRecuperaSenha extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtEMail;
 
 	/**
 	 * Launch the application.
@@ -43,24 +43,24 @@ public class TelaRecuperaSenha extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("LookFor");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 22));
-		lblNewLabel.setBounds(120, 11, 105, 30);
-		contentPane.add(lblNewLabel);
+		JLabel lblTitulo = new JLabel("LookFor");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
+		lblTitulo.setBounds(120, 11, 105, 30);
+		contentPane.add(lblTitulo);
 		
-		JLabel lblNewLabel_1 = new JLabel("Digite seu endereço de email e enviaremos um código para você reculperar sua conta");
-		lblNewLabel_1.setBounds(10, 53, 414, 52);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblInformacao = new JLabel("Digite seu endereço de email e enviaremos um código para você reculperar sua conta");
+		lblInformacao.setBounds(10, 53, 414, 52);
+		contentPane.add(lblInformacao);
 		
-		JLabel lblNewLabel_2 = new JLabel("Email:");
-		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(10, 130, 52, 14);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblEMail = new JLabel("Email:");
+		lblEMail.setFont(new Font("Arial", Font.BOLD, 14));
+		lblEMail.setBounds(10, 130, 52, 14);
+		contentPane.add(lblEMail);
 		
-		textField = new JTextField();
-		textField.setBounds(72, 128, 272, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtEMail = new JTextField();
+		txtEMail.setBounds(72, 128, 272, 20);
+		contentPane.add(txtEMail);
+		txtEMail.setColumns(10);
 		
 		JButton btnEnviarCodigo = new JButton("ENVIAR CÓDIGO");
 		btnEnviarCodigo.setFont(new Font("Arial", Font.BOLD, 12));

@@ -74,10 +74,10 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		lblNome.setBounds(10, 50, 59, 14);
 		contentPane.add(lblNome);
 		
-		JLabel lblNewLabel_5 = new JLabel("CADASTRAR ITEM");
-		lblNewLabel_5.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_5.setBounds(112, 11, 203, 14);
-		contentPane.add(lblNewLabel_5);
+		JLabel lblTitulo = new JLabel("CADASTRAR ITEM");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
+		lblTitulo.setBounds(112, 11, 203, 14);
+		contentPane.add(lblTitulo);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -147,6 +147,11 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		txtIgredientes.setColumns(10);
 		txtIgredientes.setBounds(167, 275, 203, 20);
 		contentPane.add(txtIgredientes);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnCancelar.setBounds(10, 335, 89, 23);
+		contentPane.add(btnCancelar);
 
 	}
 }

@@ -10,11 +10,12 @@ import entidade.CadastrarItem;
 
 public class LeitorTxt {
 	 public static void main(String[] args) {
-	 String path = "src\\data\\data.txt";
-	
-	 List<CadastrarItem> list = new ArrayList<CadastrarItem>();
+		 
+	 String caminho = "src\\data\\data.txt";
 	 
-	 try (BufferedReader br = new BufferedReader (new FileReader(path))){
+	 List<CadastrarItem> listar = new ArrayList<CadastrarItem>();
+	 
+	 try (BufferedReader br = new BufferedReader (new FileReader(caminho))){
 
 		 String line = br.readLine();
 		 line = br.readLine();
@@ -24,18 +25,14 @@ public class LeitorTxt {
 			 Double price = Double.parseDouble(vect[1]);			 
 			 String qte = vect [2];
 			 String desc = vect[3];
-
-			 //String price = vect [1];
-			 //Integer qte = Integer.parseInt(vect[2]);
-			 
 			 CadastrarItem prod = new CadastrarItem(name, price, qte, desc);
-			 list.add(prod);
+			 listar.add(prod);
 			 
 			 line = br.readLine();
 		 }
 		 
 		 System.out.println("Produtos");
-		 for(CadastrarItem p : list) {
+		 for(CadastrarItem p : listar) {
 			 System.out.println(p);
 			 
 		 }
