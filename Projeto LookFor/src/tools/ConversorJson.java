@@ -2,6 +2,8 @@ package tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ConversorJson {
 
@@ -25,6 +27,17 @@ public class ConversorJson {
         } catch (JsonProcessingException e) {
             System.err.println("Erro ao ler Objeto da String JSON: " + e.getMessage());
             return null;
+        }
+    }
+    
+    public static <T> List<T> desserializarListaDaString(String json, Class<T> classeAlvo) {
+        try {
+
+            return mapper.readValue(json, 
+                mapper.getTypeFactory().constructCollectionType(List.class, classeAlvo));
+        } catch (JsonProcessingException e) {
+            System.err.println("Erro ao ler Lista da String JSON: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 }

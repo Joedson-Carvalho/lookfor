@@ -8,7 +8,11 @@ import javax.swing.border.EmptyBorder;
 
 import entidade.Alimento;
 import tools.ConversorJson;
+import tools.DataHelper;
+import entidade.Empresa;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -16,6 +20,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import java.util.stream.Collectors;
 
 public class TelaCadastrarAlimentoFinal extends JFrame {
 
@@ -105,6 +110,23 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 				
 				if (desAlime != null)
 					txtArea.setText(desAlime.getNome());
+				
+
+				Path path = Paths.get("Projeto LookFor", "src", "data", "data.json");
+				Path path2 = Paths.get("Projeto LookFor/src/data/data.json");
+				var texto = DataHelper.lerTextoDoArquivo(path);
+				
+				var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);
+				var filteredComp = empresas.stream()
+					    .filter(x -> x.getCnpj().equals("98.765.432/0001-10"))
+					    .findFirst()
+					    .orElse(null);
+				
+				var ultimaEmpresa = empresas.getLast();
+				
+				if (filteredComp != null) {
+				    txtArea.setText(filteredComp.getCnpj() + " " + filteredComp.getEmail());
+				}
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));
