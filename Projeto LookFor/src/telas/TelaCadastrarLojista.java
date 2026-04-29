@@ -9,6 +9,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.awt.event.ActionEvent;
+import entidade.Empresa;
+import entidade.CadastrarLojista;
+import tools.ConversorJson;
+import tools.DataHelper;
 
 public class TelaCadastrarLojista extends JFrame {
 
@@ -16,13 +24,14 @@ public class TelaCadastrarLojista extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtSenha;
-	private JTextField txtEMail;
+	private JTextField txtEmail;
 	private JTextField txtTelefone;
-	private JTextField txtEMailLoja;
+	private JTextField txtEmailLoja;
 	private JTextField txtNomeLoja;
 	private JTextField txtCep;
 	private JTextField txtNumeroEndereco;
 	private JTextField txtEndereco;
+	private JTextField txtCnpj;
 
 	/**
 	 * Launch the application.
@@ -45,7 +54,7 @@ public class TelaCadastrarLojista extends JFrame {
 	 */
 	public TelaCadastrarLojista() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 550);
+		setBounds(100, 100, 450, 589);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -81,14 +90,31 @@ public class TelaCadastrarLojista extends JFrame {
 		txtSenha.setBounds(92, 126, 296, 20);
 		contentPane.add(txtSenha);
 		
-		txtEMail = new JTextField();
-		txtEMail.setColumns(10);
-		txtEMail.setBounds(92, 162, 296, 20);
-		contentPane.add(txtEMail);
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(92, 162, 296, 20);
+		contentPane.add(txtEmail);
 		
 		JButton btnCadastrar = new JButton("CADASTRAR");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				var empresa = new Empresa(txtNomeLoja.getText(), txtEmailLoja.getText(), txtTelefone.getText(), txtCnpj.getText());
+				var lojistaCadastro = new CadastrarLojista(txtNome.getText(), txtEmail.getText(), txtSenha.getText());
+				lojistaCadastro.setEmpresaId(empresa.getId());
+				
+				DataHelper.adicionarItemAoJsonESalvar(
+						Paths.get("Projeto LookFor/src/data/empresa.json"), 
+						empresa, 
+						Empresa.class);
+				
+				DataHelper.adicionarItemAoJsonESalvar(
+						Paths.get("Projeto LookFor/src/data/lojista.json"), 
+						lojistaCadastro, 
+						CadastrarLojista.class);
+			}
+		});
 		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCadastrar.setBounds(151, 460, 114, 23);
+		btnCadastrar.setBounds(149, 516, 114, 23);
 		contentPane.add(btnCadastrar);
 		
 		txtTelefone = new JTextField();
@@ -106,10 +132,10 @@ public class TelaCadastrarLojista extends JFrame {
 		lblEMailLoja.setBounds(25, 293, 146, 14);
 		contentPane.add(lblEMailLoja);
 		
-		txtEMailLoja = new JTextField();
-		txtEMailLoja.setColumns(10);
-		txtEMailLoja.setBounds(149, 292, 239, 20);
-		contentPane.add(txtEMailLoja);
+		txtEmailLoja = new JTextField();
+		txtEmailLoja.setColumns(10);
+		txtEmailLoja.setBounds(149, 292, 239, 20);
+		contentPane.add(txtEmailLoja);
 		
 		txtNomeLoja = new JTextField();
 		txtNomeLoja.setColumns(10);
@@ -123,39 +149,48 @@ public class TelaCadastrarLojista extends JFrame {
 		
 		txtCep = new JTextField();
 		txtCep.setColumns(10);
-		txtCep.setBounds(188, 395, 200, 20);
+		txtCep.setBounds(188, 469, 200, 20);
 		contentPane.add(txtCep);
 		
 		JLabel lblCep = new JLabel("CEP:");
 		lblCep.setFont(new Font("Arial", Font.BOLD, 14));
-		lblCep.setBounds(126, 397, 52, 14);
+		lblCep.setBounds(130, 471, 52, 14);
 		contentPane.add(lblCep);
 		
 		JLabel lblNumeroEndereco = new JLabel("N°");
 		lblNumeroEndereco.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNumeroEndereco.setBounds(25, 397, 28, 14);
+		lblNumeroEndereco.setBounds(25, 471, 28, 14);
 		contentPane.add(lblNumeroEndereco);
 		
 		txtNumeroEndereco = new JTextField();
 		txtNumeroEndereco.setColumns(10);
-		txtNumeroEndereco.setBounds(47, 395, 59, 20);
+		txtNumeroEndereco.setBounds(50, 468, 59, 22);
 		contentPane.add(txtNumeroEndereco);
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(149, 364, 239, 20);
+		txtEndereco.setBounds(149, 429, 239, 20);
 		contentPane.add(txtEndereco);
 		
 		JLabel lblEndereco = new JLabel("ENDEREÇO:");
 		lblEndereco.setFont(new Font("Arial", Font.BOLD, 14));
-		lblEndereco.setBounds(25, 362, 146, 22);
+		lblEndereco.setBounds(25, 427, 146, 22);
 		contentPane.add(lblEndereco);
 		
 		JLabel lblMenuLoja = new JLabel("FORMULÁRIO DE CADASTRO DA LOJA");
 		lblMenuLoja.setFont(new Font("Arial", Font.BOLD, 16));
 		lblMenuLoja.setBounds(61, 202, 339, 35);
 		contentPane.add(lblMenuLoja);
+		
+		JLabel lblCnpj = new JLabel("CNPJ:");
+		lblCnpj.setFont(new Font("Arial", Font.BOLD, 14));
+		lblCnpj.setBounds(25, 370, 146, 14);
+		contentPane.add(lblCnpj);
+		
+		txtCnpj = new JTextField();
+		txtCnpj.setColumns(10);
+		txtCnpj.setBounds(149, 368, 239, 20);
+		contentPane.add(txtCnpj);
 
 	}
-
 }

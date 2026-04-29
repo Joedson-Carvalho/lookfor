@@ -112,8 +112,8 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 					txtArea.setText(desAlime.getNome());
 				
 
-				Path path = Paths.get("Projeto LookFor", "src", "data", "data.json");
-				Path path2 = Paths.get("Projeto LookFor/src/data/data.json");
+				Path path = Paths.get("Projeto LookFor", "src", "data", "empresa.json");
+				Path path2 = Paths.get("Projeto LookFor/src/data/empresa.json");
 				var texto = DataHelper.lerTextoDoArquivo(path);
 				
 				var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);

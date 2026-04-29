@@ -1,5 +1,12 @@
 package entidade;
 
+import tools.DataHelper;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import tools.ConversorJson;
+
 public class Empresa {
 		
 		private int id;
@@ -16,6 +23,19 @@ public class Empresa {
 			this.email = email;
 			this.telefone = telefone;
 			this.cnpj = cnpj;
+			
+			DefinirId();
+		}
+		
+		public void DefinirId()
+		{
+			Path path = Paths.get("Projeto LookFor/src/data/empresa.json");
+			var texto = DataHelper.lerTextoDoArquivo(path);
+			
+			var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);
+			var ultimaEmpresa = empresas.getLast();
+			
+	    	this.id = ++ultimaEmpresa.id; 
 		}
 
 		public int getId() { return id; }

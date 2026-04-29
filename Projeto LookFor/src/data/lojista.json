@@ -1,0 +1,19 @@
+[ {
+  "nomeLojista" : "Carlos Alberto",
+  "id" : 1,
+  "senha" : "hash_senha_segura_1",
+  "email" : "carlos.vendas@email.com",
+  "empresaId" : 1
+}, {
+  "nomeLojista" : "Mariana Souza",
+  "id" : 2,
+  "senha" : "hash_senha_segura_2",
+  "email" : "mariana.loja@email.com",
+  "empresaId" : 2
+}, {
+  "nomeLojista" : "Roberto Silva",
+  "id" : 3,
+  "senha" : "hash_senha_segura_3",
+  "email" : "roberto.contato@email.com",
+  "empresaId" : 3
+} ]
