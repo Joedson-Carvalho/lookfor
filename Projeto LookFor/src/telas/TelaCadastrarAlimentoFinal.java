@@ -93,40 +93,40 @@ public class TelaCadastrarAlimentoFinal extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				var precoConvertido = Double.parseDouble(txtPreco.getText());
-				
-				var alimento = new Alimento(
-						txtNome.getText(), 
-						precoConvertido,
-						txtCodigoItem.getText(),
-						txtDescricaoItem.getText(),
-						txtIgredientes.getText(),
-						txtDataVencimento.getText(),
-						txtDataFabricacao.getText());
-				
-				var aliSeria = ConversorJson.serializarParaString(alimento);
-				
-				var desAlime = ConversorJson.desserializarDaString(aliSeria, Alimento.class);
-				
-				if (desAlime != null)
-					txtArea.setText(desAlime.getNome());
-				
-
-				Path path = Paths.get("Projeto LookFor", "src", "data", "empresa.json");
-				Path path2 = Paths.get("Projeto LookFor/src/data/empresa.json");
-				var texto = DataHelper.lerTextoDoArquivo(path);
-				
-				var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);
-				var filteredComp = empresas.stream()
-					    .filter(x -> x.getCnpj().equals("98.765.432/0001-10"))
-					    .findFirst()
-					    .orElse(null);
-				
-				var ultimaEmpresa = empresas.getLast();
-				
-				if (filteredComp != null) {
-				    txtArea.setText(filteredComp.getCnpj() + " " + filteredComp.getEmail());
-				}
+//				var precoConvertido = Double.parseDouble(txtPreco.getText());
+//				
+//				var alimento = new Alimento(
+//						txtNome.getText(), 
+//						precoConvertido,
+//						txtCodigoItem.getText(),
+//						txtDescricaoItem.getText(),
+//						txtIgredientes.getText(),
+//						txtDataVencimento.getText(),
+//						txtDataFabricacao.getText());
+//				
+//				var aliSeria = ConversorJson.serializarParaString(alimento);
+//				
+//				var desAlime = ConversorJson.desserializarDaString(aliSeria, Alimento.class);
+//				
+//				if (desAlime != null)
+//					txtArea.setText(desAlime.getNome());
+//				
+//
+//				Path path = Paths.get("Projeto LookFor", "src", "data", "empresa.json");
+//				Path path2 = Paths.get("Projeto LookFor/src/data/empresa.json");
+//				var texto = DataHelper.lerTextoDoArquivo(path);
+//				
+//				var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);
+//				var filteredComp = empresas.stream()
+//					    .filter(x -> x.getCnpj().equals("98.765.432/0001-10"))
+//					    .findFirst()
+//					    .orElse(null);
+//				
+//				var ultimaEmpresa = empresas.getLast();
+//				
+//				if (filteredComp != null) {
+//				    txtArea.setText(filteredComp.getCnpj() + " " + filteredComp.getEmail());
+//				}
 			}
 		});
 		btnSalvar.setFont(new Font("Arial", Font.BOLD, 12));

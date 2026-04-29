@@ -9,17 +9,21 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class DataHelper 
-{
+{	
 	public static String lerTextoDoArquivo(Path path) {
-        try 
-        {
-            return Files.readString(path);
-        } catch (IOException e) 
-        {
-            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
-            return "";
-        }
-    }
+	    try {
+	        if (Files.exists(path)) {
+	            String conteudo = Files.readString(path);
+	            return conteudo.isBlank() ? "[]" : conteudo;
+	        } else {
+	            System.err.println("Arquivo não encontrado: " + path.toAbsolutePath());
+	            return "[]"; 
+	        }
+	    } catch (IOException e) {
+	        System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+	        return "[]";
+	    }
+	}
 	
 	public static <T> void salvarArquivo(Path path, List<T> lista) {
 	    try {

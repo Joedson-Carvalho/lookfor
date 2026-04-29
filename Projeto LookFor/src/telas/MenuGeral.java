@@ -14,6 +14,20 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JLayeredPane;
 import entidade.CadastrarLojista;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import entidade.Eletronico;
+import tools.DataHelper;
+import tools.ConversorJson;
+import entidade.Alimento;
+import java.nio.file.Paths;
+import javax.swing.JTable;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.List;
+import entidade.CadastrarItem;
+import javax.swing.table.DefaultTableModel;
+import java.util.Comparator;
 
 public class MenuGeral extends JFrame {
 
@@ -32,6 +46,8 @@ public class MenuGeral extends JFrame {
 	private JTextField txtVencimento;
 	private JTextField txtFabricacao;
 	private JTextField txtIngredientes;
+	private JTextField txtInputBusca;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -77,10 +93,57 @@ public class MenuGeral extends JFrame {
 		lblProgressoEmAndamento.setBounds(38, 11, 344, 40);
 		panelMenuPrincipal.add(lblProgressoEmAndamento);
 		
+		table = new JTable();
+		table.setBounds(38, 179, 399, 313);
+		panelMenuPrincipal.add(table);
+		
+		String[] colunas = {"Nome do Item", "Código", "Preço"};
+		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
+
+		table.setModel(modelo);
+		
 		JPanel panelCadastrarItem = new JPanel();
 		panelCadastrarItem.setLayout(null);
 		panelCadastrarItem.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedMenuLojista.addTab("Cadastrar Produto", null, panelCadastrarItem, null);
+		
+		txtInputBusca = new JTextField();
+		txtInputBusca.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				var itemsEletronicosTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+				var itemsAlimentosTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+				
+				List<CadastrarItem> items = ConversorJson.desserializarListaDaString(itemsAlimentosTexto, CadastrarItem.class);
+				items.addAll(ConversorJson.desserializarListaDaString(itemsEletronicosTexto, CadastrarItem.class));
+				
+				if (!items.isEmpty()) 
+				{
+					String busca = txtInputBusca.getText().trim().toLowerCase();
+
+					var itemsFiltrados = items.stream()
+					    .filter(x -> x.getNome().toLowerCase().startsWith(busca) ||
+					                 x.getCodItem().toLowerCase().startsWith(busca))
+					    .sorted(Comparator.comparingDouble(CadastrarItem::getPreco))
+					    .toList();
+							
+					modelo.setRowCount(0);
+					
+					itemsFiltrados.forEach(p -> {
+					    modelo.addRow(new Object[]{
+					        p.getNome(), 
+					        p.getCodItem(), 
+					        "R$ " + p.getPreco()
+					    });
+					});
+				}
+			}
+		});
+		txtInputBusca.setBounds(38, 88, 399, 26);
+		panelMenuPrincipal.add(txtInputBusca);
+		txtInputBusca.setColumns(10);
+		
+		
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Item");
 		lblCadastro.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -157,6 +220,34 @@ public class MenuGeral extends JFrame {
 		panelSubMenuCadastrarEletronico.add(txtModelo);
 		
 		JButton btnSalvarEletronico = new JButton("Salvar");
+		btnSalvarEletronico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (lojistaLogado != null) 
+				{
+					var precoEletronicoConvertido = Double.parseDouble(txtPrecoEletronico.getText());
+					var modeloEletronicoConvertido = Double.parseDouble(txtModelo.getText());
+					var garantiaConvertida = Integer.parseInt(txtGarantia.getText());
+					
+					var eletronico = new Eletronico(
+							garantiaConvertida, 
+							modeloEletronicoConvertido, 
+							txtNomeEletronico.getText(), 
+							precoEletronicoConvertido,
+							txtCodItemEletronico.getText(),
+							txtDescricaoEletronico.getText(),
+							lojistaLogado.getEmpresaId());
+					
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/eletronico.json"), 
+							eletronico, 
+							Eletronico.class);
+					
+					panelCadastrarItem.setVisible(false);
+					panelMenuPrincipal.setVisible(true);
+					contentPanePrincipal.revalidate();
+				}
+			}
+		});
 		btnSalvarEletronico.setBounds(326, 297, 89, 23);
 		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
 		
@@ -190,6 +281,32 @@ public class MenuGeral extends JFrame {
 		panelSubMenuCadastrarAlimento.add(lblNome);
 		
 		JButton btnSalvarAlimento = new JButton("Salvar");
+		btnSalvarAlimento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (lojistaLogado != null) 
+				{
+					var precoAlimentoConvertido = Double.parseDouble(txtPrecoAlimento.getText());
+					var alimento = new Alimento(
+							txtNomeAlimento.getText(),
+							precoAlimentoConvertido,
+							txtCodItemAlimento.getText(),
+							txtDescricaoAlimento.getText(),
+							txtIngredientes.getText(),
+							txtVencimento.getText(),
+							txtFabricacao.getText(),
+							lojistaLogado.getEmpresaId());
+					
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/alimento.json"), 
+							alimento, 
+							Alimento.class);
+					
+					panelCadastrarItem.setVisible(false);
+					panelMenuPrincipal.setVisible(true);
+					contentPanePrincipal.revalidate();
+				}	
+			}
+		});
 		btnSalvarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
 		btnSalvarAlimento.setBounds(313, 335, 89, 23);
 		panelSubMenuCadastrarAlimento.add(btnSalvarAlimento);

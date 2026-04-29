@@ -1,0 +1,21 @@
+[ {
+  "nome" : "leite",
+  "preco" : 6.0,
+  "codItem" : "9876756",
+  "id" : 0,
+  "descricaoItem" : "leite integral",
+  "empresaId" : 1,
+  "ingredientes" : "leite",
+  "dataVencimento" : "10/06/2027",
+  "dataFabricacao" : "03/04/2026"
+}, {
+  "nome" : "leite desnatado",
+  "preco" : 10.0,
+  "codItem" : "9685754764",
+  "id" : 0,
+  "descricaoItem" : "leite desnatado",
+  "empresaId" : 1,
+  "ingredientes" : "leite desnatado",
+  "dataVencimento" : "10/08/2026",
+  "dataFabricacao" : "08/11/2025"
+} ]
