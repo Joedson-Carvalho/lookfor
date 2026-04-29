@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLayeredPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +18,11 @@ import javax.swing.AbstractListModel;
 import javax.swing.JToggleButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import tools.ConversorJson;
+import tools.DataHelper;
+import entidade.CadastrarLojista;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
@@ -25,12 +31,13 @@ import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import java.awt.Component;
 import javax.swing.SwingConstants;
+import java.util.stream.Collectors;
 
 public class MenuPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtEmail;
 	private JTextField txtSenha;
 
 	/**
@@ -70,8 +77,8 @@ public class MenuPrincipal extends JFrame {
 		layeredPane.add(panelDeBuscas);
 		panelDeBuscas.setLayout(null);
 		
-		JLabel lblLogin_1 = new JLabel("Lojista? Faça Seu Login ou Cadastro Clicando neste botão");
-		lblLogin_1.setBounds(295, 592, 348, 14);
+		JLabel lblLogin_1 = new JLabel("Lojista? Faça Seu Login ou Cadastro Clicando neste botão:");
+		lblLogin_1.setBounds(289, 592, 348, 14);
 		panelDeBuscas.add(lblLogin_1);
 		
 		JPanel panelLogin = new JPanel();
@@ -90,10 +97,10 @@ public class MenuPrincipal extends JFrame {
 		lblNewLabel_1.setBounds(257, 172, 132, 14);
 		panelLogin.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(257, 207, 192, 20);
-		panelLogin.add(textField);
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(257, 207, 192, 20);
+		panelLogin.add(txtEmail);
 		
 		JLabel lblSenha = new JLabel("SENHA");
 		lblSenha.setFont(new Font("Arial", Font.BOLD, 14));
@@ -108,10 +115,18 @@ public class MenuPrincipal extends JFrame {
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(true /*cadastroEMail == txtEmail && cadastroSenha == txtSenha*/) {
-					MenuGeral novo = new MenuGeral();
-					novo.setVisible(true);
+;				var dataLogins = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
+				var logins = ConversorJson.desserializarListaDaString(dataLogins, CadastrarLojista.class);
 				
+				var loginEncontrado = logins.stream()
+						.filter(x -> 
+						x.getEmail().trim().equals(txtEmail.getText().trim()) && 
+						x.getSenha().trim().equals(txtSenha.getText().trim()));
+				
+				if(loginEncontrado != null) {
+					dispose();
+					MenuGeral novo = new MenuGeral(loginEncontrado.findFirst().get());
+					novo.setVisible(true);
 				}
 			}
 		});

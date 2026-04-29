@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.JLayeredPane;
+import entidade.CadastrarLojista;
 
 public class MenuGeral extends JFrame {
 
@@ -39,7 +40,7 @@ public class MenuGeral extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MenuGeral frame = new MenuGeral();
+					MenuGeral frame = new MenuGeral(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +52,10 @@ public class MenuGeral extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MenuGeral() {
+	public MenuGeral(CadastrarLojista lojistaLogado) {
+		if (lojistaLogado != null)
+			System.out.println(lojistaLogado.getEmail());
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 650);
 		contentPanePrincipal = new JPanel();
