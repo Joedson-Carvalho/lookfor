@@ -108,15 +108,17 @@ public class TelaCadastrarLojista extends JFrame {
 			    var listaEmpresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
 				var listaEmpresa = ConversorJson.desserializarListaDaString(listaEmpresaTexto, Empresa.class);
 			    
+				var ehEmpresaDuplicada = empresa.verificaDuplicidadeEmpresa(listaEmpresa);
+				
+				if(!ehEmpresaDuplicada) 
+				{
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/empresa.json"), 
+							empresa, 
+							Empresa.class);
+				}		    
 			    
 
-
-			    
-			    
-				DataHelper.adicionarItemAoJsonESalvar(
-						Paths.get("Projeto LookFor/src/data/empresa.json"), 
-						empresa, 
-						Empresa.class);
 				
 				DataHelper.adicionarItemAoJsonESalvar(
 						Paths.get("Projeto LookFor/src/data/lojista.json"), 

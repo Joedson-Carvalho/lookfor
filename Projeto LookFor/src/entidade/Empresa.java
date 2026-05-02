@@ -4,6 +4,7 @@ import tools.DataHelper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import tools.ConversorJson;
 
@@ -36,6 +37,15 @@ public class Empresa {
 			var ultimaEmpresa = empresas.getLast();
 			
 	    	this.id = ++ultimaEmpresa.id; 
+		}
+		
+		public boolean verificaDuplicidadeEmpresa(List<Empresa> listaEmpresas) 
+		{
+			if(listaEmpresas.isEmpty() || listaEmpresas == null) return false;
+			
+			boolean retorno = listaEmpresas.stream()
+					.noneMatch(empresa -> empresa.equals(this.cnpj));	
+			return retorno;
 		}
 
 		public int getId() { return id; }
