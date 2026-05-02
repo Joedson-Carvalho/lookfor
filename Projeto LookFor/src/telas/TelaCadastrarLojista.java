@@ -119,11 +119,18 @@ public class TelaCadastrarLojista extends JFrame {
 				}		    
 			    
 
+				var listaLojistaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
+				var listaLojista = ConversorJson.desserializarListaDaString(listaLojistaTexto, CadastrarLojista.class);
+				boolean ehLojistaDuplicado = lojistaCadastro.verificaDuplicata(listaLojista);
 				
-				DataHelper.adicionarItemAoJsonESalvar(
-						Paths.get("Projeto LookFor/src/data/lojista.json"), 
-						lojistaCadastro, 
-						CadastrarLojista.class);
+				if(!ehLojistaDuplicado)
+				{
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/lojista.json"), 
+							lojistaCadastro, 
+							CadastrarLojista.class);	
+				}
+						
 			}
 		});
 		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 12));

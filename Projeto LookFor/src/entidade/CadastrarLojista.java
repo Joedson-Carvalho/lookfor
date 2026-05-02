@@ -4,6 +4,7 @@ import tools.DataHelper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import tools.ConversorJson;
 
@@ -36,6 +37,18 @@ public class CadastrarLojista {
 
         this.id = ++ultimoLojista.id; 
     }
+    
+    public boolean verificaDuplicata(List<CadastrarLojista> duplicata) 
+    {
+    	if(duplicata.isEmpty() || duplicata == null) return false;
+    	boolean retorno = duplicata.stream()
+    			.noneMatch(lojista -> lojista.email.equals(this.email));
+    
+    	return retorno;
+    }
+    
+    
+    
     
     public String getNomeLojista() {
 		return nomeLojista;
