@@ -1,5 +1,13 @@
 package entidade;
 
+import tools.DataHelper;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import tools.ConversorJson;
+
+
 public class CadastrarLojista {
     
 	private String nomeLojista;
@@ -14,6 +22,19 @@ public class CadastrarLojista {
         this.nomeLojista = nome;
         this.senha = senha;
         this.email = email;
+        
+        DefinirId();
+    }
+    
+    public void DefinirId()
+    {
+        Path path = Paths.get("Projeto LookFor/src/data/lojista.json");
+        var texto = DataHelper.lerTextoDoArquivo(path);
+
+        var lojistas = ConversorJson.desserializarListaDaString(texto, CadastrarLojista.class);
+        var ultimoLojista = lojistas.getLast();
+
+        this.id = ++ultimoLojista.id; 
     }
     
     public String getNomeLojista() {
