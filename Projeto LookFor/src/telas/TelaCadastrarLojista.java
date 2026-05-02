@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.util.List;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -101,7 +104,15 @@ public class TelaCadastrarLojista extends JFrame {
 				var empresa = new Empresa(txtNomeLoja.getText(), txtEmailLoja.getText(), txtTelefone.getText(), txtCnpj.getText());
 				var lojistaCadastro = new CadastrarLojista(txtNome.getText(), txtEmail.getText(), txtSenha.getText());
 				lojistaCadastro.setEmpresaId(empresa.getId());
-				
+			
+			    var listaEmpresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
+				var listaEmpresa = ConversorJson.desserializarListaDaString(listaEmpresaTexto, Empresa.class);
+			    
+			    
+
+
+			    
+			    
 				DataHelper.adicionarItemAoJsonESalvar(
 						Paths.get("Projeto LookFor/src/data/empresa.json"), 
 						empresa, 
