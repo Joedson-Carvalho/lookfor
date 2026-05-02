@@ -42,11 +42,11 @@ public class MenuPrincipal extends JFrame {
 	private JTable table;
 	private JTextField textField;
 	private JTextField txtNomeEletronico;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
+	private JTextField txtPrecoEletronico;
+	private JTextField txtCodItemEletronico;
+	private JTextField txtDescricaoEletronico;
+	private JTextField txtGarantia;
+	private JTextField txtModelo;
 	private JTextField txtNomeAlimento;
 	private JTextField txtPrecoAlimento;
 	private JTextField txtCodItemAlimento;
@@ -264,58 +264,58 @@ public class MenuPrincipal extends JFrame {
 		lblPreco.setBounds(27, 72, 119, 19);
 		panelSubMenuCadastrarEletronico.add(lblPreco);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(198, 72, 217, 20);
-		panelSubMenuCadastrarEletronico.add(textField_2);
+		txtPrecoEletronico = new JTextField();
+		txtPrecoEletronico.setColumns(10);
+		txtPrecoEletronico.setBounds(198, 72, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtPrecoEletronico);
 		
 		JLabel lblCodItem = new JLabel("Codigo do Item:");
 		lblCodItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblCodItem.setBounds(27, 108, 119, 19);
 		panelSubMenuCadastrarEletronico.add(lblCodItem);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(198, 108, 217, 20);
-		panelSubMenuCadastrarEletronico.add(textField_3);
+		txtCodItemEletronico = new JTextField();
+		txtCodItemEletronico.setColumns(10);
+		txtCodItemEletronico.setBounds(198, 108, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtCodItemEletronico);
 		
 		JLabel lblDescricaoItem = new JLabel("Descrição:");
 		lblDescricaoItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblDescricaoItem.setBounds(27, 150, 119, 19);
 		panelSubMenuCadastrarEletronico.add(lblDescricaoItem);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(198, 150, 217, 20);
-		panelSubMenuCadastrarEletronico.add(textField_4);
+		txtDescricaoEletronico = new JTextField();
+		txtDescricaoEletronico.setColumns(10);
+		txtDescricaoEletronico.setBounds(198, 150, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtDescricaoEletronico);
 		
 		JLabel lblGarantia = new JLabel("Garantia:");
 		lblGarantia.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblGarantia.setBounds(27, 196, 119, 19);
 		panelSubMenuCadastrarEletronico.add(lblGarantia);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(198, 196, 217, 20);
-		panelSubMenuCadastrarEletronico.add(textField_5);
+		txtGarantia = new JTextField();
+		txtGarantia.setColumns(10);
+		txtGarantia.setBounds(198, 196, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtGarantia);
 		
 		JLabel lblModelo = new JLabel("Modelo:");
 		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblModelo.setBounds(27, 239, 119, 19);
 		panelSubMenuCadastrarEletronico.add(lblModelo);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(198, 239, 217, 20);
-		panelSubMenuCadastrarEletronico.add(textField_6);
+		txtModelo = new JTextField();
+		txtModelo.setColumns(10);
+		txtModelo.setBounds(198, 239, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtModelo);
 		
 		JButton btnSalvarEletronico = new JButton("Salvar");
-		btnSalvarEletronico.setBounds(326, 297, 89, 23);
+		btnSalvarEletronico.setBounds(314, 297, 89, 23);
 		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(52, 297, 89, 23);
-		panelSubMenuCadastrarEletronico.add(btnCancelar);
+		JButton btnCancelarEletronico = new JButton("Cancelar");
+		btnCancelarEletronico.setBounds(52, 297, 89, 23);
+		panelSubMenuCadastrarEletronico.add(btnCancelarEletronico);
 		
 		JPanel panelSubMenuCadastrarAlimento = new JPanel();
 		panelSubMenuCadastrarAlimento.setLayout(null);
