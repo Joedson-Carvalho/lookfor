@@ -47,13 +47,13 @@ public class MenuPrincipal extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	private JTextField txtNomeAlimento;
+	private JTextField txtPrecoAlimento;
+	private JTextField txtCodItemAlimento;
+	private JTextField txtDescricaoAlimento;
+	private JTextField txtVencimento;
+	private JTextField txtFabricacao;
+	private JTextField txtIngredientes;
 
 	/**
 	 * Launch the application.
@@ -347,60 +347,60 @@ public class MenuPrincipal extends JFrame {
 		btnSalvarAlimento.setBounds(313, 335, 89, 23);
 		panelSubMenuCadastrarAlimento.add(btnSalvarAlimento);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(167, 48, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_7);
+		txtNomeAlimento = new JTextField();
+		txtNomeAlimento.setColumns(10);
+		txtNomeAlimento.setBounds(167, 48, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtNomeAlimento);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(167, 83, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_8);
+		txtPrecoAlimento = new JTextField();
+		txtPrecoAlimento.setColumns(10);
+		txtPrecoAlimento.setBounds(167, 83, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtPrecoAlimento);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(167, 125, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_9);
+		txtCodItemAlimento = new JTextField();
+		txtCodItemAlimento.setColumns(10);
+		txtCodItemAlimento.setBounds(167, 125, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtCodItemAlimento);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(167, 166, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_10);
+		txtDescricaoAlimento = new JTextField();
+		txtDescricaoAlimento.setColumns(10);
+		txtDescricaoAlimento.setBounds(167, 166, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtDescricaoAlimento);
 		
 		JLabel lblDataVencimento = new JLabel("Data Vencimento");
 		lblDataVencimento.setFont(new Font("Arial", Font.BOLD, 14));
 		lblDataVencimento.setBounds(10, 205, 154, 14);
 		panelSubMenuCadastrarAlimento.add(lblDataVencimento);
 		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBounds(167, 203, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_11);
+		txtVencimento = new JTextField();
+		txtVencimento.setColumns(10);
+		txtVencimento.setBounds(167, 203, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtVencimento);
 		
 		JLabel lblDataFabricacao = new JLabel("Data Fabricacao");
 		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
 		lblDataFabricacao.setBounds(10, 240, 154, 14);
 		panelSubMenuCadastrarAlimento.add(lblDataFabricacao);
 		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		textField_12.setBounds(167, 234, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_12);
+		txtFabricacao = new JTextField();
+		txtFabricacao.setColumns(10);
+		txtFabricacao.setBounds(167, 234, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtFabricacao);
 		
 		JLabel lblgredientes = new JLabel("Ingredientes");
 		lblgredientes.setFont(new Font("Arial", Font.BOLD, 14));
 		lblgredientes.setBounds(10, 277, 154, 14);
 		panelSubMenuCadastrarAlimento.add(lblgredientes);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		textField_13.setBounds(167, 275, 203, 20);
-		panelSubMenuCadastrarAlimento.add(textField_13);
+		txtIngredientes = new JTextField();
+		txtIngredientes.setColumns(10);
+		txtIngredientes.setBounds(167, 275, 203, 20);
+		panelSubMenuCadastrarAlimento.add(txtIngredientes);
 		
-		JButton btnCancelar_1 = new JButton("Cancelar");
-		btnCancelar_1.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCancelar_1.setBounds(10, 335, 89, 23);
-		panelSubMenuCadastrarAlimento.add(btnCancelar_1);
+		JButton btnCancelarAlimento = new JButton("Cancelar");
+		btnCancelarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
+		btnCancelarAlimento.setBounds(10, 335, 89, 23);
+		panelSubMenuCadastrarAlimento.add(btnCancelarAlimento);
 		
 
 
