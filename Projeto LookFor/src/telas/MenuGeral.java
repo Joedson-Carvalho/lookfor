@@ -251,9 +251,9 @@ public class MenuGeral extends JFrame {
 		btnSalvarEletronico.setBounds(326, 297, 89, 23);
 		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(52, 297, 89, 23);
-		panelSubMenuCadastrarEletronico.add(btnCancelar);
+		JButton btnCancelarEletronico = new JButton("Cancelar");
+		btnCancelarEletronico.setBounds(52, 297, 89, 23);
+		panelSubMenuCadastrarEletronico.add(btnCancelarEletronico);
 		
 		JPanel panelSubMenuCadastrarAlimento = new JPanel();
 		panelSubMenuCadastrarAlimento.setLayout(null);
@@ -361,10 +361,10 @@ public class MenuGeral extends JFrame {
 		txtIngredientes.setBounds(167, 275, 203, 20);
 		panelSubMenuCadastrarAlimento.add(txtIngredientes);
 		
-		JButton btnCancelar_1 = new JButton("Cancelar");
-		btnCancelar_1.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCancelar_1.setBounds(10, 335, 89, 23);
-		panelSubMenuCadastrarAlimento.add(btnCancelar_1);
+		JButton btnCancelarAlimento = new JButton("Cancelar");
+		btnCancelarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
+		btnCancelarAlimento.setBounds(10, 335, 89, 23);
+		panelSubMenuCadastrarAlimento.add(btnCancelarAlimento);
 
 	}
 }

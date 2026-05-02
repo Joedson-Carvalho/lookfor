@@ -39,6 +39,21 @@ public class MenuPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JTextField txtSenha;
+	private JTable table;
+	private JTextField textField;
+	private JTextField txtNomeEletronico;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTextField textField_9;
+	private JTextField textField_10;
+	private JTextField textField_11;
+	private JTextField textField_12;
+	private JTextField textField_13;
 
 	/**
 	 * Launch the application.
@@ -72,7 +87,7 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(layeredPane);
 		
 		JPanel panelDeBuscas = new JPanel();
-		layeredPane.setLayer(panelDeBuscas, 1);
+		layeredPane.setLayer(panelDeBuscas, 0);
 		panelDeBuscas.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelDeBuscas);
 		panelDeBuscas.setLayout(null);
@@ -112,6 +127,12 @@ public class MenuPrincipal extends JFrame {
 		txtSenha.setBounds(257, 248, 192, 20);
 		panelLogin.add(txtSenha);
 		
+		JPanel panelLojista = new JPanel();
+		layeredPane.setLayer(panelLojista, 2);
+		panelLojista.setBounds(0, 0, 746, 633);
+		layeredPane.add(panelLojista);
+		panelLojista.setLayout(null);
+		
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -124,9 +145,10 @@ public class MenuPrincipal extends JFrame {
 						x.getSenha().trim().equals(txtSenha.getText().trim()));
 				
 				if(loginEncontrado != null) {
-					dispose();
-					MenuGeral novo = new MenuGeral(loginEncontrado.findFirst().get());
-					novo.setVisible(true);
+					layeredPane.removeAll();
+					layeredPane.add(panelLojista);
+					layeredPane.repaint();
+					layeredPane.revalidate();
 				}
 			}
 		});
@@ -182,6 +204,203 @@ public class MenuPrincipal extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		lblNewLabel.setBounds(267, 247, 211, 79);
 		panelDeBuscas.add(lblNewLabel);
+		
+
+		
+		JTabbedPane tabbedMenuLojista = new JTabbedPane(JTabbedPane.TOP);
+		tabbedMenuLojista.setBounds(0, 0, 746, 633);
+		panelLojista.add(tabbedMenuLojista);
+		
+		JPanel panelMenuPrincipal = new JPanel();
+		panelMenuPrincipal.setLayout(null);
+		panelMenuPrincipal.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuPrincipal, null);
+		
+		JLabel lblProgressoEmAndamento = new JLabel("WORK IN PROGRESS...");
+		lblProgressoEmAndamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblProgressoEmAndamento.setBounds(38, 11, 344, 40);
+		panelMenuPrincipal.add(lblProgressoEmAndamento);
+		
+		table = new JTable();
+		table.setBounds(38, 179, 399, 313);
+		panelMenuPrincipal.add(table);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(38, 88, 399, 26);
+		panelMenuPrincipal.add(textField);
+		
+		JPanel panelCadastrarItem = new JPanel();
+		panelCadastrarItem.setLayout(null);
+		panelCadastrarItem.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tabbedMenuLojista.addTab("Cadastrar Produto", null, panelCadastrarItem, null);
+		
+		JLabel lblCadastro = new JLabel("Cadastrar Item");
+		lblCadastro.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCadastro.setBounds(158, 10, 117, 22);
+		panelCadastrarItem.add(lblCadastro);
+		
+		JTabbedPane tabbedSubMenuCadastrar = new JTabbedPane(JTabbedPane.TOP);
+		tabbedSubMenuCadastrar.setBounds(0, 53, 479, 419);
+		panelCadastrarItem.add(tabbedSubMenuCadastrar);
+		
+		JPanel panelSubMenuCadastrarEletronico = new JPanel();
+		panelSubMenuCadastrarEletronico.setLayout(null);
+		panelSubMenuCadastrarEletronico.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tabbedSubMenuCadastrar.addTab("Cadastrar Eletronico", null, panelSubMenuCadastrarEletronico, null);
+		
+		JLabel lblNomeItem = new JLabel("Nome:");
+		lblNomeItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNomeItem.setBounds(27, 34, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblNomeItem);
+		
+		txtNomeEletronico = new JTextField();
+		txtNomeEletronico.setColumns(10);
+		txtNomeEletronico.setBounds(198, 34, 217, 20);
+		panelSubMenuCadastrarEletronico.add(txtNomeEletronico);
+		
+		JLabel lblPreco = new JLabel("Preço:");
+		lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPreco.setBounds(27, 72, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblPreco);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(198, 72, 217, 20);
+		panelSubMenuCadastrarEletronico.add(textField_2);
+		
+		JLabel lblCodItem = new JLabel("Codigo do Item:");
+		lblCodItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblCodItem.setBounds(27, 108, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblCodItem);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(198, 108, 217, 20);
+		panelSubMenuCadastrarEletronico.add(textField_3);
+		
+		JLabel lblDescricaoItem = new JLabel("Descrição:");
+		lblDescricaoItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblDescricaoItem.setBounds(27, 150, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblDescricaoItem);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(198, 150, 217, 20);
+		panelSubMenuCadastrarEletronico.add(textField_4);
+		
+		JLabel lblGarantia = new JLabel("Garantia:");
+		lblGarantia.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGarantia.setBounds(27, 196, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblGarantia);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(198, 196, 217, 20);
+		panelSubMenuCadastrarEletronico.add(textField_5);
+		
+		JLabel lblModelo = new JLabel("Modelo:");
+		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblModelo.setBounds(27, 239, 119, 19);
+		panelSubMenuCadastrarEletronico.add(lblModelo);
+		
+		textField_6 = new JTextField();
+		textField_6.setColumns(10);
+		textField_6.setBounds(198, 239, 217, 20);
+		panelSubMenuCadastrarEletronico.add(textField_6);
+		
+		JButton btnSalvarEletronico = new JButton("Salvar");
+		btnSalvarEletronico.setBounds(326, 297, 89, 23);
+		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(52, 297, 89, 23);
+		panelSubMenuCadastrarEletronico.add(btnCancelar);
+		
+		JPanel panelSubMenuCadastrarAlimento = new JPanel();
+		panelSubMenuCadastrarAlimento.setLayout(null);
+		panelSubMenuCadastrarAlimento.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tabbedSubMenuCadastrar.addTab(" Cadastrar Alimento", null, panelSubMenuCadastrarAlimento, null);
+		
+		JLabel lblDescricaoItem_1 = new JLabel("DESCRIÇÃO DO ITEM:");
+		lblDescricaoItem_1.setFont(new Font("Arial", Font.BOLD, 14));
+		lblDescricaoItem_1.setBounds(10, 168, 154, 14);
+		panelSubMenuCadastrarAlimento.add(lblDescricaoItem_1);
+		
+		JLabel lblCodigoItem = new JLabel("CÓDIGO  DO ITEM:");
+		lblCodigoItem.setFont(new Font("Arial", Font.BOLD, 14));
+		lblCodigoItem.setBounds(10, 123, 134, 23);
+		panelSubMenuCadastrarAlimento.add(lblCodigoItem);
+		
+		JLabel lblPreco_1 = new JLabel("PREÇO:");
+		lblPreco_1.setFont(new Font("Arial", Font.BOLD, 14));
+		lblPreco_1.setBounds(10, 85, 70, 14);
+		panelSubMenuCadastrarAlimento.add(lblPreco_1);
+		
+		JLabel lblNome = new JLabel("NOME:");
+		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
+		lblNome.setBounds(10, 50, 59, 14);
+		panelSubMenuCadastrarAlimento.add(lblNome);
+		
+		JButton btnSalvarAlimento = new JButton("Salvar");
+		btnSalvarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
+		btnSalvarAlimento.setBounds(313, 335, 89, 23);
+		panelSubMenuCadastrarAlimento.add(btnSalvarAlimento);
+		
+		textField_7 = new JTextField();
+		textField_7.setColumns(10);
+		textField_7.setBounds(167, 48, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_7);
+		
+		textField_8 = new JTextField();
+		textField_8.setColumns(10);
+		textField_8.setBounds(167, 83, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_8);
+		
+		textField_9 = new JTextField();
+		textField_9.setColumns(10);
+		textField_9.setBounds(167, 125, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_9);
+		
+		textField_10 = new JTextField();
+		textField_10.setColumns(10);
+		textField_10.setBounds(167, 166, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_10);
+		
+		JLabel lblDataVencimento = new JLabel("Data Vencimento");
+		lblDataVencimento.setFont(new Font("Arial", Font.BOLD, 14));
+		lblDataVencimento.setBounds(10, 205, 154, 14);
+		panelSubMenuCadastrarAlimento.add(lblDataVencimento);
+		
+		textField_11 = new JTextField();
+		textField_11.setColumns(10);
+		textField_11.setBounds(167, 203, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_11);
+		
+		JLabel lblDataFabricacao = new JLabel("Data Fabricacao");
+		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
+		lblDataFabricacao.setBounds(10, 240, 154, 14);
+		panelSubMenuCadastrarAlimento.add(lblDataFabricacao);
+		
+		textField_12 = new JTextField();
+		textField_12.setColumns(10);
+		textField_12.setBounds(167, 234, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_12);
+		
+		JLabel lblgredientes = new JLabel("Ingredientes");
+		lblgredientes.setFont(new Font("Arial", Font.BOLD, 14));
+		lblgredientes.setBounds(10, 277, 154, 14);
+		panelSubMenuCadastrarAlimento.add(lblgredientes);
+		
+		textField_13 = new JTextField();
+		textField_13.setColumns(10);
+		textField_13.setBounds(167, 275, 203, 20);
+		panelSubMenuCadastrarAlimento.add(textField_13);
+		
+		JButton btnCancelar_1 = new JButton("Cancelar");
+		btnCancelar_1.setFont(new Font("Arial", Font.BOLD, 12));
+		btnCancelar_1.setBounds(10, 335, 89, 23);
+		panelSubMenuCadastrarAlimento.add(btnCancelar_1);
 		
 
 

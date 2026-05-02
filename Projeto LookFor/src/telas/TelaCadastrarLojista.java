@@ -110,7 +110,7 @@ public class TelaCadastrarLojista extends JFrame {
 			    
 				var ehEmpresaDuplicada = empresa.verificaDuplicidadeEmpresa(listaEmpresa);
 				
-				if(!ehEmpresaDuplicada) 
+				if(ehEmpresaDuplicada) 
 				{
 					DataHelper.adicionarItemAoJsonESalvar(
 							Paths.get("Projeto LookFor/src/data/empresa.json"), 
@@ -123,7 +123,7 @@ public class TelaCadastrarLojista extends JFrame {
 				var listaLojista = ConversorJson.desserializarListaDaString(listaLojistaTexto, CadastrarLojista.class);
 				boolean ehLojistaDuplicado = lojistaCadastro.verificaDuplicata(listaLojista);
 				
-				if(!ehLojistaDuplicado)
+				if(ehLojistaDuplicado)
 				{
 					DataHelper.adicionarItemAoJsonESalvar(
 							Paths.get("Projeto LookFor/src/data/lojista.json"), 

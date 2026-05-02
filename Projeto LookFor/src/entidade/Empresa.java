@@ -44,7 +44,7 @@ public class Empresa {
 			if(listaEmpresas.isEmpty() || listaEmpresas == null) return false;
 			
 			boolean retorno = listaEmpresas.stream()
-					.noneMatch(empresa -> empresa.getCnpj().equals(this.cnpj));	
+					.noneMatch(empresa -> empresa.cnpj.equals(this.cnpj));	
 			return retorno;
 		}
 
