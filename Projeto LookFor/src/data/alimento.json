@@ -1,21 +1,222 @@
-[ {
-  "nome" : "leite",
-  "preco" : 6.0,
-  "codItem" : "9876756",
-  "id" : 0,
-  "descricaoItem" : "leite integral",
-  "empresaId" : 1,
-  "ingredientes" : "leite",
-  "dataVencimento" : "10/06/2027",
-  "dataFabricacao" : "03/04/2026"
-}, {
-  "nome" : "leite desnatado",
-  "preco" : 10.0,
-  "codItem" : "9685754764",
-  "id" : 0,
-  "descricaoItem" : "leite desnatado",
-  "empresaId" : 1,
-  "ingredientes" : "leite desnatado",
-  "dataVencimento" : "10/08/2026",
-  "dataFabricacao" : "08/11/2025"
-} ]
+[
+  {
+    "nome": "arroz branco",
+    "preco": 25.0,
+    "codItem": "100001",
+    "id": 0,
+    "descricaoItem": "arroz tipo 1",
+    "empresaId": 1,
+    "ingredientes": "arroz",
+    "dataVencimento": "12/12/2027",
+    "dataFabricacao": "10/01/2026"
+  },
+  {
+    "nome": "feijao carioca",
+    "preco": 9.5,
+    "codItem": "100002",
+    "id": 0,
+    "descricaoItem": "feijao tipo carioca",
+    "empresaId": 1,
+    "ingredientes": "feijao",
+    "dataVencimento": "11/11/2027",
+    "dataFabricacao": "05/02/2026"
+  },
+  {
+    "nome": "macarrao",
+    "preco": 6.0,
+    "codItem": "100003",
+    "id": 0,
+    "descricaoItem": "macarrao espaguete",
+    "empresaId": 1,
+    "ingredientes": "trigo",
+    "dataVencimento": "09/09/2027",
+    "dataFabricacao": "01/03/2026"
+  },
+  {
+    "nome": "oleo de soja",
+    "preco": 8.0,
+    "codItem": "100004",
+    "id": 0,
+    "descricaoItem": "oleo refinado",
+    "empresaId": 1,
+    "ingredientes": "soja",
+    "dataVencimento": "08/08/2027",
+    "dataFabricacao": "15/02/2026"
+  },
+  {
+    "nome": "acucar",
+    "preco": 4.5,
+    "codItem": "100005",
+    "id": 0,
+    "descricaoItem": "acucar refinado",
+    "empresaId": 1,
+    "ingredientes": "cana de acucar",
+    "dataVencimento": "07/07/2027",
+    "dataFabricacao": "20/01/2026"
+  },
+  {
+    "nome": "sal",
+    "preco": 2.0,
+    "codItem": "100006",
+    "id": 0,
+    "descricaoItem": "sal refinado",
+    "empresaId": 1,
+    "ingredientes": "cloreto de sodio",
+    "dataVencimento": "06/06/2028",
+    "dataFabricacao": "10/03/2026"
+  },
+  {
+    "nome": "cafe",
+    "preco": 15.0,
+    "codItem": "100007",
+    "id": 0,
+    "descricaoItem": "cafe torrado e moido",
+    "empresaId": 1,
+    "ingredientes": "cafe",
+    "dataVencimento": "05/05/2027",
+    "dataFabricacao": "12/02/2026"
+  },
+  {
+    "nome": "manteiga",
+    "preco": 12.0,
+    "codItem": "100008",
+    "id": 0,
+    "descricaoItem": "manteiga com sal",
+    "empresaId": 1,
+    "ingredientes": "leite",
+    "dataVencimento": "04/04/2027",
+    "dataFabricacao": "01/04/2026"
+  },
+  {
+    "nome": "queijo mussarela",
+    "preco": 30.0,
+    "codItem": "100009",
+    "id": 0,
+    "descricaoItem": "queijo mussarela fatiado",
+    "empresaId": 1,
+    "ingredientes": "leite",
+    "dataVencimento": "03/03/2027",
+    "dataFabricacao": "05/04/2026"
+  },
+  {
+    "nome": "presunto",
+    "preco": 28.0,
+    "codItem": "100010",
+    "id": 0,
+    "descricaoItem": "presunto fatiado",
+    "empresaId": 1,
+    "ingredientes": "carne suina",
+    "dataVencimento": "02/02/2027",
+    "dataFabricacao": "06/04/2026"
+  },
+  {
+    "nome": "iogurte",
+    "preco": 5.0,
+    "codItem": "100011",
+    "id": 0,
+    "descricaoItem": "iogurte natural",
+    "empresaId": 1,
+    "ingredientes": "leite fermentado",
+    "dataVencimento": "01/01/2027",
+    "dataFabricacao": "02/04/2026"
+  },
+  {
+    "nome": "biscoito",
+    "preco": 3.5,
+    "codItem": "100012",
+    "id": 0,
+    "descricaoItem": "biscoito doce",
+    "empresaId": 1,
+    "ingredientes": "farinha de trigo",
+    "dataVencimento": "12/10/2027",
+    "dataFabricacao": "10/02/2026"
+  },
+  {
+    "nome": "chocolate",
+    "preco": 7.0,
+    "codItem": "100013",
+    "id": 0,
+    "descricaoItem": "chocolate ao leite",
+    "empresaId": 1,
+    "ingredientes": "cacau",
+    "dataVencimento": "11/09/2027",
+    "dataFabricacao": "15/01/2026"
+  },
+  {
+    "nome": "refrigerante",
+    "preco": 6.5,
+    "codItem": "100014",
+    "id": 0,
+    "descricaoItem": "bebida gaseificada",
+    "empresaId": 1,
+    "ingredientes": "agua e acucar",
+    "dataVencimento": "10/08/2027",
+    "dataFabricacao": "20/03/2026"
+  },
+  {
+    "nome": "suco de laranja",
+    "preco": 8.5,
+    "codItem": "100015",
+    "id": 0,
+    "descricaoItem": "suco natural",
+    "empresaId": 1,
+    "ingredientes": "laranja",
+    "dataVencimento": "09/07/2027",
+    "dataFabricacao": "25/03/2026"
+  },
+  {
+    "nome": "agua mineral",
+    "preco": 2.5,
+    "codItem": "100016",
+    "id": 0,
+    "descricaoItem": "agua sem gas",
+    "empresaId": 1,
+    "ingredientes": "agua",
+    "dataVencimento": "08/06/2028",
+    "dataFabricacao": "01/04/2026"
+  },
+  {
+    "nome": "farinha de trigo",
+    "preco": 5.5,
+    "codItem": "100017",
+    "id": 0,
+    "descricaoItem": "farinha tipo 1",
+    "empresaId": 1,
+    "ingredientes": "trigo",
+    "dataVencimento": "07/05/2027",
+    "dataFabricacao": "15/02/2026"
+  },
+  {
+    "nome": "ovos",
+    "preco": 14.0,
+    "codItem": "100018",
+    "id": 0,
+    "descricaoItem": "ovos brancos",
+    "empresaId": 1,
+    "ingredientes": "ovo",
+    "dataVencimento": "06/04/2027",
+    "dataFabricacao": "01/04/2026"
+  },
+  {
+    "nome": "margarina",
+    "preco": 6.0,
+    "codItem": "100019",
+    "id": 0,
+    "descricaoItem": "margarina vegetal",
+    "empresaId": 1,
+    "ingredientes": "oleos vegetais",
+    "dataVencimento": "05/03/2027",
+    "dataFabricacao": "10/03/2026"
+  },
+  {
+    "nome": "achocolatado",
+    "preco": 9.0,
+    "codItem": "100020",
+    "id": 0,
+    "descricaoItem": "achocolatado em po",
+    "empresaId": 1,
+    "ingredientes": "cacau e acucar",
+    "dataVencimento": "04/02/2027",
+    "dataFabricacao": "20/02/2026"
+  }
+]

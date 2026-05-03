@@ -48,8 +48,6 @@ public class MenuPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JTextField txtSenha;
-	private JTable table;
-	private JTextField txtInputBusca;
 	private JTextField txtNomeEletronico;
 	private JTextField txtPrecoEletronico;
 	private JTextField txtCodItemEletronico;
@@ -75,6 +73,8 @@ public class MenuPrincipal extends JFrame {
 	private JTextField txtCep;
 	private JTextField txtBuscar;
 	private JTable tableDeBusca;
+	private JTextField txtBuscarNoLojista;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -165,17 +165,22 @@ public class MenuPrincipal extends JFrame {
 				var loginEncontrado = logins.stream()
 						.filter(x -> 
 						x.getEmail().trim().equals(txtEmail.getText().trim()) && 
-						x.getSenha().trim().equals(txtSenha.getText().trim()));
+						x.getSenha().trim().equals(txtSenha.getText().trim()))
+						.findFirst()
+						.orElse(null);
 				
 				if(loginEncontrado != null) {
-				 	loginEncontrado.findFirst().get();
 					layeredPane.removeAll();
 					layeredPane.add(panelLojista);
 					layeredPane.repaint();
 					layeredPane.revalidate();
 					panelLojista.setVisible(true);
+					txtEmail.setText("");
+					txtSenha.setText("");
 				}else {
 					AlertaUtil.erro("Login ou senha inválida");
+					txtEmail.setText("");
+					txtSenha.setText("");
 				}
 			}
 		});
@@ -184,6 +189,10 @@ public class MenuPrincipal extends JFrame {
 		panelLogin.add(btnEntrar);
 		
 		JButton btnRecuperarSenha = new JButton("ESQUECEU SUA SENHA?");
+		btnRecuperarSenha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnRecuperarSenha.setBounds(250, 313, 199, 23);
 		panelLogin.add(btnRecuperarSenha);
 		
@@ -191,6 +200,8 @@ public class MenuPrincipal extends JFrame {
 		lblCadastrar.setBounds(305, 382, 118, 14);
 		panelLogin.add(lblCadastrar);
 
+		String[] colunasTabela = {"Nome do Item", "Código", "Preço"};
+		DefaultTableModel tabelaDeBusca = new DefaultTableModel(colunasTabela, 0);
 		
 		JButton btnNewButton = new JButton("voltar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -212,6 +223,7 @@ public class MenuPrincipal extends JFrame {
 				layeredPane.add(panelLogin);
 				layeredPane.repaint();
 				layeredPane.revalidate();
+				tabelaDeBusca.setRowCount(0);
 				panelLogin.setVisible(true);
 			}
 		});
@@ -231,9 +243,6 @@ public class MenuPrincipal extends JFrame {
 		panelDeBuscas.add(scrollPane);
 		
 		scrollPane.setViewportView(tableDeBusca);
-		
-		String[] colunasTabela = {"Nome do Item", "Código", "Preço"};
-		DefaultTableModel tabelaDeBusca = new DefaultTableModel(colunasTabela, 0);
 		
 		tableDeBusca.setModel(tabelaDeBusca);
 		
@@ -298,73 +307,96 @@ public class MenuPrincipal extends JFrame {
 		tabbedMenuLojista.setBounds(0, 0, 746, 633);
 		panelLojista.add(tabbedMenuLojista);
 		
-		JPanel panelMenuPrincipal = new JPanel();
-		panelMenuPrincipal.setLayout(null);
-		panelMenuPrincipal.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuPrincipal, null);
-		
-		JLabel lblProgressoEmAndamento = new JLabel("WORK IN PROGRESS...");
-		lblProgressoEmAndamento.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblProgressoEmAndamento.setBounds(38, 11, 344, 40);
-		panelMenuPrincipal.add(lblProgressoEmAndamento);
-		
-		table = new JTable();
-		table.setBounds(38, 179, 399, 313);
-		panelMenuPrincipal.add(table);
+		JPanel panelMenuLojista = new JPanel();
+		panelMenuLojista.setLayout(null);
+		panelMenuLojista.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuLojista, null);
 		
 		String[] colunas = {"Nome do Item", "Código", "Preço"};
 		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
-
-		table.setModel(modelo);
 		
-		txtInputBusca = new JTextField();
-		txtInputBusca.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				var itemsEletronicosTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var itemsAlimentosTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				
-				List<CadastrarItem> items = ConversorJson.desserializarListaDaString(itemsAlimentosTexto, CadastrarItem.class);
-				items.addAll(ConversorJson.desserializarListaDaString(itemsEletronicosTexto, CadastrarItem.class));
-				
-				if (!items.isEmpty()) 
-				{
-					String busca = txtInputBusca.getText().trim().toLowerCase();
-
-					var itemsFiltrados = items.stream()
-					    .filter(x -> x.getNome().toLowerCase().startsWith(busca) ||
-					                 x.getCodItem().toLowerCase().startsWith(busca))
-					    .sorted(Comparator.comparingDouble(CadastrarItem::getPreco))
-					    .toList();
-							
-					modelo.setRowCount(0);
-					
-					itemsFiltrados.forEach(p -> {
-					    modelo.addRow(new Object[]{
-					        p.getNome(), 
-					        p.getCodItem(), 
-					        "R$ " + p.getPreco()
-					    });
-					});
-				}
-			}
-		});
-		txtInputBusca.setColumns(10);
-		txtInputBusca.setBounds(38, 88, 399, 26);
-		panelMenuPrincipal.add(txtInputBusca);
-		
-		JButton btnPaginaDeBusca = new JButton("Voltar");
+		JButton btnPaginaDeBusca = new JButton("Sair");
 		btnPaginaDeBusca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
 				layeredPane.add(panelDeBuscas);
 				layeredPane.repaint();
 				layeredPane.revalidate();
+				tabelaDeBusca.setRowCount(0);
 				panelDeBuscas.setVisible(true);
+
 			}
 		});
 		btnPaginaDeBusca.setBounds(10, 571, 89, 23);
-		panelMenuPrincipal.add(btnPaginaDeBusca);
+		panelMenuLojista.add(btnPaginaDeBusca);
+		
+		JLabel lblNewLabel_2 = new JLabel("tela de buscas");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblNewLabel_2.setBounds(525, 11, 211, 79);
+		panelMenuLojista.add(lblNewLabel_2);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 88, 469, 478);
+		panelMenuLojista.add(scrollPane_1);
+
+		table = new JTable();
+		table.setModel(tabelaDeBusca);
+		scrollPane_1.setViewportView(table);
+		
+		txtBuscarNoLojista = new JTextField();
+		txtBuscarNoLojista.setColumns(10);
+		txtBuscarNoLojista.setBounds(10, 46, 326, 20);
+		panelMenuLojista.add(txtBuscarNoLojista);
+		
+		JButton btnBuscarNoLojista = new JButton("Buscar");
+		btnBuscarNoLojista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+				
+				List<CadastrarItem> verItems = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+				verItems.addAll(ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class));
+				if(!verItems.isEmpty()) 
+				{
+					String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
+					
+					var itemsFiltrados = verItems.stream()
+						    .filter(x -> x.getNome().toLowerCase().startsWith(buscar) ||
+					                 x.getCodItem().toLowerCase().startsWith(buscar))
+					    .sorted(Comparator.comparingDouble(CadastrarItem::getPreco))
+					    .toList();
+					
+					tabelaDeBusca.setRowCount(0);
+					
+					itemsFiltrados.forEach(p -> {
+						tabelaDeBusca.addRow(new Object[]{
+								p.getNome(),
+								p.getCodItem(),
+								"R$ " + p.getPreco(),
+						}
+								);
+					});
+					
+				}
+			}
+		});
+		btnBuscarNoLojista.setBounds(377, 45, 89, 23);
+		panelMenuLojista.add(btnBuscarNoLojista);
+		
+		JTextArea textAreaMenorPreco_1 = new JTextArea();
+		textAreaMenorPreco_1.setBounds(489, 142, 247, 148);
+		panelMenuLojista.add(textAreaMenorPreco_1);
+		
+		JLabel lblMenorPreco_1 = new JLabel("Menor Preço");
+		lblMenorPreco_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenorPreco_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblMenorPreco_1.setBounds(489, 89, 247, 42);
+		panelMenuLojista.add(lblMenorPreco_1);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(489, 301, 247, 42);
+		panelMenuLojista.add(comboBox_1);
 		
 		JPanel panelCadastrarItem = new JPanel();
 		panelCadastrarItem.setLayout(null);
@@ -716,6 +748,15 @@ public class MenuPrincipal extends JFrame {
 		panelCadastrarLojista.add(lblCep);
 		
 		JButton btnCancelarCadastro = new JButton("CANCELAR");
+		btnCancelarCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layeredPane.removeAll();
+				layeredPane.add(panelLogin);
+				layeredPane.repaint();
+				layeredPane.revalidate();
+				panelLogin.setVisible(true);
+			}
+		});
 		btnCancelarCadastro.setFont(new Font("Arial", Font.BOLD, 12));
 		btnCancelarCadastro.setBounds(175, 535, 114, 23);
 		panelCadastrarLojista.add(btnCancelarCadastro);
