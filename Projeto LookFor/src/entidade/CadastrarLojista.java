@@ -40,15 +40,15 @@ public class CadastrarLojista {
     
     public boolean verificaDuplicata(List<CadastrarLojista> duplicata) 
     {
-    	if(duplicata.isEmpty() || duplicata == null) return false;
+    	if(duplicata == null || duplicata.isEmpty() || this.email == null || this.email.isEmpty()) 
+    	{ 
+    		return false;
+    	}
     	boolean retorno = duplicata.stream()
     			.noneMatch(lojista -> lojista.email.equals(this.email));
     
     	return retorno;
-    }
-    
-    
-    
+    } 
     
     public String getNomeLojista() {
 		return nomeLojista;

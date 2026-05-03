@@ -41,8 +41,7 @@ public class Empresa {
 		
 		public boolean verificaDuplicidadeEmpresa(List<Empresa> listaEmpresas) 
 		{
-			if(listaEmpresas.isEmpty() || listaEmpresas == null) return false;
-			
+			if(listaEmpresas == null || listaEmpresas.isEmpty() || this.cnpj == null || this.cnpj.isEmpty()) return false;
 			boolean retorno = listaEmpresas.stream()
 					.noneMatch(empresa -> empresa.cnpj.equals(this.cnpj));	
 			return retorno;

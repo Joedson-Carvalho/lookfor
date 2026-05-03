@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaRecuperaSenha extends JFrame {
 
@@ -63,6 +65,12 @@ public class TelaRecuperaSenha extends JFrame {
 		txtEMail.setColumns(10);
 		
 		JButton btnEnviarCodigo = new JButton("ENVIAR CÓDIGO");
+		btnEnviarCodigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlertaUtil.info("Em breve você receberá uma nova senha");
+				dispose();
+			}
+		});
 		btnEnviarCodigo.setFont(new Font("Arial", Font.BOLD, 12));
 		btnEnviarCodigo.setBounds(135, 196, 141, 23);
 		contentPane.add(btnEnviarCodigo);

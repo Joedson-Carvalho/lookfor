@@ -107,30 +107,27 @@ public class TelaCadastrarLojista extends JFrame {
 			
 			    var listaEmpresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
 				var listaEmpresa = ConversorJson.desserializarListaDaString(listaEmpresaTexto, Empresa.class);
-			    
-				var ehEmpresaDuplicada = empresa.verificaDuplicidadeEmpresa(listaEmpresa);
+			    var ehEmpresaDuplicada = empresa.verificaDuplicidadeEmpresa(listaEmpresa);
 				
-				if(ehEmpresaDuplicada) 
-				{
-					DataHelper.adicionarItemAoJsonESalvar(
-							Paths.get("Projeto LookFor/src/data/empresa.json"), 
-							empresa, 
-							Empresa.class);
-				}		    
-			    
-
 				var listaLojistaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
 				var listaLojista = ConversorJson.desserializarListaDaString(listaLojistaTexto, CadastrarLojista.class);
 				boolean ehLojistaDuplicado = lojistaCadastro.verificaDuplicata(listaLojista);
 				
-				if(ehLojistaDuplicado)
+		
+				if(ehEmpresaDuplicada && ehLojistaDuplicado) 
 				{
-					DataHelper.adicionarItemAoJsonESalvar(
-							Paths.get("Projeto LookFor/src/data/lojista.json"), 
-							lojistaCadastro, 
-							CadastrarLojista.class);	
-				}
-						
+						DataHelper.adicionarItemAoJsonESalvar(
+								Paths.get("Projeto LookFor/src/data/empresa.json"), 
+								empresa, 
+								Empresa.class);
+						DataHelper.adicionarItemAoJsonESalvar(
+								Paths.get("Projeto LookFor/src/data/lojista.json"), 
+								lojistaCadastro, 
+								CadastrarLojista.class);	
+				} else 
+				{
+
+				}			
 			}
 		});
 		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 12));

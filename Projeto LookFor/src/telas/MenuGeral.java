@@ -28,6 +28,7 @@ import java.util.List;
 import entidade.CadastrarItem;
 import javax.swing.table.DefaultTableModel;
 import java.util.Comparator;
+import javax.swing.JScrollPane;
 
 public class MenuGeral extends JFrame {
 
@@ -93,13 +94,17 @@ public class MenuGeral extends JFrame {
 		lblProgressoEmAndamento.setBounds(38, 11, 344, 40);
 		panelMenuPrincipal.add(lblProgressoEmAndamento);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(38, 179, 399, 313);
+		panelMenuPrincipal.add(scrollPane);
+
 		table = new JTable();
-		table.setBounds(38, 179, 399, 313);
-		panelMenuPrincipal.add(table);
+		scrollPane.setViewportView(table);
+		
+				
 		
 		String[] colunas = {"Nome do Item", "Código", "Preço"};
 		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
-
 		table.setModel(modelo);
 		
 		JPanel panelCadastrarItem = new JPanel();
