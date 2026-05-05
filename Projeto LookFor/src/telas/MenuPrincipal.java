@@ -191,6 +191,9 @@ public class MenuPrincipal extends JFrame {
 		JButton btnRecuperarSenha = new JButton("ESQUECEU SUA SENHA?");
 		btnRecuperarSenha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TelaRecuperaSenha recuperarSenha = new TelaRecuperaSenha();
+				
+				recuperarSenha.setVisible(true);
 			}
 		});
 		btnRecuperarSenha.setBounds(250, 313, 199, 23);
