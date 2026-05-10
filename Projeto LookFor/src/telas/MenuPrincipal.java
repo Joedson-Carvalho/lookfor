@@ -41,6 +41,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class MenuPrincipal extends JFrame {
 
@@ -54,10 +63,6 @@ public class MenuPrincipal extends JFrame {
 	private JTextField txtDescricaoEletronico;
 	private JTextField txtGarantia;
 	private JTextField txtModelo;
-	private JTextField txtNomeAlimento;
-	private JTextField txtPrecoAlimento;
-	private JTextField txtCodItemAlimento;
-	private JTextField txtDescricaoAlimento;
 	private JTextField txtVencimento;
 	private JTextField txtFabricacao;
 	private JTextField txtIngredientes;
@@ -75,6 +80,10 @@ public class MenuPrincipal extends JFrame {
 	private JTable tableDeBusca;
 	private JTextField txtBuscarNoLojista;
 	private JTable table;
+	private JTextField txtNomeAlimento;
+	private JTextField txtPrecoAlimento;
+	private JTextField txtCodAlimento;
+	private JTextField txtDescricaoAlimento;
 
 	/**
 	 * Launch the application.
@@ -96,8 +105,12 @@ public class MenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/imagens/icon.png")));
+		setTitle("LookFor");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 762, 672);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -108,55 +121,64 @@ public class MenuPrincipal extends JFrame {
 		contentPane.add(layeredPane);
 		
 		JPanel panelDeBuscas = new JPanel();
-		layeredPane.setLayer(panelDeBuscas, 0);
+		panelDeBuscas.setBackground(new Color(79, 79, 79));
+		layeredPane.setLayer(panelDeBuscas, 1);
 		panelDeBuscas.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelDeBuscas);
 		panelDeBuscas.setLayout(null);
 		
 		JLabel lblLogin_1 = new JLabel("Lojista? Faça Seu Login ou Cadastro Clicando neste botão:");
+		lblLogin_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblLogin_1.setForeground(new Color(255, 255, 255));
 		lblLogin_1.setBounds(289, 592, 348, 14);
 		panelDeBuscas.add(lblLogin_1);
 		
 		JPanel panelLogin = new JPanel();
+		panelLogin.setBackground(new Color(79, 79, 79));
 		panelLogin.setVisible(false);
 		layeredPane.setLayer(panelLogin, 0);
 		panelLogin.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLogin);
 		panelLogin.setLayout(null);
 		
-		JLabel lblEMail = new JLabel("EMAIL:");
-		lblEMail.setFont(new Font("Arial", Font.BOLD, 14));
-		lblEMail.setBounds(169, 209, 72, 14);
+		JLabel lblEMail = new JLabel("E-MAIL:");
+		lblEMail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEMail.setForeground(new Color(255, 255, 255));
+		lblEMail.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblEMail.setBounds(170, 210, 72, 20);
 		panelLogin.add(lblEMail);
 		
-		JLabel lblNewLabel_1 = new JLabel("LookFor");
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(257, 172, 132, 14);
-		panelLogin.add(lblNewLabel_1);
-		
 		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(257, 207, 192, 20);
+		txtEmail.setBounds(250, 210, 300, 20);
 		panelLogin.add(txtEmail);
 		
-		JLabel lblSenha = new JLabel("SENHA");
-		lblSenha.setFont(new Font("Arial", Font.BOLD, 14));
-		lblSenha.setBounds(169, 250, 72, 14);
+		JLabel lblSenha = new JLabel("SENHA:");
+		lblSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSenha.setForeground(new Color(255, 255, 255));
+		lblSenha.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblSenha.setBounds(170, 250, 72, 20);
 		panelLogin.add(lblSenha);
 		
 		txtSenha = new JTextField();
+		txtSenha.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtSenha.setColumns(10);
-		txtSenha.setBounds(257, 248, 192, 20);
+		txtSenha.setBounds(250, 250, 300, 20);
 		panelLogin.add(txtSenha);
 		
 		JPanel panelLojista = new JPanel();
+		panelLojista.setBackground(new Color(192, 192, 192));
 		panelLojista.setVisible(false);
 		layeredPane.setLayer(panelLojista, 0);
 		panelLojista.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLojista);
 		panelLojista.setLayout(null);
 		
-		JButton btnEntrar = new JButton("ENTRAR");
+		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.setForeground(new Color(255, 255, 255));
+		btnEntrar.setBackground(new Color(55, 114, 251));
+		btnEntrar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 ;				var dataLogins = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
@@ -184,11 +206,15 @@ public class MenuPrincipal extends JFrame {
 				}
 			}
 		});
-		btnEntrar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnEntrar.setBounds(257, 279, 89, 23);
+		btnEntrar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnEntrar.setBounds(350, 290, 100, 25);
 		panelLogin.add(btnEntrar);
 		
-		JButton btnRecuperarSenha = new JButton("ESQUECEU SUA SENHA?");
+		JButton btnRecuperarSenha = new JButton("Esqueceu sua senha?");
+		btnRecuperarSenha.setForeground(new Color(255, 255, 255));
+		btnRecuperarSenha.setBackground(new Color(55, 114, 251));
+		btnRecuperarSenha.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnRecuperarSenha.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnRecuperarSenha.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TelaRecuperaSenha recuperarSenha = new TelaRecuperaSenha();
@@ -196,17 +222,24 @@ public class MenuPrincipal extends JFrame {
 				recuperarSenha.setVisible(true);
 			}
 		});
-		btnRecuperarSenha.setBounds(250, 313, 199, 23);
+		btnRecuperarSenha.setBounds(280, 335, 240, 25);
 		panelLogin.add(btnRecuperarSenha);
 		
 		JLabel lblCadastrar = new JLabel("Não Possui Cadastro?");
-		lblCadastrar.setBounds(305, 382, 118, 14);
+		lblCadastrar.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblCadastrar.setForeground(new Color(255, 255, 255));
+		lblCadastrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCadastrar.setBounds(295, 380, 130, 25);
 		panelLogin.add(lblCadastrar);
 
 		String[] colunasTabela = {"Nome do Item", "Código", "Preço"};
 		DefaultTableModel tabelaDeBusca = new DefaultTableModel(colunasTabela, 0);
 		
-		JButton btnNewButton = new JButton("voltar");
+		JButton btnNewButton = new JButton("Voltar");
+		btnNewButton.setBackground(new Color(55, 114, 251));
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
@@ -216,10 +249,14 @@ public class MenuPrincipal extends JFrame {
 				panelDeBuscas.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(10, 599, 89, 23);
+		btnNewButton.setBounds(10, 600, 90, 25);
 		panelLogin.add(btnNewButton);
 		
 		JButton btnLogin_1 = new JButton("Acessar");
+		btnLogin_1.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnLogin_1.setForeground(new Color(255, 255, 255));
+		btnLogin_1.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnLogin_1.setBackground(new Color(55, 114, 251));
 		btnLogin_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
@@ -230,18 +267,27 @@ public class MenuPrincipal extends JFrame {
 				panelLogin.setVisible(true);
 			}
 		});
-		btnLogin_1.setBounds(647, 588, 89, 23);
+		btnLogin_1.setBounds(633, 588, 103, 23);
 		panelDeBuscas.add(btnLogin_1);
 		
-		JLabel lblNewLabel = new JLabel("tela de buscas");
+		JLabel lblNewLabel = new JLabel("Melhor Resultado");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		lblNewLabel.setBounds(525, 11, 211, 79);
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 26));
+		lblNewLabel.setBounds(489, 275, 247, 79);
 		panelDeBuscas.add(lblNewLabel);
 		
 		
 		tableDeBusca = new JTable();
+		tableDeBusca.setGridColor(new Color(59, 59, 59));
+		tableDeBusca.setFont(new Font("Dialog", Font.PLAIN, 12));
+		tableDeBusca.setBackground(new Color(238, 238, 238));
+		tableDeBusca.setSelectionForeground(new Color(255, 255, 255));
+		tableDeBusca.setSelectionBackground(new Color(55, 114, 251));
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setForeground(new Color(0, 0, 0));
+		scrollPane.setFont(new Font("Dialog", Font.BOLD, 12));
+		scrollPane.setBackground(new Color(224, 224, 224));
 		scrollPane.setBounds(10, 88, 469, 478);
 		panelDeBuscas.add(scrollPane);
 		
@@ -250,11 +296,17 @@ public class MenuPrincipal extends JFrame {
 		tableDeBusca.setModel(tabelaDeBusca);
 		
 		txtBuscar = new JTextField();
+		txtBuscar.setFont(new Font("Dialog", Font.PLAIN, 12));
+		txtBuscar.setBackground(new Color(238, 238, 238));
 		txtBuscar.setBounds(10, 46, 326, 20);
 		panelDeBuscas.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(222, 232, 254), new Color(222, 232, 254), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnBuscar.setForeground(new Color(255, 255, 255));
+		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnBuscar.setBackground(new Color(55, 114, 251));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
@@ -290,27 +342,33 @@ public class MenuPrincipal extends JFrame {
 		panelDeBuscas.add(btnBuscar);
 		
 		JTextArea textAreaMenorPreco = new JTextArea();
-		textAreaMenorPreco.setBounds(489, 142, 247, 148);
+		textAreaMenorPreco.setBounds(489, 365, 247, 148);
 		panelDeBuscas.add(textAreaMenorPreco);
 		
-		JLabel lblMenorPreco = new JLabel("Menor Preço");
-		lblMenorPreco.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblMenorPreco.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMenorPreco.setBounds(489, 89, 247, 42);
-		panelDeBuscas.add(lblMenorPreco);
-		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setBackground(new Color(55, 114, 251));
+		comboBox.setForeground(new Color(255, 255, 255));
+		comboBox.setFont(new Font("Dialog", Font.BOLD, 16));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "Menor Distancia"}));
-		comboBox.setBounds(489, 301, 247, 42);
+		comboBox.setBounds(489, 524, 247, 42);
 		panelDeBuscas.add(comboBox);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack.png")));
+		lblNewLabel_3.setBounds(489, 11, 257, 79);
+		panelDeBuscas.add(lblNewLabel_3);
 		
 
 		
 		JTabbedPane tabbedMenuLojista = new JTabbedPane(JTabbedPane.TOP);
+		tabbedMenuLojista.setFont(new Font("Dialog", Font.BOLD, 16));
+		tabbedMenuLojista.setForeground(new Color(255, 255, 255));
+		tabbedMenuLojista.setBackground(new Color(55, 114, 251));
 		tabbedMenuLojista.setBounds(0, 0, 746, 633);
 		panelLojista.add(tabbedMenuLojista);
 		
 		JPanel panelMenuLojista = new JPanel();
+		panelMenuLojista.setBackground(new Color(79, 79, 79));
 		panelMenuLojista.setLayout(null);
 		panelMenuLojista.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuLojista, null);
@@ -319,6 +377,10 @@ public class MenuPrincipal extends JFrame {
 		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
 		
 		JButton btnPaginaDeBusca = new JButton("Sair");
+		btnPaginaDeBusca.setForeground(new Color(255, 255, 255));
+		btnPaginaDeBusca.setBackground(new Color(55, 114, 251));
+		btnPaginaDeBusca.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnPaginaDeBusca.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnPaginaDeBusca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
@@ -333,10 +395,12 @@ public class MenuPrincipal extends JFrame {
 		btnPaginaDeBusca.setBounds(10, 571, 89, 23);
 		panelMenuLojista.add(btnPaginaDeBusca);
 		
-		JLabel lblNewLabel_2 = new JLabel("tela de buscas");
+		JLabel lblNewLabel_2 = new JLabel("Melhor Resultado");
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		lblNewLabel_2.setBounds(525, 11, 211, 79);
+		lblNewLabel_2.setFont(new Font("Dialog", Font.BOLD, 26));
+		lblNewLabel_2.setBounds(489, 275, 247, 79);
 		panelMenuLojista.add(lblNewLabel_2);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -344,15 +408,26 @@ public class MenuPrincipal extends JFrame {
 		panelMenuLojista.add(scrollPane_1);
 
 		table = new JTable();
+		table.setBackground(new Color(238, 238, 238));
+		table.setSelectionForeground(new Color(255, 255, 255));
+		table.setFont(new Font("Dialog", Font.PLAIN, 12));
+		table.setSelectionBackground(new Color(55, 114, 251));
+		table.setGridColor(new Color(59, 59, 59));
 		table.setModel(tabelaDeBusca);
 		scrollPane_1.setViewportView(table);
 		
 		txtBuscarNoLojista = new JTextField();
+		txtBuscarNoLojista.setFont(new Font("Dialog", Font.PLAIN, 12));
+		txtBuscarNoLojista.setBackground(new Color(238, 238, 238));
 		txtBuscarNoLojista.setColumns(10);
 		txtBuscarNoLojista.setBounds(10, 46, 326, 20);
 		panelMenuLojista.add(txtBuscarNoLojista);
 		
 		JButton btnBuscarNoLojista = new JButton("Buscar");
+		btnBuscarNoLojista.setForeground(new Color(255, 255, 255));
+		btnBuscarNoLojista.setBackground(new Color(55, 114, 251));
+		btnBuscarNoLojista.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnBuscarNoLojista.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnBuscarNoLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
@@ -388,192 +463,242 @@ public class MenuPrincipal extends JFrame {
 		panelMenuLojista.add(btnBuscarNoLojista);
 		
 		JTextArea textAreaMenorPreco_1 = new JTextArea();
-		textAreaMenorPreco_1.setBounds(489, 142, 247, 148);
+		textAreaMenorPreco_1.setBounds(489, 365, 247, 148);
 		panelMenuLojista.add(textAreaMenorPreco_1);
 		
-		JLabel lblMenorPreco_1 = new JLabel("Menor Preço");
-		lblMenorPreco_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMenorPreco_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblMenorPreco_1.setBounds(489, 89, 247, 42);
-		panelMenuLojista.add(lblMenorPreco_1);
-		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(489, 301, 247, 42);
+		comboBox_1.setBackground(new Color(55, 114, 251));
+		comboBox_1.setForeground(new Color(255, 255, 255));
+		comboBox_1.setFont(new Font("Dialog", Font.BOLD, 16));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "MEnor Distancia"}));
+		comboBox_1.setBounds(489, 524, 247, 42);
 		panelMenuLojista.add(comboBox_1);
+		
+		JLabel lblLogoLojista = new JLabel("");
+		lblLogoLojista.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack.png")));
+		lblLogoLojista.setBounds(483, 29, 258, 55);
+		panelMenuLojista.add(lblLogoLojista);
 		
 		JPanel panelCadastrarItem = new JPanel();
 		panelCadastrarItem.setLayout(null);
 		panelCadastrarItem.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedMenuLojista.addTab("Cadastrar Produto", null, panelCadastrarItem, null);
 		
-		JLabel lblCadastro = new JLabel("Cadastrar Item");
-		lblCadastro.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCadastro.setBounds(158, 10, 117, 22);
-		panelCadastrarItem.add(lblCadastro);
-		
 		JTabbedPane tabbedSubMenuCadastrar = new JTabbedPane(JTabbedPane.TOP);
+		tabbedSubMenuCadastrar.setForeground(new Color(255, 255, 255));
+		tabbedSubMenuCadastrar.setFont(new Font("Dialog", Font.BOLD, 16));
+		tabbedSubMenuCadastrar.setBackground(new Color(55, 114, 251));
 		tabbedSubMenuCadastrar.setBounds(0, 53, 741, 552);
 		panelCadastrarItem.add(tabbedSubMenuCadastrar);
 		
 		JPanel panelSubMenuCadastrarEletronico = new JPanel();
+		panelSubMenuCadastrarEletronico.setBackground(new Color(79, 79, 79));
 		panelSubMenuCadastrarEletronico.setLayout(null);
 		panelSubMenuCadastrarEletronico.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tabbedSubMenuCadastrar.addTab("Cadastrar Eletronico", null, panelSubMenuCadastrarEletronico, null);
 		
 		JLabel lblNomeItem = new JLabel("Nome:");
-		lblNomeItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNomeItem.setBounds(171, 103, 119, 19);
+		lblNomeItem.setForeground(new Color(255, 255, 255));
+		lblNomeItem.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblNomeItem.setBounds(140, 160, 119, 20);
 		panelSubMenuCadastrarEletronico.add(lblNomeItem);
 		
 		txtNomeEletronico = new JTextField();
 		txtNomeEletronico.setColumns(10);
-		txtNomeEletronico.setBounds(342, 103, 217, 20);
+		txtNomeEletronico.setBounds(240, 160, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtNomeEletronico);
 		
 		JLabel lblPreco = new JLabel("Preço:");
-		lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPreco.setBounds(171, 141, 119, 19);
+		lblPreco.setForeground(new Color(255, 255, 255));
+		lblPreco.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblPreco.setBounds(140, 200, 119, 20);
 		panelSubMenuCadastrarEletronico.add(lblPreco);
 		
 		txtPrecoEletronico = new JTextField();
 		txtPrecoEletronico.setColumns(10);
-		txtPrecoEletronico.setBounds(342, 141, 217, 20);
+		txtPrecoEletronico.setBounds(240, 200, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtPrecoEletronico);
 		
-		JLabel lblCodItem = new JLabel("Codigo do Item:");
-		lblCodItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblCodItem.setBounds(171, 177, 119, 19);
+		JLabel lblCodItem = new JLabel("Código:");
+		lblCodItem.setForeground(new Color(255, 255, 255));
+		lblCodItem.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblCodItem.setBounds(140, 240, 119, 20);
 		panelSubMenuCadastrarEletronico.add(lblCodItem);
 		
 		txtCodItemEletronico = new JTextField();
 		txtCodItemEletronico.setColumns(10);
-		txtCodItemEletronico.setBounds(342, 177, 217, 20);
+		txtCodItemEletronico.setBounds(240, 240, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtCodItemEletronico);
 		
 		JLabel lblDescricaoItem = new JLabel("Descrição:");
-		lblDescricaoItem.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDescricaoItem.setBounds(171, 219, 119, 19);
+		lblDescricaoItem.setForeground(new Color(255, 255, 255));
+		lblDescricaoItem.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblDescricaoItem.setBounds(140, 360, 91, 20);
 		panelSubMenuCadastrarEletronico.add(lblDescricaoItem);
 		
 		txtDescricaoEletronico = new JTextField();
 		txtDescricaoEletronico.setColumns(10);
-		txtDescricaoEletronico.setBounds(342, 219, 217, 20);
+		txtDescricaoEletronico.setBounds(240, 360, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtDescricaoEletronico);
 		
 		JLabel lblGarantia = new JLabel("Garantia:");
-		lblGarantia.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGarantia.setBounds(171, 265, 119, 19);
+		lblGarantia.setForeground(new Color(255, 255, 255));
+		lblGarantia.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblGarantia.setBounds(140, 280, 119, 20);
 		panelSubMenuCadastrarEletronico.add(lblGarantia);
 		
 		txtGarantia = new JTextField();
 		txtGarantia.setColumns(10);
-		txtGarantia.setBounds(342, 265, 217, 20);
+		txtGarantia.setBounds(240, 280, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtGarantia);
 		
 		JLabel lblModelo = new JLabel("Modelo:");
-		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblModelo.setBounds(171, 308, 119, 19);
+		lblModelo.setForeground(new Color(255, 255, 255));
+		lblModelo.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblModelo.setBounds(140, 320, 119, 20);
 		panelSubMenuCadastrarEletronico.add(lblModelo);
 		
 		txtModelo = new JTextField();
 		txtModelo.setColumns(10);
-		txtModelo.setBounds(342, 308, 217, 20);
+		txtModelo.setBounds(240, 320, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtModelo);
 		
 		JButton btnSalvarEletronico = new JButton("Salvar");
-		btnSalvarEletronico.setBounds(458, 366, 89, 23);
+		btnSalvarEletronico.setBackground(new Color(55, 114, 251));
+		btnSalvarEletronico.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnSalvarEletronico.setForeground(new Color(255, 255, 255));
+		btnSalvarEletronico.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnSalvarEletronico.setBounds(490, 450, 100, 25);
 		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
 		
 		JButton btnCancelarEletronico = new JButton("Cancelar");
-		btnCancelarEletronico.setBounds(196, 366, 89, 23);
+		btnCancelarEletronico.setBackground(new Color(55, 114, 251));
+		btnCancelarEletronico.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnCancelarEletronico.setForeground(new Color(255, 255, 255));
+		btnCancelarEletronico.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnCancelarEletronico.setBounds(140, 450, 110, 25);
 		panelSubMenuCadastrarEletronico.add(btnCancelarEletronico);
 		
+		JLabel lblCadastroEletronicoMenu = new JLabel("Cadastrar Eletronico");
+		lblCadastroEletronicoMenu.setForeground(new Color(255, 255, 255));
+		lblCadastroEletronicoMenu.setFont(new Font("Dialog", Font.BOLD, 24));
+		lblCadastroEletronicoMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCadastroEletronicoMenu.setBounds(240, 60, 350, 47);
+		panelSubMenuCadastrarEletronico.add(lblCadastroEletronicoMenu);
+		
 		JPanel panelSubMenuCadastrarAlimento = new JPanel();
+		panelSubMenuCadastrarAlimento.setBackground(new Color(79, 79, 79));
 		panelSubMenuCadastrarAlimento.setLayout(null);
 		panelSubMenuCadastrarAlimento.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedSubMenuCadastrar.addTab(" Cadastrar Alimento", null, panelSubMenuCadastrarAlimento, null);
 		
-		JLabel lblDescricaoItem_1 = new JLabel("DESCRIÇÃO DO ITEM:");
-		lblDescricaoItem_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblDescricaoItem_1.setBounds(156, 230, 154, 14);
-		panelSubMenuCadastrarAlimento.add(lblDescricaoItem_1);
-		
-		JLabel lblCodigoItem = new JLabel("CÓDIGO  DO ITEM:");
-		lblCodigoItem.setFont(new Font("Arial", Font.BOLD, 14));
-		lblCodigoItem.setBounds(156, 185, 134, 23);
-		panelSubMenuCadastrarAlimento.add(lblCodigoItem);
-		
-		JLabel lblPreco_1 = new JLabel("PREÇO:");
-		lblPreco_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblPreco_1.setBounds(156, 147, 70, 14);
-		panelSubMenuCadastrarAlimento.add(lblPreco_1);
-		
-		JLabel lblNome = new JLabel("NOME:");
-		lblNome.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNome.setBounds(156, 112, 59, 14);
-		panelSubMenuCadastrarAlimento.add(lblNome);
-		
-		JButton btnSalvarAlimento = new JButton("Salvar");
-		btnSalvarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
-		btnSalvarAlimento.setBounds(459, 397, 89, 23);
-		panelSubMenuCadastrarAlimento.add(btnSalvarAlimento);
-		
-		txtNomeAlimento = new JTextField();
-		txtNomeAlimento.setColumns(10);
-		txtNomeAlimento.setBounds(313, 110, 203, 20);
-		panelSubMenuCadastrarAlimento.add(txtNomeAlimento);
-		
-		txtPrecoAlimento = new JTextField();
-		txtPrecoAlimento.setColumns(10);
-		txtPrecoAlimento.setBounds(313, 145, 203, 20);
-		panelSubMenuCadastrarAlimento.add(txtPrecoAlimento);
-		
-		txtCodItemAlimento = new JTextField();
-		txtCodItemAlimento.setColumns(10);
-		txtCodItemAlimento.setBounds(313, 187, 203, 20);
-		panelSubMenuCadastrarAlimento.add(txtCodItemAlimento);
-		
-		txtDescricaoAlimento = new JTextField();
-		txtDescricaoAlimento.setColumns(10);
-		txtDescricaoAlimento.setBounds(313, 228, 203, 20);
-		panelSubMenuCadastrarAlimento.add(txtDescricaoAlimento);
-		
-		JLabel lblDataVencimento = new JLabel("Data Vencimento");
-		lblDataVencimento.setFont(new Font("Arial", Font.BOLD, 14));
-		lblDataVencimento.setBounds(156, 267, 154, 14);
+		JLabel lblDataVencimento = new JLabel("Data Venc.:");
+		lblDataVencimento.setForeground(new Color(255, 255, 255));
+		lblDataVencimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblDataVencimento.setBounds(140, 280, 110, 20);
 		panelSubMenuCadastrarAlimento.add(lblDataVencimento);
 		
 		txtVencimento = new JTextField();
 		txtVencimento.setColumns(10);
-		txtVencimento.setBounds(313, 265, 203, 20);
+		txtVencimento.setBounds(240, 280, 350, 20);
 		panelSubMenuCadastrarAlimento.add(txtVencimento);
 		
-		JLabel lblDataFabricacao = new JLabel("Data Fabricacao");
-		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		lblDataFabricacao.setBounds(156, 302, 154, 14);
+		JLabel lblDataFabricacao = new JLabel("Data Fab.:");
+		lblDataFabricacao.setForeground(new Color(255, 255, 255));
+		lblDataFabricacao.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblDataFabricacao.setBounds(140, 320, 91, 20);
 		panelSubMenuCadastrarAlimento.add(lblDataFabricacao);
 		
 		txtFabricacao = new JTextField();
 		txtFabricacao.setColumns(10);
-		txtFabricacao.setBounds(313, 296, 203, 20);
+		txtFabricacao.setBounds(240, 320, 350, 20);
 		panelSubMenuCadastrarAlimento.add(txtFabricacao);
 		
-		JLabel lblgredientes = new JLabel("Ingredientes");
-		lblgredientes.setFont(new Font("Arial", Font.BOLD, 14));
-		lblgredientes.setBounds(156, 339, 154, 14);
+		JLabel lblgredientes = new JLabel("Ingredientes:");
+		lblgredientes.setForeground(new Color(255, 255, 255));
+		lblgredientes.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblgredientes.setBounds(140, 360, 110, 20);
 		panelSubMenuCadastrarAlimento.add(lblgredientes);
 		
 		txtIngredientes = new JTextField();
 		txtIngredientes.setColumns(10);
-		txtIngredientes.setBounds(313, 337, 203, 20);
+		txtIngredientes.setBounds(240, 360, 350, 20);
 		panelSubMenuCadastrarAlimento.add(txtIngredientes);
 		
+		JLabel lblNomeAlimento = new JLabel("Nome:");
+		lblNomeAlimento.setForeground(Color.WHITE);
+		lblNomeAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblNomeAlimento.setBounds(140, 160, 119, 20);
+		panelSubMenuCadastrarAlimento.add(lblNomeAlimento);
+		
+		txtNomeAlimento = new JTextField();
+		txtNomeAlimento.setColumns(10);
+		txtNomeAlimento.setBounds(240, 160, 350, 20);
+		panelSubMenuCadastrarAlimento.add(txtNomeAlimento);
+		
+		JLabel lblPrecoAlimento = new JLabel("Preço:");
+		lblPrecoAlimento.setForeground(Color.WHITE);
+		lblPrecoAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblPrecoAlimento.setBounds(140, 200, 119, 20);
+		panelSubMenuCadastrarAlimento.add(lblPrecoAlimento);
+		
+		txtPrecoAlimento = new JTextField();
+		txtPrecoAlimento.setColumns(10);
+		txtPrecoAlimento.setBounds(240, 200, 350, 20);
+		panelSubMenuCadastrarAlimento.add(txtPrecoAlimento);
+		
+		JLabel lblCodAlimento = new JLabel("Código:");
+		lblCodAlimento.setForeground(Color.WHITE);
+		lblCodAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblCodAlimento.setBounds(140, 240, 119, 20);
+		panelSubMenuCadastrarAlimento.add(lblCodAlimento);
+		
+		txtCodAlimento = new JTextField();
+		txtCodAlimento.setColumns(10);
+		txtCodAlimento.setBounds(240, 240, 350, 20);
+		panelSubMenuCadastrarAlimento.add(txtCodAlimento);
+		
+		JLabel lblDescricaoAlimento = new JLabel("Descrição:");
+		lblDescricaoAlimento.setForeground(Color.WHITE);
+		lblDescricaoAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblDescricaoAlimento.setBounds(140, 400, 91, 20);
+		panelSubMenuCadastrarAlimento.add(lblDescricaoAlimento);
+		
+		txtDescricaoAlimento = new JTextField();
+		txtDescricaoAlimento.setColumns(10);
+		txtDescricaoAlimento.setBounds(240, 400, 350, 20);
+		panelSubMenuCadastrarAlimento.add(txtDescricaoAlimento);
+		
 		JButton btnCancelarAlimento = new JButton("Cancelar");
-		btnCancelarAlimento.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCancelarAlimento.setBounds(156, 397, 89, 23);
+		btnCancelarAlimento.setForeground(Color.WHITE);
+		btnCancelarAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnCancelarAlimento.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnCancelarAlimento.setBackground(new Color(55, 114, 251));
+		btnCancelarAlimento.setBounds(140, 450, 110, 25);
 		panelSubMenuCadastrarAlimento.add(btnCancelarAlimento);
 		
+		JButton btnSalvarAlimento = new JButton("Salvar");
+		btnSalvarAlimento.setForeground(Color.WHITE);
+		btnSalvarAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnSalvarAlimento.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnSalvarAlimento.setBackground(new Color(55, 114, 251));
+		btnSalvarAlimento.setBounds(490, 450, 100, 25);
+		panelSubMenuCadastrarAlimento.add(btnSalvarAlimento);
+		
+		JLabel lblCadastroAlimentoMenu = new JLabel("Cadastrar Alimento");
+		lblCadastroAlimentoMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCadastroAlimentoMenu.setForeground(Color.WHITE);
+		lblCadastroAlimentoMenu.setFont(new Font("Dialog", Font.BOLD, 24));
+		lblCadastroAlimentoMenu.setBounds(240, 60, 350, 47);
+		panelSubMenuCadastrarAlimento.add(lblCadastroAlimentoMenu);
+		
+		JLabel lblLogoCad = new JLabel("");
+		lblLogoCad.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack.png")));
+		lblLogoCad.setBounds(476, 10, 255, 65);
+		panelCadastrarItem.add(lblLogoCad);
+		
 		JPanel panelCadastrarLojista = new JPanel();
+		panelCadastrarLojista.setBackground(new Color(79, 79, 79));
 		panelCadastrarLojista.setVisible(false);
 		layeredPane.setLayer(panelCadastrarLojista, 0);
 		panelCadastrarLojista.setBounds(0, 0, 746, 633);
@@ -581,7 +706,10 @@ public class MenuPrincipal extends JFrame {
 		panelCadastrarLojista.setLayout(null);
 		
 		
-		JButton btnCadastrar = new JButton("CADASTRAR");
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setForeground(new Color(255, 255, 255));
+		btnCadastrar.setBackground(new Color(55, 114, 251));
+		btnCadastrar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -592,116 +720,167 @@ public class MenuPrincipal extends JFrame {
 					panelCadastrarLojista.setVisible(true);
 			}
 		});
-		btnCadastrar.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCadastrar.setBounds(433, 378, 103, 23);
+		btnCadastrar.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnCadastrar.setBounds(450, 380, 100, 25);
 		panelLogin.add(btnCadastrar);
 		
+		JLabel lblNewLabel_4 = new JLabel("New label");
+		lblNewLabel_4.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack500.png")));
+		lblNewLabel_4.setBounds(117, 30, 500, 107);
+		panelLogin.add(lblNewLabel_4);
+		
 		JLabel lblMenuLojista = new JLabel("FORMULÁRIO DE CADASTRO DE LOJISTA");
-		lblMenuLojista.setFont(new Font("Arial", Font.BOLD, 16));
-		lblMenuLojista.setBounds(215, 36, 339, 35);
+		lblMenuLojista.setForeground(new Color(255, 255, 255));
+		lblMenuLojista.setBackground(new Color(255, 255, 255));
+		lblMenuLojista.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenuLojista.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblMenuLojista.setBounds(208, 40, 330, 20);
 		panelCadastrarLojista.add(lblMenuLojista);
 		
 		txtNome = new JTextField();
+		txtNome.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtNome.setColumns(10);
-		txtNome.setBounds(258, 100, 296, 20);
+		txtNome.setBounds(275, 100, 300, 20);
 		panelCadastrarLojista.add(txtNome);
 		
-		JLabel lblNome_1 = new JLabel("NOME:");
-		lblNome_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNome_1.setBounds(191, 98, 59, 22);
+		JLabel lblNome_1 = new JLabel("Nome:");
+		lblNome_1.setForeground(new Color(255, 255, 255));
+		lblNome_1.setBackground(new Color(255, 255, 255));
+		lblNome_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNome_1.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblNome_1.setBounds(155, 100, 59, 20);
 		panelCadastrarLojista.add(lblNome_1);
 		
-		JLabel lblSenha_1 = new JLabel("SENHA");
-		lblSenha_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblSenha_1.setBounds(191, 143, 59, 14);
+		JLabel lblSenha_1 = new JLabel("Senha:");
+		lblSenha_1.setForeground(new Color(255, 255, 255));
+		lblSenha_1.setBackground(new Color(255, 255, 255));
+		lblSenha_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSenha_1.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblSenha_1.setBounds(155, 140, 59, 20);
 		panelCadastrarLojista.add(lblSenha_1);
 		
 		txtCadastrarSenha = new JTextField();
+		txtCadastrarSenha.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtCadastrarSenha.setColumns(10);
-		txtCadastrarSenha.setBounds(258, 141, 296, 20);
+		txtCadastrarSenha.setBounds(275, 140, 300, 20);
 		panelCadastrarLojista.add(txtCadastrarSenha);
 		
 		txtCadastrarEmail = new JTextField();
+		txtCadastrarEmail.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtCadastrarEmail.setColumns(10);
-		txtCadastrarEmail.setBounds(258, 177, 296, 20);
+		txtCadastrarEmail.setBounds(275, 180, 300, 20);
 		panelCadastrarLojista.add(txtCadastrarEmail);
 		
-		JLabel lblEMail_1 = new JLabel("E-MAIL:");
-		lblEMail_1.setFont(new Font("Arial", Font.BOLD, 14));
-		lblEMail_1.setBounds(191, 179, 59, 14);
+		JLabel lblEMail_1 = new JLabel("E-Mail:");
+		lblEMail_1.setForeground(new Color(255, 255, 255));
+		lblEMail_1.setBackground(new Color(255, 255, 255));
+		lblEMail_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEMail_1.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblEMail_1.setBounds(155, 180, 59, 20);
 		panelCadastrarLojista.add(lblEMail_1);
 		
 		JLabel lblMenuLoja = new JLabel("FORMULÁRIO DE CADASTRO DA LOJA");
-		lblMenuLoja.setFont(new Font("Arial", Font.BOLD, 16));
-		lblMenuLoja.setBounds(227, 217, 339, 35);
+		lblMenuLoja.setForeground(new Color(255, 255, 255));
+		lblMenuLoja.setBackground(new Color(255, 255, 255));
+		lblMenuLoja.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenuLoja.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblMenuLoja.setBounds(208, 240, 330, 20);
 		panelCadastrarLojista.add(lblMenuLoja);
 		
-		JLabel lblNomeLoja = new JLabel("NOME DA LOJA:");
-		lblNomeLoja.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNomeLoja.setBounds(191, 263, 146, 22);
+		JLabel lblNomeLoja = new JLabel("Nome da Loja:");
+		lblNomeLoja.setForeground(new Color(255, 255, 255));
+		lblNomeLoja.setBackground(new Color(255, 255, 255));
+		lblNomeLoja.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNomeLoja.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblNomeLoja.setBounds(155, 300, 119, 20);
 		panelCadastrarLojista.add(lblNomeLoja);
 		
 		txtNomeLoja = new JTextField();
+		txtNomeLoja.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtNomeLoja.setColumns(10);
-		txtNomeLoja.setBounds(315, 263, 239, 20);
+		txtNomeLoja.setBounds(275, 300, 300, 20);
 		panelCadastrarLojista.add(txtNomeLoja);
 		
 		txtEmailLoja = new JTextField();
+		txtEmailLoja.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtEmailLoja.setColumns(10);
-		txtEmailLoja.setBounds(315, 307, 239, 20);
+		txtEmailLoja.setBounds(275, 340, 300, 20);
 		panelCadastrarLojista.add(txtEmailLoja);
 		
-		JLabel lblEMailLoja = new JLabel("E-MAIL DA LOJA");
-		lblEMailLoja.setFont(new Font("Arial", Font.BOLD, 14));
-		lblEMailLoja.setBounds(191, 308, 146, 14);
+		JLabel lblEMailLoja = new JLabel("E-Mail da Loja:");
+		lblEMailLoja.setForeground(new Color(255, 255, 255));
+		lblEMailLoja.setBackground(new Color(255, 255, 255));
+		lblEMailLoja.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEMailLoja.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblEMailLoja.setBounds(155, 340, 146, 20);
 		panelCadastrarLojista.add(lblEMailLoja);
 		
-		JLabel lblTelefone = new JLabel("TELEFONE");
-		lblTelefone.setFont(new Font("Arial", Font.BOLD, 14));
-		lblTelefone.setBounds(191, 344, 146, 14);
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setForeground(new Color(255, 255, 255));
+		lblTelefone.setBackground(new Color(255, 255, 255));
+		lblTelefone.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTelefone.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblTelefone.setBounds(155, 380, 119, 20);
 		panelCadastrarLojista.add(lblTelefone);
 		
 		txtTelefone = new JTextField();
+		txtTelefone.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(315, 340, 239, 20);
+		txtTelefone.setBounds(275, 380, 110, 20);
 		panelCadastrarLojista.add(txtTelefone);
 		
 		txtCadastrarCnpj = new JTextField();
+		txtCadastrarCnpj.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtCadastrarCnpj.setColumns(10);
-		txtCadastrarCnpj.setBounds(315, 383, 239, 20);
+		txtCadastrarCnpj.setBounds(445, 380, 130, 20);
 		panelCadastrarLojista.add(txtCadastrarCnpj);
 		
 		JLabel lblCnpj = new JLabel("CNPJ:");
-		lblCnpj.setFont(new Font("Arial", Font.BOLD, 14));
-		lblCnpj.setBounds(191, 385, 146, 14);
+		lblCnpj.setForeground(new Color(255, 255, 255));
+		lblCnpj.setBackground(new Color(255, 255, 255));
+		lblCnpj.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCnpj.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblCnpj.setBounds(391, 380, 59, 20);
 		panelCadastrarLojista.add(lblCnpj);
 		
-		JLabel lblEndereco = new JLabel("ENDEREÇO:");
-		lblEndereco.setFont(new Font("Arial", Font.BOLD, 14));
-		lblEndereco.setBounds(191, 442, 146, 22);
+		JLabel lblEndereco = new JLabel("Endereço:");
+		lblEndereco.setForeground(new Color(255, 255, 255));
+		lblEndereco.setBackground(new Color(255, 255, 255));
+		lblEndereco.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEndereco.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblEndereco.setBounds(155, 420, 146, 20);
 		panelCadastrarLojista.add(lblEndereco);
 		
 		txtEndereco = new JTextField();
+		txtEndereco.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(315, 444, 239, 20);
+		txtEndereco.setBounds(275, 420, 300, 20);
 		panelCadastrarLojista.add(txtEndereco);
 		
 		txtNumeroEndereco = new JTextField();
+		txtNumeroEndereco.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtNumeroEndereco.setColumns(10);
-		txtNumeroEndereco.setBounds(216, 483, 59, 22);
+		txtNumeroEndereco.setBounds(275, 460, 59, 22);
 		panelCadastrarLojista.add(txtNumeroEndereco);
 		
 		txtCep = new JTextField();
+		txtCep.setFont(new Font("Dialog", Font.PLAIN, 12));
 		txtCep.setColumns(10);
-		txtCep.setBounds(354, 484, 200, 20);
+		txtCep.setBounds(405, 460, 170, 20);
 		panelCadastrarLojista.add(txtCep);
 		
-		JLabel lblNumeroEndereco = new JLabel("N°");
-		lblNumeroEndereco.setFont(new Font("Arial", Font.BOLD, 14));
-		lblNumeroEndereco.setBounds(191, 486, 28, 14);
+		JLabel lblNumeroEndereco = new JLabel("Número:");
+		lblNumeroEndereco.setForeground(new Color(255, 255, 255));
+		lblNumeroEndereco.setBackground(new Color(255, 255, 255));
+		lblNumeroEndereco.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNumeroEndereco.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblNumeroEndereco.setBounds(155, 460, 78, 20);
 		panelCadastrarLojista.add(lblNumeroEndereco);
 		
-		JButton btnCadastrarLojista = new JButton("CADASTRAR");
+		JButton btnCadastrarLojista = new JButton("Cadastrar");
+		btnCadastrarLojista.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnCadastrarLojista.setBackground(new Color(55, 114, 251));
+		btnCadastrarLojista.setForeground(new Color(255, 255, 255));
 		btnCadastrarLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				var empresa = new Empresa(txtNomeLoja.getText(), txtEmailLoja.getText(), txtTelefone.getText(), txtCadastrarCnpj.getText());
@@ -741,16 +920,22 @@ public class MenuPrincipal extends JFrame {
 				}			
 			}
 		});
-		btnCadastrarLojista.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCadastrarLojista.setBounds(440, 535, 114, 23);
+		btnCadastrarLojista.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnCadastrarLojista.setBounds(461, 535, 114, 23);
 		panelCadastrarLojista.add(btnCadastrarLojista);
 		
 		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setFont(new Font("Arial", Font.BOLD, 14));
-		lblCep.setBounds(296, 486, 52, 14);
+		lblCep.setForeground(new Color(255, 255, 255));
+		lblCep.setBackground(new Color(255, 255, 255));
+		lblCep.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCep.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblCep.setBounds(344, 460, 52, 20);
 		panelCadastrarLojista.add(lblCep);
 		
-		JButton btnCancelarCadastro = new JButton("CANCELAR");
+		JButton btnCancelarCadastro = new JButton("Cancelar");
+		btnCancelarCadastro.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnCancelarCadastro.setBackground(new Color(55, 114, 251));
+		btnCancelarCadastro.setForeground(new Color(255, 255, 255));
 		btnCancelarCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layeredPane.removeAll();
@@ -760,8 +945,8 @@ public class MenuPrincipal extends JFrame {
 				panelLogin.setVisible(true);
 			}
 		});
-		btnCancelarCadastro.setFont(new Font("Arial", Font.BOLD, 12));
-		btnCancelarCadastro.setBounds(175, 535, 114, 23);
+		btnCancelarCadastro.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnCancelarCadastro.setBounds(275, 535, 114, 23);
 		panelCadastrarLojista.add(btnCancelarCadastro);
 		
 
