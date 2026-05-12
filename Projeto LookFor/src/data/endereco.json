@@ -1,0 +1,23 @@
+[
+  {
+    "rua": "Avenida das Nações",
+    "numero": "100",
+    "cep": 12345,
+    "empresaId": 1,
+    "distancia": 3
+  },
+  {
+    "rua": "Rua Marechal Deodoro",
+    "numero": "50",
+    "cep": 54321,
+    "empresaId": 2,
+    "distancia": 8
+  },
+  {
+    "rua": "Alameda Santos",
+    "numero": "999",
+    "cep": 98765,
+    "empresaId": 3,
+    "distancia": 10
+  }
+]

@@ -26,6 +26,7 @@ import tools.DataHelper;
 import entidade.CadastrarItem;
 import entidade.CadastrarLojista;
 import entidade.Empresa;
+import entidade.Endereco;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JTabbedPane;
@@ -38,6 +39,7 @@ import javax.swing.SwingConstants;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -84,6 +86,7 @@ public class MenuPrincipal extends JFrame {
 	private JTextField txtPrecoAlimento;
 	private JTextField txtCodAlimento;
 	private JTextField txtDescricaoAlimento;
+	private CadastrarLojista lojistaLogado;
 
 	/**
 	 * Launch the application.
@@ -192,6 +195,7 @@ public class MenuPrincipal extends JFrame {
 						.orElse(null);
 				
 				if(loginEncontrado != null) {
+					lojistaLogado = loginEncontrado;
 					layeredPane.removeAll();
 					layeredPane.add(panelLojista);
 					layeredPane.repaint();
@@ -302,6 +306,14 @@ public class MenuPrincipal extends JFrame {
 		panelDeBuscas.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBackground(new Color(55, 114, 251));
+		comboBox.setForeground(new Color(255, 255, 255));
+		comboBox.setFont(new Font("Dialog", Font.BOLD, 16));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "Menor Distancia"}));
+		comboBox.setBounds(489, 524, 247, 42);
+		panelDeBuscas.add(comboBox);
+		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(222, 232, 254), new Color(222, 232, 254), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnBuscar.setForeground(new Color(255, 255, 255));
@@ -309,30 +321,62 @@ public class MenuPrincipal extends JFrame {
 		btnBuscar.setBackground(new Color(55, 114, 251));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Disância 0 significa que a empresa/loja esta o mai perto possivel do consumidor.
 				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
 				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				
+				var empresas = ConversorJson.desserializarListaDaString(empresaTexto, Empresa.class).stream();
+				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 				
 				List<CadastrarItem> verItems = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
 				verItems.addAll(ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class));
 				if(!verItems.isEmpty()) 
 				{
+					
 					String buscar = txtBuscar.getText().trim().toLowerCase();
 					
-					var itemsFiltrados = verItems.stream()
-						    .filter(x -> x.getNome().toLowerCase().startsWith(buscar) ||
-					                 x.getCodItem().toLowerCase().startsWith(buscar))
-					    .sorted(Comparator.comparingDouble(CadastrarItem::getPreco))
-					    .toList();
-					
+					var streamBase = verItems.stream()
+					    .filter(x -> x.getNome().toLowerCase().startsWith(buscar) ||
+					                 x.getCodItem().toLowerCase().startsWith(buscar));
+
+					var filtroEscolhido = comboBox.getSelectedItem().toString();
+					List<CadastrarItem> resultadoFinal;
+
+					// 2. Ordenação
+					if (filtroEscolhido.equals("Menor Distancia")) {
+					    System.out.println("Ordenando por menor distancia...");
+					    
+					    resultadoFinal = streamBase.sorted((item1, item2) -> {
+					        int dist1 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        int dist2 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        return Integer.compare(dist1, dist2);
+					    }).toList();
+
+					} else {
+					    // Ordenação por preço
+					    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+					}
+
+					// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
 					tabelaDeBusca.setRowCount(0);
-					
-					itemsFiltrados.forEach(p -> {
-						tabelaDeBusca.addRow(new Object[]{
-								p.getNome(),
-								p.getCodItem(),
-								"R$ " + p.getPreco(),
-						}
-								);
+					resultadoFinal.forEach(p -> {
+					    tabelaDeBusca.addRow(new Object[]{
+					            p.getNome(),
+					            p.getCodItem(),
+					            "R$ " + p.getPreco(),
+					    });
 					});
 					
 				}
@@ -345,13 +389,7 @@ public class MenuPrincipal extends JFrame {
 		textAreaMenorPreco.setBounds(489, 365, 247, 148);
 		panelDeBuscas.add(textAreaMenorPreco);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(new Color(55, 114, 251));
-		comboBox.setForeground(new Color(255, 255, 255));
-		comboBox.setFont(new Font("Dialog", Font.BOLD, 16));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "Menor Distancia"}));
-		comboBox.setBounds(489, 524, 247, 42);
-		panelDeBuscas.add(comboBox);
+		
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack.png")));
@@ -865,7 +903,6 @@ public class MenuPrincipal extends JFrame {
 		
 		txtCep = new JTextField();
 		txtCep.setFont(new Font("Dialog", Font.PLAIN, 12));
-		txtCep.setColumns(10);
 		txtCep.setBounds(405, 460, 170, 20);
 		panelCadastrarLojista.add(txtCep);
 		
@@ -883,6 +920,9 @@ public class MenuPrincipal extends JFrame {
 		btnCadastrarLojista.setForeground(new Color(255, 255, 255));
 		btnCadastrarLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//validando o preenchimento do cep
+				if (txtCep.getText().chars().count() != 8) AlertaUtil.aviso("CEP inválido!");
+				
 				var empresa = new Empresa(txtNomeLoja.getText(), txtEmailLoja.getText(), txtTelefone.getText(), txtCadastrarCnpj.getText());
 				var lojistaCadastro = new CadastrarLojista(txtNome.getText(), txtCadastrarEmail.getText(), txtCadastrarSenha.getText());
 				lojistaCadastro.setEmpresaId(empresa.getId());
@@ -893,6 +933,10 @@ public class MenuPrincipal extends JFrame {
 				
 				var listaLojistaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
 				var listaLojista = ConversorJson.desserializarListaDaString(listaLojistaTexto, CadastrarLojista.class);
+				
+				int distancia = ThreadLocalRandom.current().nextInt(1, 11);
+				var endereco = new Endereco(txtEndereco.getText(), txtNumeroEndereco.getText(), Integer.parseInt(txtCep.getText()), distancia, empresa.getId());
+			
 				boolean ehLojistaDuplicado = lojistaCadastro.verificaDuplicata(listaLojista);
 
 				if(ehEmpresaDuplicada && ehLojistaDuplicado) 
@@ -901,10 +945,18 @@ public class MenuPrincipal extends JFrame {
 								Paths.get("Projeto LookFor/src/data/empresa.json"), 
 								empresa, 
 								Empresa.class);
+						
 						DataHelper.adicionarItemAoJsonESalvar(
 								Paths.get("Projeto LookFor/src/data/lojista.json"), 
 								lojistaCadastro, 
 								CadastrarLojista.class);
+						
+						DataHelper.adicionarItemAoJsonESalvar(
+								Paths.get("Projeto LookFor/src/data/endereco.json"), 
+								endereco, 
+								Endereco.class);
+						
+						
 					    AlertaUtil.alerta("Cadastro realizado com sucesso");
 	
 							layeredPane.removeAll();
