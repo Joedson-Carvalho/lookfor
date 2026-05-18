@@ -1,5 +1,11 @@
 package entidade;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import tools.ConversorJson;
+import tools.DataHelper;
+
 public class Alimento extends CadastrarItem {
 	
 	private String ingredientes;
@@ -23,6 +29,19 @@ public class Alimento extends CadastrarItem {
 		this.ingredientes = ingredientes;
 		this.dataFabricacao = dataFabricacao;
 		this.dataVencimento = dataVencimento;
+		
+		DefinirId();
+	}
+	
+	public void DefinirId()
+	{
+		Path path = Paths.get("Projeto LookFor/src/data/alimento.json");
+		var texto = DataHelper.lerTextoDoArquivo(path);
+		
+		var alimentos = ConversorJson.desserializarListaDaString(texto, Alimento.class);
+		var ultimoAlimento = alimentos.getLast();
+
+    	this.id = ultimoAlimento.getId() + 1; 
 	}
 	
 	public boolean ehPerecivel()

@@ -23,8 +23,10 @@ import javax.swing.table.DefaultTableModel;
 
 import tools.ConversorJson;
 import tools.DataHelper;
+import entidade.Alimento;
 import entidade.CadastrarItem;
 import entidade.CadastrarLojista;
+import entidade.Eletronico;
 import entidade.Empresa;
 import entidade.Endereco;
 
@@ -139,7 +141,7 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(new Color(79, 79, 79));
 		panelLogin.setVisible(false);
-		layeredPane.setLayer(panelLogin, 0);
+		layeredPane.setLayer(panelLogin, 16);
 		panelLogin.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLogin);
 		panelLogin.setLayout(null);
@@ -173,7 +175,7 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelLojista = new JPanel();
 		panelLojista.setBackground(new Color(192, 192, 192));
 		panelLojista.setVisible(false);
-		layeredPane.setLayer(panelLojista, 0);
+		layeredPane.setLayer(panelLojista, 17);
 		panelLojista.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLojista);
 		panelLojista.setLayout(null);
@@ -628,6 +630,43 @@ public class MenuPrincipal extends JFrame {
 		panelSubMenuCadastrarEletronico.add(txtModelo);
 		
 		JButton btnSalvarEletronico = new JButton("Salvar");
+		btnSalvarEletronico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Double modeloConvertido = 0.0;
+				Double precoConvertido = 0.0;
+				int garantiaConvertida = 0;
+				try {
+					garantiaConvertida = Integer.parseInt(txtGarantia.getText());
+					modeloConvertido = Double.parseDouble(txtModelo.getText());
+					precoConvertido = Double.parseDouble(txtPrecoEletronico.getText());
+				} catch(Exception ex) {
+					AlertaUtil.erro("Alguma informação inválida!");
+				}
+
+				var eletronico = new Eletronico(
+						garantiaConvertida, 
+						modeloConvertido,
+						txtNomeEletronico.getText(),
+						precoConvertido,
+						txtCodItemEletronico.getText(),
+						txtDescricaoEletronico.getText(),
+						lojistaLogado.getEmpresaId());
+				
+				DataHelper.adicionarItemAoJsonESalvar(
+						Paths.get("Projeto LookFor/src/data/eletronico.json"), 
+						eletronico, 
+						Eletronico.class);
+				
+				AlertaUtil.alerta("Eletrônico " + txtNomeEletronico.getText() + " salvo com sucesso.");
+				
+				txtNomeEletronico.setText("");
+				txtCodItemEletronico.setText("");
+				txtDescricaoEletronico.setText("");
+				txtPrecoEletronico.setText("");
+				txtModelo.setText("");
+				txtGarantia.setText("");
+			}
+		});
 		btnSalvarEletronico.setBackground(new Color(55, 114, 251));
 		btnSalvarEletronico.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnSalvarEletronico.setForeground(new Color(255, 255, 255));
@@ -742,6 +781,41 @@ public class MenuPrincipal extends JFrame {
 		panelSubMenuCadastrarAlimento.add(btnCancelarAlimento);
 		
 		JButton btnSalvarAlimento = new JButton("Salvar");
+		btnSalvarAlimento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Double precoConvertido = 0.0;
+				try {
+					precoConvertido = Double.parseDouble(txtPrecoAlimento.getText());
+				} catch(Exception ex) {
+					AlertaUtil.erro("Valor do preço é inválido!");
+				}
+//				
+				var alimento = new Alimento(
+						txtNomeAlimento.getText(), 
+						precoConvertido,
+						txtCodAlimento.getText(),
+						txtDescricaoAlimento.getText(),
+						txtIngredientes.getText(),
+						txtVencimento.getText(),
+						txtFabricacao.getText(),
+						lojistaLogado.getEmpresaId());
+				
+				DataHelper.adicionarItemAoJsonESalvar(
+						Paths.get("Projeto LookFor/src/data/alimento.json"), 
+						alimento, 
+						Alimento.class);
+				
+				AlertaUtil.alerta("Alimento " + txtNomeAlimento.getText() + " salvo com sucesso.");
+				
+				txtNomeAlimento.setText("");
+				txtPrecoAlimento.setText("");
+				txtCodAlimento.setText("");
+				txtDescricaoAlimento.setText("");
+				txtIngredientes.setText("");
+				txtVencimento.setText("");
+				txtFabricacao.setText("");
+			}
+		});
 		btnSalvarAlimento.setForeground(Color.WHITE);
 		btnSalvarAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnSalvarAlimento.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
