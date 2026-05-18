@@ -314,6 +314,11 @@ public class MenuPrincipal extends JFrame {
 		comboBox.setBounds(489, 524, 247, 42);
 		panelDeBuscas.add(comboBox);
 		
+		JTextArea textAreaMenorPreco = new JTextArea();
+		textAreaMenorPreco.setBounds(489, 365, 247, 148);
+		panelDeBuscas.add(textAreaMenorPreco);
+		
+		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(222, 232, 254), new Color(222, 232, 254), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnBuscar.setForeground(new Color(255, 255, 255));
@@ -379,15 +384,36 @@ public class MenuPrincipal extends JFrame {
 					    });
 					});
 					
+					if (!resultadoFinal.isEmpty()) {
+					    // Pega o primeiro item da lista (índice 0)
+					    CadastrarItem primeiroItem = resultadoFinal.get(0);
+					    
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					                            "Código: " + primeiroItem.getCodItem() + "\n" +
+					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            
+					    // Adiciona um aviso extra dependendo do filtro usado
+					    if (filtroEscolhido.equals("Menor Distancia")) {
+					        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+					    } else {
+					        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+					    }
+					    
+					    textAreaMenorPreco.setText(textoResultado);
+					} else {
+					    // Se a busca não retornar nada, limpa a tabela e avisa
+					    textAreaMenorPreco.setText("Nenhum item encontrado para essa busca.");
+					}
+					
 				}
 			}
 		});
 		btnBuscar.setBounds(377, 45, 89, 23);
 		panelDeBuscas.add(btnBuscar);
 		
-		JTextArea textAreaMenorPreco = new JTextArea();
-		textAreaMenorPreco.setBounds(489, 365, 247, 148);
-		panelDeBuscas.add(textAreaMenorPreco);
+
 		
 		
 		
