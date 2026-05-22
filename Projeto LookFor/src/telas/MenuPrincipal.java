@@ -861,7 +861,7 @@ public class MenuPrincipal extends JFrame {
 						btnSalvarAlimento.setText("Editar");
 						tabbedSubMenuCadastrar.setSelectedIndex(1);
 						var alimento = alimentos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
-						System.out.println(alimento.getNome());
+
 						
 						txtDescricaoAlimento.setText(alimento.getDescricaoItem());
 						txtIngredientes.setText(alimento.getIngredientes());
@@ -874,7 +874,7 @@ public class MenuPrincipal extends JFrame {
 						btnSalvarEletronico.setText("Editar");
 						var eletronico = eletronicos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
 						tabbedSubMenuCadastrar.setSelectedIndex(0);
-						System.out.println(eletronico.getNome());
+
 						txtNomeEletronico.setText(eletronico.getNome());
 						txtCodItemEletronico.setText(eletronico.getCodItem());
 						txtDescricaoEletronico.setText(eletronico.getDescricaoItem());
