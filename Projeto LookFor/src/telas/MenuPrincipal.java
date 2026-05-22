@@ -147,7 +147,7 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(new Color(79, 79, 79));
 		panelLogin.setVisible(false);
-		layeredPane.setLayer(panelLogin, 16);
+		layeredPane.setLayer(panelLogin, 0);
 		panelLogin.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLogin);
 		panelLogin.setLayout(null);
@@ -181,10 +181,20 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelLojista = new JPanel();
 		panelLojista.setBackground(new Color(192, 192, 192));
 		panelLojista.setVisible(false);
-		layeredPane.setLayer(panelLojista, 17);
+		layeredPane.setLayer(panelLojista, 0);
 		panelLojista.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLojista);
 		panelLojista.setLayout(null);
+		JComboBox comboBoxLojista = new JComboBox();
+		String[] colunas = {"Id", "Nome do Item", "Código", "Preço"};
+		DefaultTableModel modelo = new DefaultTableModel(colunas, 0) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        // Retorna false para QUALQUER célula, tornando a tabela inteira somente leitura
+		        return false; 
+		    }
+		};
+		JTextArea textAreaMenorPrecoLojista = new JTextArea();
 		
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setForeground(new Color(255, 255, 255));
@@ -211,6 +221,101 @@ public class MenuPrincipal extends JFrame {
 					panelLojista.setVisible(true);
 					txtEmail.setText("");
 					txtSenha.setText("");
+					
+					
+					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+					
+					var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
+		            
+					List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+					for (CadastrarItem item : itemsAlimentos) {
+					    item.setTipo(TipoItemsEnum.ALIMENTO);
+					}
+					
+					var itemsEletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class);
+					for (CadastrarItem item : itemsEletronicos) {
+					    item.setTipo(TipoItemsEnum.ELETRONICO);
+					}
+		            
+					var verItems = itemsEletronicos;
+					verItems.addAll(itemsAlimentos);
+					
+					verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId()).toList();
+					
+					String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
+					
+					var streamBase = verItems.stream()
+					    .filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && 
+						    (x.getNome().toLowerCase().startsWith(buscar) ||
+			                 x.getCodItem().toLowerCase().startsWith(buscar))
+					    );
+
+					var filtroEscolhido = comboBoxLojista.getSelectedItem().toString();
+					List<CadastrarItem> resultadoFinal;
+
+					// 2. Ordenação
+					if (filtroEscolhido.equals("Menor Distancia")) {
+					    System.out.println("Ordenando por menor distancia...");
+					    
+					    resultadoFinal = streamBase.sorted((item1, item2) -> {
+					        int dist1 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        int dist2 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        return Integer.compare(dist1, dist2);
+					    }).toList();
+
+					} else {
+						
+					    // Ordenação por preço
+					    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+					    
+					    System.out.println(resultadoFinal.get(0).getNome());
+					}
+
+					// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
+					modelo.setRowCount(0);
+					resultadoFinal.forEach(p -> {
+					    modelo.addRow(new Object[]{
+					    		p.getId(),
+					            p.getNome(),
+					            p.getCodItem(),
+					            "R$ " + p.getPreco(),
+					    });
+					});
+					
+					if (!resultadoFinal.isEmpty()) {
+					    // Pega o primeiro item da lista (índice 0)
+					    CadastrarItem primeiroItem = resultadoFinal.get(0);
+					    
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					                            "Código: " + primeiroItem.getCodItem() + "\n" +
+					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            
+					    // Adiciona um aviso extra dependendo do filtro usado
+					    if (filtroEscolhido.equals("Menor Distancia")) {
+					        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+					    } else {
+					        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+					    }
+					    
+					    textAreaMenorPrecoLojista.setText(textoResultado);
+					} else {
+					    // Se a busca não retornar nada, limpa a tabela e avisa
+						textAreaMenorPrecoLojista.setText("Nenhum item encontrado");
+					}
 				}else {
 					AlertaUtil.erro("Login ou senha inválida");
 					txtEmail.setText("");
@@ -445,14 +550,7 @@ public class MenuPrincipal extends JFrame {
 		panelMenuLojista.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuLojista, null);
 		
-		String[] colunas = {"Id", "Nome do Item", "Código", "Preço"};
-		DefaultTableModel modelo = new DefaultTableModel(colunas, 0) {
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		        // Retorna false para QUALQUER célula, tornando a tabela inteira somente leitura
-		        return false; 
-		    }
-		};
+		
 		
 		JButton btnPaginaDeBusca = new JButton("Sair");
 		btnPaginaDeBusca.setForeground(new Color(255, 255, 255));
@@ -502,7 +600,7 @@ public class MenuPrincipal extends JFrame {
 		txtBuscarNoLojista.setBounds(10, 46, 326, 20);
 		panelMenuLojista.add(txtBuscarNoLojista);
 		
-		JComboBox comboBoxLojista = new JComboBox();
+
 		comboBoxLojista.setBackground(new Color(55, 114, 251));
 		comboBoxLojista.setForeground(new Color(255, 255, 255));
 		comboBoxLojista.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -510,7 +608,7 @@ public class MenuPrincipal extends JFrame {
 		comboBoxLojista.setBounds(489, 524, 247, 42);
 		panelMenuLojista.add(comboBoxLojista);
 		
-		JTextArea textAreaMenorPrecoLojista = new JTextArea();
+
 		textAreaMenorPrecoLojista.setBounds(489, 365, 247, 148);
 		panelMenuLojista.add(textAreaMenorPrecoLojista);
 		
