@@ -47,6 +47,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
@@ -531,7 +533,7 @@ public class MenuPrincipal extends JFrame {
 						
 						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"), alimentos);
 					} else {
-						eletronicos.removeIf(alimento -> alimento.getId() == itemSelecionadoLojista.getId());
+						eletronicos.removeIf(eletronico -> eletronico.getId() == itemSelecionadoLojista.getId());
 						
 						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"), eletronicos);
 					}
@@ -661,7 +663,6 @@ public class MenuPrincipal extends JFrame {
 		        
 		        // 3. Verifica se o clique foi realmente em uma linha válida
 		        if (linhaClicada != -1) {
-		            System.out.println("O usuário clicou na linha: " + linhaClicada);
 		            
 		            // Exemplo: Pegar o valor da primeira coluna (índice 0) da linha clicada
 		            Object valor = table.getValueAt(linhaClicada, 0);
@@ -688,18 +689,15 @@ public class MenuPrincipal extends JFrame {
 					verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && x.getId() == idItem).toList();
 					
 		            CadastrarItem itemSelecionado = verItems.getFirst();
-		            System.out.println(itemSelecionado.getNome());
+
 		            if (itemSelecionado.getTipo() == TipoItemsEnum.ALIMENTO) {
 		                // O Java já sabe que é um Alimento.
 		                // Lógica para deletar de alimento.json
-		            	System.out.println("alimento");
 		            	itemSelecionadoLojista = itemSelecionado;
-		            	System.out.println(itemsAlimentos.size());
 		                
 		            } else if (itemSelecionado.getTipo() == TipoItemsEnum.ELETRONICO) {
 		                // O Java já sabe que é um Eletrônico.
 		                // Lógica para deletar de eletronico.json
-		            	System.out.println("alimento");
 		            	itemSelecionadoLojista = itemSelecionado;
 		            } else 
 		            {
@@ -719,9 +717,9 @@ public class MenuPrincipal extends JFrame {
 		lblLogoLojista.setBounds(483, 29, 258, 55);
 		panelMenuLojista.add(lblLogoLojista);
 		
-		
-		
 		JPanel panelCadastrarItem = new JPanel();
+		CardLayout layoutLojista = new CardLayout(); // Cria o layout de cartas
+		//panelCadastrarItem.setLayout(layoutLojista); // Aplica ele no painel
 		panelCadastrarItem.setLayout(null);
 		panelCadastrarItem.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tabbedMenuLojista.addTab("Cadastrar Produto", null, panelCadastrarItem, null);
@@ -738,6 +736,58 @@ public class MenuPrincipal extends JFrame {
 		panelSubMenuCadastrarEletronico.setLayout(null);
 		panelSubMenuCadastrarEletronico.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tabbedSubMenuCadastrar.addTab("Cadastrar Eletronico", null, panelSubMenuCadastrarEletronico, null);
+		
+		JButton btnSalvarEletronico = new JButton("Salvar");
+		JButton btnSalvarAlimento = new JButton("Salvar");
+		
+		JButton btnEditarItem = new JButton("Editar Item");
+		btnEditarItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedMenuLojista.setSelectedIndex(1);
+				
+				var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+				var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
+				
+				var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+				var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
+				
+				if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
+					btnSalvarAlimento.setText("Editar");
+					tabbedSubMenuCadastrar.setSelectedIndex(1);
+					var alimento = alimentos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
+					System.out.println(alimento.getNome());
+					
+					txtDescricaoAlimento.setText(alimento.getDescricaoItem());
+					txtIngredientes.setText(alimento.getIngredientes());
+					txtFabricacao.setText(alimento.getDataFabricacao());
+					txtVencimento.setText(alimento.getDataVencimento());
+					txtCodAlimento.setText(alimento.getCodItem());
+					txtPrecoAlimento.setText(""+alimento.getPreco()+"");
+					txtNomeAlimento.setText(alimento.getNome());
+				} else {
+					btnSalvarEletronico.setText("Editar");
+					var eletronico = eletronicos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
+					tabbedSubMenuCadastrar.setSelectedIndex(0);
+					System.out.println(eletronico.getNome());
+					txtNomeEletronico.setText(eletronico.getNome());
+					txtCodItemEletronico.setText(eletronico.getCodItem());
+					txtDescricaoEletronico.setText(eletronico.getDescricaoItem());
+					txtPrecoEletronico.setText(""+eletronico.getPreco()+"");
+					txtModelo.setText(""+eletronico.getModelo()+"");
+					txtGarantia.setText(""+eletronico.getGarantia()+"");
+				}
+				
+			}
+		});
+		btnEditarItem.setForeground(Color.WHITE);
+		btnEditarItem.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnEditarItem.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnEditarItem.setBackground(new Color(55, 114, 251));
+		btnEditarItem.setBounds(503, 129, 132, 23);
+		panelMenuLojista.add(btnEditarItem);
+		
+		
+		
 		
 		JLabel lblNomeItem = new JLabel("Nome:");
 		lblNomeItem.setForeground(new Color(255, 255, 255));
@@ -805,20 +855,25 @@ public class MenuPrincipal extends JFrame {
 		txtModelo.setBounds(240, 320, 350, 20);
 		panelSubMenuCadastrarEletronico.add(txtModelo);
 		
-		JButton btnSalvarEletronico = new JButton("Salvar");
+		
 		btnSalvarEletronico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Double modeloConvertido = 0.0;
 				Double precoConvertido = 0.0;
 				int garantiaConvertida = 0;
+				
 				try {
 					garantiaConvertida = Integer.parseInt(txtGarantia.getText());
 					modeloConvertido = Double.parseDouble(txtModelo.getText());
 					precoConvertido = Double.parseDouble(txtPrecoEletronico.getText());
+					
+					
+					
 				} catch(Exception ex) {
 					AlertaUtil.erro("Alguma informação inválida!");
+					
 				}
-
+				
 				var eletronico = new Eletronico(
 						garantiaConvertida, 
 						modeloConvertido,
@@ -828,14 +883,34 @@ public class MenuPrincipal extends JFrame {
 						txtDescricaoEletronico.getText(),
 						lojistaLogado.getEmpresaId());
 				
-				DataHelper.adicionarItemAoJsonESalvar(
-						Paths.get("Projeto LookFor/src/data/eletronico.json"), 
-						eletronico, 
-						Eletronico.class);
+				if ("Editar".equals(btnSalvarEletronico.getText())) { // Substitua pelo nome correto da variável do seu botão
+					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
+
+					eletronicos.removeIf(x -> x.getId() == itemSelecionadoLojista.getId());
+
+					eletronico.setId(itemSelecionadoLojista.getId());
+					
+					eletronicos.add(eletronico);
+					
+				    // 4. Salva a atualização no arquivo JSON correto
+				    DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"), eletronicos);
+
+				    // 5. Exibe a mensagem de sucesso
+				    AlertaUtil.alerta("Eletrônico " + txtNomeAlimento.getText() + " atualizado com sucesso.");
+
+				    btnSalvarEletronico.setText("Salvar");
+				   
+				} else {
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/eletronico.json"), 
+							eletronico, 
+							Eletronico.class);
+					
+					AlertaUtil.alerta("Eletrônico " + txtNomeEletronico.getText() + " salvo com sucesso.");
+				}	
 				
-				AlertaUtil.alerta("Eletrônico " + txtNomeEletronico.getText() + " salvo com sucesso.");
-				
-				txtNomeEletronico.setText("");
+			    txtNomeEletronico.setText("");
 				txtCodItemEletronico.setText("");
 				txtDescricaoEletronico.setText("");
 				txtPrecoEletronico.setText("");
@@ -851,6 +926,17 @@ public class MenuPrincipal extends JFrame {
 		panelSubMenuCadastrarEletronico.add(btnSalvarEletronico);
 		
 		JButton btnCancelarEletronico = new JButton("Cancelar");
+		btnCancelarEletronico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtNomeEletronico.setText("");
+				txtCodItemEletronico.setText("");
+				txtDescricaoEletronico.setText("");
+				txtPrecoEletronico.setText("");
+				txtModelo.setText("");
+				txtGarantia.setText("");
+				btnSalvarEletronico.setText("Salvar");
+			}
+		});
 		btnCancelarEletronico.setBackground(new Color(55, 114, 251));
 		btnCancelarEletronico.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnCancelarEletronico.setForeground(new Color(255, 255, 255));
@@ -956,7 +1042,7 @@ public class MenuPrincipal extends JFrame {
 		btnCancelarAlimento.setBounds(140, 450, 110, 25);
 		panelSubMenuCadastrarAlimento.add(btnCancelarAlimento);
 		
-		JButton btnSalvarAlimento = new JButton("Salvar");
+		
 		btnSalvarAlimento.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Double precoConvertido = 0.0;
@@ -976,12 +1062,33 @@ public class MenuPrincipal extends JFrame {
 						txtFabricacao.getText(),
 						lojistaLogado.getEmpresaId());
 				
-				DataHelper.adicionarItemAoJsonESalvar(
-						Paths.get("Projeto LookFor/src/data/alimento.json"), 
-						alimento, 
-						Alimento.class);
-				
-				AlertaUtil.alerta("Alimento " + txtNomeAlimento.getText() + " salvo com sucesso.");
+				if ("Editar".equals(btnSalvarAlimento.getText())) {
+					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
+
+					alimentos.removeIf(x -> x.getId() == itemSelecionadoLojista.getId());
+
+					alimento.setId(itemSelecionadoLojista.getId());
+					
+					alimentos.add(alimento);
+					
+				    // 4. Salva a atualização no arquivo JSON correto
+				    DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"), alimentos);
+
+				    // 5. Exibe a mensagem de sucesso
+				    AlertaUtil.alerta("Alimento " + txtNomeAlimento.getText() + " atualizado com sucesso.");
+
+				    btnSalvarAlimento.setText("Salvar");
+				} else 
+				{
+					DataHelper.adicionarItemAoJsonESalvar(
+							Paths.get("Projeto LookFor/src/data/alimento.json"), 
+							alimento, 
+							Alimento.class);
+					
+					AlertaUtil.alerta("Alimento " + txtNomeAlimento.getText() + " salvo com sucesso.");
+				}
+
 				
 				txtNomeAlimento.setText("");
 				txtPrecoAlimento.setText("");
