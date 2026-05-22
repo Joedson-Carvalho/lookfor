@@ -1769,7 +1769,7 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelCadastrarLojista = new JPanel();
 		panelCadastrarLojista.setBackground(new Color(79, 79, 79));
 		panelCadastrarLojista.setVisible(false);
-		layeredPane.setLayer(panelCadastrarLojista, 0);
+		layeredPane.setLayer(panelCadastrarLojista, 20);
 		panelCadastrarLojista.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelCadastrarLojista);
 		panelCadastrarLojista.setLayout(null);
@@ -1952,7 +1952,10 @@ public class MenuPrincipal extends JFrame {
 		btnCadastrarLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//validando o preenchimento do cep
-				if (txtCep.getText().chars().count() != 8) AlertaUtil.aviso("CEP inválido!");
+				if (txtCep.getText().chars().count() != 8) {
+					AlertaUtil.aviso("CEP inválido!");
+					return;
+				}
 				
 				var empresa = new Empresa(txtNomeLoja.getText(), txtEmailLoja.getText(), txtTelefone.getText(), txtCadastrarCnpj.getText());
 				var lojistaCadastro = new CadastrarLojista(txtNome.getText(), txtCadastrarEmail.getText(), txtCadastrarSenha.getText());
