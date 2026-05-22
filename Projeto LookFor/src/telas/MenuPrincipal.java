@@ -741,6 +741,7 @@ public class MenuPrincipal extends JFrame {
 		JButton btnSalvarAlimento = new JButton("Salvar");
 		
 		JButton btnEditarItem = new JButton("Editar Item");
+		btnEditarItem.setEnabled(false);
 		btnEditarItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedMenuLojista.setSelectedIndex(1);
