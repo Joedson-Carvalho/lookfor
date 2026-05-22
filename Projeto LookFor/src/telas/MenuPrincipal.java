@@ -429,6 +429,7 @@ public class MenuPrincipal extends JFrame {
 		panelDeBuscas.add(comboBox);
 		
 		JTextArea textAreaMenorPreco = new JTextArea();
+		textAreaMenorPreco.setEditable(false);
 		textAreaMenorPreco.setBounds(489, 365, 247, 148);
 		panelDeBuscas.add(textAreaMenorPreco);
 		
