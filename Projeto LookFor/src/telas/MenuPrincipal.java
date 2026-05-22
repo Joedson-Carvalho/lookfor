@@ -583,7 +583,7 @@ public class MenuPrincipal extends JFrame {
 		btnPaginaDeBusca.setBounds(10, 571, 89, 23);
 		panelMenuLojista.add(btnPaginaDeBusca);
 		
-		JLabel lblNewLabel_2 = new JLabel("Melhor Resultado");
+		JLabel lblNewLabel_2 = new JLabel("Menor Preço da Loja");
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBackground(new Color(255, 255, 255));
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
