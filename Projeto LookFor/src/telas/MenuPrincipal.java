@@ -300,10 +300,15 @@ public class MenuPrincipal extends JFrame {
 					    CadastrarItem primeiroItem = resultadoFinal.get(0);
 					    
 					    // Formata o texto que vai aparecer no TextArea
-					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 					                            "Código: " + primeiroItem.getCodItem() + "\n" +
-					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+					                            "Endereço ========\n" +
+					                            "Rua: " + endereco.getRua() + "\n" +
+			                            		"Número: " + endereco.getNumero() + "\n" +
+					    						"CEP: " + endereco.getCep() + "\n";
 					                            
 					    // Adiciona um aviso extra dependendo do filtro usado
 					    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -504,10 +509,15 @@ public class MenuPrincipal extends JFrame {
 					    CadastrarItem primeiroItem = resultadoFinal.get(0);
 					    
 					    // Formata o texto que vai aparecer no TextArea
-					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 					                            "Código: " + primeiroItem.getCodItem() + "\n" +
-					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+					                            "Endereço ========\n" +
+					                            "Rua: " + endereco.getRua() + "\n" +
+			                            		"Número: " + endereco.getNumero() + "\n" +
+					    						"CEP: " + endereco.getCep() + "\n";
 					                            
 					    // Adiciona um aviso extra dependendo do filtro usado
 					    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -725,10 +735,15 @@ public class MenuPrincipal extends JFrame {
 					    CadastrarItem primeiroItem = resultadoFinal.get(0);
 					    
 					    // Formata o texto que vai aparecer no TextArea
-					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 					                            "Código: " + primeiroItem.getCodItem() + "\n" +
-					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+					                            "Endereço ========\n" +
+					                            "Rua: " + endereco.getRua() + "\n" +
+			                            		"Número: " + endereco.getNumero() + "\n" +
+					    						"CEP: " + endereco.getCep() + "\n";
 					                            
 					    // Adiciona um aviso extra dependendo do filtro usado
 					    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -830,10 +845,15 @@ public class MenuPrincipal extends JFrame {
 					    CadastrarItem primeiroItem = resultadoFinal.get(0);
 					    
 					    // Formata o texto que vai aparecer no TextArea
-					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 					                            "Código: " + primeiroItem.getCodItem() + "\n" +
-					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+					                            "Endereço ========\n" +
+					                            "Rua: " + endereco.getRua() + "\n" +
+			                            		"Número: " + endereco.getNumero() + "\n" +
+					    						"CEP: " + endereco.getCep() + "\n";
 					                            
 					    // Adiciona um aviso extra dependendo do filtro usado
 					    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -1083,7 +1103,7 @@ public class MenuPrincipal extends JFrame {
 					
 				} catch(Exception ex) {
 					AlertaUtil.erro("Alguma informação inválida!");
-					
+					return;
 				}
 				
 				var eletronico = new Eletronico(
@@ -1208,10 +1228,15 @@ public class MenuPrincipal extends JFrame {
 				    CadastrarItem primeiroItem = resultadoFinal.get(0);
 				    
 				    // Formata o texto que vai aparecer no TextArea
-				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+				    // Formata o texto que vai aparecer no TextArea
+				    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 				                            "Código: " + primeiroItem.getCodItem() + "\n" +
-				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+				                            "Endereço ========\n" +
+				                            "Rua: " + endereco.getRua() + "\n" +
+		                            		"Número: " + endereco.getNumero() + "\n" +
+				    						"CEP: " + endereco.getCep() + "\n";
 				                            
 				    // Adiciona um aviso extra dependendo do filtro usado
 				    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -1323,10 +1348,15 @@ public class MenuPrincipal extends JFrame {
 				    CadastrarItem primeiroItem = resultadoFinal.get(0);
 				    
 				    // Formata o texto que vai aparecer no TextArea
-				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+				    // Formata o texto que vai aparecer no TextArea
+				    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 				                            "Código: " + primeiroItem.getCodItem() + "\n" +
-				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+				                            "Endereço ========\n" +
+				                            "Rua: " + endereco.getRua() + "\n" +
+		                            		"Número: " + endereco.getNumero() + "\n" +
+				    						"CEP: " + endereco.getCep() + "\n";
 				                            
 				    // Adiciona um aviso extra dependendo do filtro usado
 				    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -1530,10 +1560,15 @@ public class MenuPrincipal extends JFrame {
 				    CadastrarItem primeiroItem = resultadoFinal.get(0);
 				    
 				    // Formata o texto que vai aparecer no TextArea
-				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
+				    // Formata o texto que vai aparecer no TextArea
+				    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 				                            "Código: " + primeiroItem.getCodItem() + "\n" +
-				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+				                            "Endereço ========\n" +
+				                            "Rua: " + endereco.getRua() + "\n" +
+		                            		"Número: " + endereco.getNumero() + "\n" +
+				    						"CEP: " + endereco.getCep() + "\n";
 				                            
 				    // Adiciona um aviso extra dependendo do filtro usado
 				    if (filtroEscolhido.equals("Menor Distancia")) {
@@ -1564,6 +1599,7 @@ public class MenuPrincipal extends JFrame {
 					precoConvertido = Double.parseDouble(txtPrecoAlimento.getText());
 				} catch(Exception ex) {
 					AlertaUtil.erro("Valor do preço é inválido!");
+					return;
 				}
 //				
 				var alimento = new Alimento(
@@ -1687,11 +1723,15 @@ public class MenuPrincipal extends JFrame {
 				    // Pega o primeiro item da lista (índice 0)
 				    CadastrarItem primeiroItem = resultadoFinal.get(0);
 				    
+				    var endereco = enderecos.stream().filter(x -> x.getEmpresaId() == primeiroItem.getEmpresaId()).findFirst().get();
 				    // Formata o texto que vai aparecer no TextArea
-				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
-				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				    String textoResultado = "Nome: " + primeiroItem.getNome() + "\n" +
 				                            "Código: " + primeiroItem.getCodItem() + "\n" +
-				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            "Preço: R$ " + primeiroItem.getPreco() + "\n" +
+				                            "Endereço ========\n" +
+				                            "Rua: " + endereco.getRua() + "\n" +
+		                            		"Número: " + endereco.getNumero() + "\n" +
+				    						"CEP: " + endereco.getCep() + "\n";
 				                            
 				    // Adiciona um aviso extra dependendo do filtro usado
 				    if (filtroEscolhido.equals("Menor Distancia")) {
