@@ -182,7 +182,7 @@ public class MenuPrincipal extends JFrame {
 		JPanel panelLojista = new JPanel();
 		panelLojista.setBackground(new Color(192, 192, 192));
 		panelLojista.setVisible(false);
-		layeredPane.setLayer(panelLojista, 0);
+		layeredPane.setLayer(panelLojista, 17);
 		panelLojista.setBounds(0, 0, 746, 633);
 		layeredPane.add(panelLojista);
 		panelLojista.setLayout(null);
@@ -639,6 +639,109 @@ public class MenuPrincipal extends JFrame {
 					}
 					AlertaUtil.alerta("Item excluido com sucesso :)");
 					modelo.setRowCount(0);
+					
+					tabbedMenuLojista.setSelectedIndex(0);
+					
+				    txtNomeEletronico.setText("");
+					txtCodItemEletronico.setText("");
+					txtDescricaoEletronico.setText("");
+					txtPrecoEletronico.setText("");
+					txtModelo.setText("");
+					txtGarantia.setText("");
+					
+					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+					var aliemntosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+					var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
+					
+					var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
+		            
+					List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(aliemntosJson, CadastrarItem.class);
+					for (CadastrarItem item : itemsAlimentos) {
+					    item.setTipo(TipoItemsEnum.ALIMENTO);
+					}
+					
+					var itemsEletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, CadastrarItem.class);
+					for (CadastrarItem item : itemsEletronicos) {
+					    item.setTipo(TipoItemsEnum.ELETRONICO);
+					}
+		            
+					var verItems = itemsEletronicos;
+					verItems.addAll(itemsAlimentos);
+					
+					verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId()).toList();
+					
+					String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
+					
+					var streamBase = verItems.stream()
+					    .filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && 
+						    (x.getNome().toLowerCase().startsWith(buscar) ||
+			                 x.getCodItem().toLowerCase().startsWith(buscar))
+					    );
+
+					var filtroEscolhido = comboBoxLojista.getSelectedItem().toString();
+					List<CadastrarItem> resultadoFinal;
+
+					// 2. Ordenação
+					if (filtroEscolhido.equals("Menor Distancia")) {
+					    System.out.println("Ordenando por menor distancia...");
+					    
+					    resultadoFinal = streamBase.sorted((item1, item2) -> {
+					        int dist1 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        int dist2 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        return Integer.compare(dist1, dist2);
+					    }).toList();
+
+					} else {
+						
+					    // Ordenação por preço
+					    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+					    
+					    System.out.println(resultadoFinal.get(0).getNome());
+					}
+
+					// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
+					modelo.setRowCount(0);
+					resultadoFinal.forEach(p -> {
+					    modelo.addRow(new Object[]{
+					    		p.getId(),
+					            p.getNome(),
+					            p.getCodItem(),
+					            "R$ " + p.getPreco(),
+					    });
+					});
+					
+					if (!resultadoFinal.isEmpty()) {
+					    // Pega o primeiro item da lista (índice 0)
+					    CadastrarItem primeiroItem = resultadoFinal.get(0);
+					    
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					                            "Código: " + primeiroItem.getCodItem() + "\n" +
+					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            
+					    // Adiciona um aviso extra dependendo do filtro usado
+					    if (filtroEscolhido.equals("Menor Distancia")) {
+					        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+					    } else {
+					        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+					    }
+					    
+					    textAreaMenorPrecoLojista.setText(textoResultado);
+					} else {
+					    // Se a busca não retornar nada, limpa a tabela e avisa
+						textAreaMenorPrecoLojista.setText("Nenhum item encontrado");
+					}
 				}
 			}
 		});
@@ -1141,6 +1244,102 @@ public class MenuPrincipal extends JFrame {
 				txtModelo.setText("");
 				txtGarantia.setText("");
 				btnSalvarEletronico.setText("Salvar");
+				
+				tabbedMenuLojista.setSelectedIndex(0);
+				
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
+				
+				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
+	            
+				List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+				for (CadastrarItem item : itemsAlimentos) {
+				    item.setTipo(TipoItemsEnum.ALIMENTO);
+				}
+				
+				var itemsEletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class);
+				for (CadastrarItem item : itemsEletronicos) {
+				    item.setTipo(TipoItemsEnum.ELETRONICO);
+				}
+	            
+				var verItems = itemsEletronicos;
+				verItems.addAll(itemsAlimentos);
+				
+				verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId()).toList();
+				
+				String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
+				
+				var streamBase = verItems.stream()
+				    .filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && 
+					    (x.getNome().toLowerCase().startsWith(buscar) ||
+		                 x.getCodItem().toLowerCase().startsWith(buscar))
+				    );
+
+				var filtroEscolhido = comboBoxLojista.getSelectedItem().toString();
+				List<CadastrarItem> resultadoFinal;
+
+				// 2. Ordenação
+				if (filtroEscolhido.equals("Menor Distancia")) {
+				    System.out.println("Ordenando por menor distancia...");
+				    
+				    resultadoFinal = streamBase.sorted((item1, item2) -> {
+				        int dist1 = enderecos.stream()
+				                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+				                .findFirst()
+				                .map(x -> x.getDistancia())
+				                .orElse(Integer.MAX_VALUE);
+
+				        int dist2 = enderecos.stream()
+				                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+				                .findFirst()
+				                .map(x -> x.getDistancia())
+				                .orElse(Integer.MAX_VALUE);
+
+				        return Integer.compare(dist1, dist2);
+				    }).toList();
+
+				} else {
+					
+				    // Ordenação por preço
+				    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+				    
+				    System.out.println(resultadoFinal.get(0).getNome());
+				}
+
+				// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
+				modelo.setRowCount(0);
+				resultadoFinal.forEach(p -> {
+				    modelo.addRow(new Object[]{
+				    		p.getId(),
+				            p.getNome(),
+				            p.getCodItem(),
+				            "R$ " + p.getPreco(),
+				    });
+				});
+				
+				if (!resultadoFinal.isEmpty()) {
+				    // Pega o primeiro item da lista (índice 0)
+				    CadastrarItem primeiroItem = resultadoFinal.get(0);
+				    
+				    // Formata o texto que vai aparecer no TextArea
+				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				                            "Código: " + primeiroItem.getCodItem() + "\n" +
+				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            
+				    // Adiciona um aviso extra dependendo do filtro usado
+				    if (filtroEscolhido.equals("Menor Distancia")) {
+				        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+				    } else {
+				        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+				    }
+				    
+				    textAreaMenorPrecoLojista.setText(textoResultado);
+				} else {
+				    // Se a busca não retornar nada, limpa a tabela e avisa
+					textAreaMenorPrecoLojista.setText("Nenhum item encontrado");
+				}
 			}
 		});
 		btnCancelarEletronico.setBackground(new Color(55, 114, 251));
@@ -1241,6 +1440,115 @@ public class MenuPrincipal extends JFrame {
 		panelSubMenuCadastrarAlimento.add(txtDescricaoAlimento);
 		
 		JButton btnCancelarAlimento = new JButton("Cancelar");
+		btnCancelarAlimento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				txtNomeAlimento.setText("");
+				txtPrecoAlimento.setText("");
+				txtCodAlimento.setText("");
+				txtDescricaoAlimento.setText("");
+				txtIngredientes.setText("");
+				txtVencimento.setText("");
+				txtFabricacao.setText("");
+				btnSalvarAlimento.setText("Salvar");
+				
+				tabbedMenuLojista.setSelectedIndex(0);
+				
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
+				
+				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
+	            
+				List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+				for (CadastrarItem item : itemsAlimentos) {
+				    item.setTipo(TipoItemsEnum.ALIMENTO);
+				}
+				
+				var itemsEletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class);
+				for (CadastrarItem item : itemsEletronicos) {
+				    item.setTipo(TipoItemsEnum.ELETRONICO);
+				}
+	            
+				var verItems = itemsEletronicos;
+				verItems.addAll(itemsAlimentos);
+				
+				verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId()).toList();
+				
+				String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
+				
+				var streamBase = verItems.stream()
+				    .filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && 
+					    (x.getNome().toLowerCase().startsWith(buscar) ||
+		                 x.getCodItem().toLowerCase().startsWith(buscar))
+				    );
+
+				var filtroEscolhido = comboBoxLojista.getSelectedItem().toString();
+				List<CadastrarItem> resultadoFinal;
+
+				// 2. Ordenação
+				if (filtroEscolhido.equals("Menor Distancia")) {
+				    System.out.println("Ordenando por menor distancia...");
+				    
+				    resultadoFinal = streamBase.sorted((item1, item2) -> {
+				        int dist1 = enderecos.stream()
+				                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+				                .findFirst()
+				                .map(x -> x.getDistancia())
+				                .orElse(Integer.MAX_VALUE);
+
+				        int dist2 = enderecos.stream()
+				                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+				                .findFirst()
+				                .map(x -> x.getDistancia())
+				                .orElse(Integer.MAX_VALUE);
+
+				        return Integer.compare(dist1, dist2);
+				    }).toList();
+
+				} else {
+					
+				    // Ordenação por preço
+				    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+				    
+				    System.out.println(resultadoFinal.get(0).getNome());
+				}
+
+				// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
+				modelo.setRowCount(0);
+				resultadoFinal.forEach(p -> {
+				    modelo.addRow(new Object[]{
+				    		p.getId(),
+				            p.getNome(),
+				            p.getCodItem(),
+				            "R$ " + p.getPreco(),
+				    });
+				});
+				
+				if (!resultadoFinal.isEmpty()) {
+				    // Pega o primeiro item da lista (índice 0)
+				    CadastrarItem primeiroItem = resultadoFinal.get(0);
+				    
+				    // Formata o texto que vai aparecer no TextArea
+				    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+				                            "Nome: " + primeiroItem.getNome() + "\n" +
+				                            "Código: " + primeiroItem.getCodItem() + "\n" +
+				                            "Preço: R$ " + primeiroItem.getPreco();
+				                            
+				    // Adiciona um aviso extra dependendo do filtro usado
+				    if (filtroEscolhido.equals("Menor Distancia")) {
+				        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+				    } else {
+				        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+				    }
+				    
+				    textAreaMenorPrecoLojista.setText(textoResultado);
+				} else {
+				    // Se a busca não retornar nada, limpa a tabela e avisa
+					textAreaMenorPrecoLojista.setText("Nenhum item encontrado");
+				}
+			}
+		});
 		btnCancelarAlimento.setForeground(Color.WHITE);
 		btnCancelarAlimento.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnCancelarAlimento.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
@@ -1304,18 +1612,18 @@ public class MenuPrincipal extends JFrame {
 				txtVencimento.setText("");
 				txtFabricacao.setText("");
 				
-				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
-				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var aliemntosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
 				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 				
 				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 	            
-				List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+				List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(aliemntosJson, CadastrarItem.class);
 				for (CadastrarItem item : itemsAlimentos) {
 				    item.setTipo(TipoItemsEnum.ALIMENTO);
 				}
 				
-				var itemsEletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class);
+				var itemsEletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, CadastrarItem.class);
 				for (CadastrarItem item : itemsEletronicos) {
 				    item.setTipo(TipoItemsEnum.ELETRONICO);
 				}
