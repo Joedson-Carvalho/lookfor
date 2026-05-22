@@ -95,6 +95,7 @@ public class MenuPrincipal extends JFrame {
 	private JTextField txtDescricaoAlimento;
 	private CadastrarLojista lojistaLogado;
 	private CadastrarItem itemSelecionadoLojista;
+	public String pathProjeto = "Projeto LookFor/src/";
 
 	/**
 	 * Launch the application.
@@ -202,7 +203,7 @@ public class MenuPrincipal extends JFrame {
 		btnEntrar.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-;				var dataLogins = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
+;				var dataLogins = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/lojista.json"));
 				var logins = ConversorJson.desserializarListaDaString(dataLogins, CadastrarLojista.class);
 				
 				var loginEncontrado = logins.stream()
@@ -223,9 +224,9 @@ public class MenuPrincipal extends JFrame {
 					txtSenha.setText("");
 					
 					
-					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-					var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+					var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 					
 					var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 		            
@@ -440,10 +441,10 @@ public class MenuPrincipal extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Disância 0 significa que a empresa/loja esta o mai perto possivel do consumidor.
-				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
-				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/empresa.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 				
 				var empresas = ConversorJson.desserializarListaDaString(empresaTexto, Empresa.class).stream();
 				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
@@ -620,8 +621,8 @@ public class MenuPrincipal extends JFrame {
 					AlertaUtil.aviso("Nenhum item selecionado para exclusão.");
 				} else 
 				{
-					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
 					var alimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, Alimento.class);
 					var eletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, Eletronico.class);
 					
@@ -629,11 +630,11 @@ public class MenuPrincipal extends JFrame {
 					if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
 						alimentos.removeIf(alimento -> alimento.getId() == itemSelecionadoLojista.getId());
 						
-						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"), alimentos);
+						DataHelper.salvarArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"), alimentos);
 					} else {
 						eletronicos.removeIf(eletronico -> eletronico.getId() == itemSelecionadoLojista.getId());
 						
-						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"), eletronicos);
+						DataHelper.salvarArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"), eletronicos);
 					}
 					AlertaUtil.alerta("Item excluido com sucesso :)");
 					modelo.setRowCount(0);
@@ -657,10 +658,10 @@ public class MenuPrincipal extends JFrame {
 		btnBuscarNoLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Disância 0 significa que a empresa/loja esta o mai perto possivel do consumidor.
-				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
-				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/empresa.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 				
 				var empresas = ConversorJson.desserializarListaDaString(empresaTexto, Empresa.class).stream();
 				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
@@ -770,8 +771,8 @@ public class MenuPrincipal extends JFrame {
 		            
 		            int idItem = Integer.parseInt(valor.toString());
 		            
-		            var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+		            var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
 		            
 					List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
 					for (CadastrarItem item : itemsAlimentos) {
@@ -851,10 +852,10 @@ public class MenuPrincipal extends JFrame {
 				{
 					tabbedMenuLojista.setSelectedIndex(1);
 					
-					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
 					var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
 					
-					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
 					var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
 					
 					if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
@@ -991,7 +992,7 @@ public class MenuPrincipal extends JFrame {
 						lojistaLogado.getEmpresaId());
 				
 				if ("Editar".equals(btnSalvarEletronico.getText())) { // Substitua pelo nome correto da variável do seu botão
-					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
 					var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
 
 					eletronicos.removeIf(x -> x.getId() == itemSelecionadoLojista.getId());
@@ -1001,7 +1002,7 @@ public class MenuPrincipal extends JFrame {
 					eletronicos.add(eletronico);
 					
 				    // 4. Salva a atualização no arquivo JSON correto
-				    DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"), eletronicos);
+				    DataHelper.salvarArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"), eletronicos);
 
 				    // 5. Exibe a mensagem de sucesso
 				    AlertaUtil.alerta("Eletrônico " + txtNomeAlimento.getText() + " atualizado com sucesso.");
@@ -1011,7 +1012,7 @@ public class MenuPrincipal extends JFrame {
 				   
 				} else {
 					DataHelper.adicionarItemAoJsonESalvar(
-							Paths.get("Projeto LookFor/src/data/eletronico.json"), 
+							Paths.get(DataHelper.pathProjeto + "data/eletronico.json"), 
 							eletronico, 
 							Eletronico.class);
 					
@@ -1027,9 +1028,9 @@ public class MenuPrincipal extends JFrame {
 				txtModelo.setText("");
 				txtGarantia.setText("");
 				
-				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 				
 				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 	            
@@ -1267,7 +1268,7 @@ public class MenuPrincipal extends JFrame {
 						lojistaLogado.getEmpresaId());
 				
 				if ("Editar".equals(btnSalvarAlimento.getText())) {
-					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
 					var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
 
 					alimentos.removeIf(x -> x.getId() == itemSelecionadoLojista.getId());
@@ -1277,7 +1278,7 @@ public class MenuPrincipal extends JFrame {
 					alimentos.add(alimento);
 					
 				    // 4. Salva a atualização no arquivo JSON correto
-				    DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"), alimentos);
+				    DataHelper.salvarArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"), alimentos);
 
 				    // 5. Exibe a mensagem de sucesso
 				    AlertaUtil.alerta("Alimento " + txtNomeAlimento.getText() + " atualizado com sucesso.");
@@ -1286,7 +1287,7 @@ public class MenuPrincipal extends JFrame {
 				} else 
 				{
 					DataHelper.adicionarItemAoJsonESalvar(
-							Paths.get("Projeto LookFor/src/data/alimento.json"), 
+							Paths.get(DataHelper.pathProjeto + "data/alimento.json"), 
 							alimento, 
 							Alimento.class);
 					
@@ -1302,9 +1303,9 @@ public class MenuPrincipal extends JFrame {
 				txtVencimento.setText("");
 				txtFabricacao.setText("");
 				
-				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/eletronico.json"));
+				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/alimento.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/endereco.json"));
 				
 				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 	            
@@ -1608,11 +1609,11 @@ public class MenuPrincipal extends JFrame {
 				var lojistaCadastro = new CadastrarLojista(txtNome.getText(), txtCadastrarEmail.getText(), txtCadastrarSenha.getText());
 				lojistaCadastro.setEmpresaId(empresa.getId());
 			
-			    var listaEmpresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
+			    var listaEmpresaTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/empresa.json"));
 				var listaEmpresa = ConversorJson.desserializarListaDaString(listaEmpresaTexto, Empresa.class);
 			    var ehEmpresaDuplicada = empresa.verificaDuplicidadeEmpresa(listaEmpresa);
 				
-				var listaLojistaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/lojista.json"));
+				var listaLojistaTexto = DataHelper.lerTextoDoArquivo(Paths.get(DataHelper.pathProjeto + "data/lojista.json"));
 				var listaLojista = ConversorJson.desserializarListaDaString(listaLojistaTexto, CadastrarLojista.class);
 				
 				int distancia = ThreadLocalRandom.current().nextInt(1, 11);
@@ -1623,17 +1624,17 @@ public class MenuPrincipal extends JFrame {
 				if(ehEmpresaDuplicada && ehLojistaDuplicado) 
 				{
 						DataHelper.adicionarItemAoJsonESalvar(
-								Paths.get("Projeto LookFor/src/data/empresa.json"), 
+								Paths.get(DataHelper.pathProjeto + "data/empresa.json"), 
 								empresa, 
 								Empresa.class);
 						
 						DataHelper.adicionarItemAoJsonESalvar(
-								Paths.get("Projeto LookFor/src/data/lojista.json"), 
+								Paths.get(DataHelper.pathProjeto + "data/lojista.json"), 
 								lojistaCadastro, 
 								CadastrarLojista.class);
 						
 						DataHelper.adicionarItemAoJsonESalvar(
-								Paths.get("Projeto LookFor/src/data/endereco.json"), 
+								Paths.get(DataHelper.pathProjeto + "data/endereco.json"), 
 								endereco, 
 								Endereco.class);
 						

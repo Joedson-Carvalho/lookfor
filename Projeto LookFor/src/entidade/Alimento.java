@@ -35,7 +35,7 @@ public class Alimento extends CadastrarItem {
 	
 	public void DefinirId()
 	{
-		Path path = Paths.get("Projeto LookFor/src/data/alimento.json");
+		Path path = Paths.get(DataHelper.pathProjeto + "data/alimento.json");
 		var texto = DataHelper.lerTextoDoArquivo(path);
 		
 		var alimentos = ConversorJson.desserializarListaDaString(texto, Alimento.class);

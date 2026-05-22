@@ -29,7 +29,7 @@ public class CadastrarLojista {
     
     public void DefinirId()
     {
-        Path path = Paths.get("Projeto LookFor/src/data/lojista.json");
+        Path path = Paths.get(DataHelper.pathProjeto + "data/lojista.json");
         var texto = DataHelper.lerTextoDoArquivo(path);
 
         var lojistas = ConversorJson.desserializarListaDaString(texto, CadastrarLojista.class);

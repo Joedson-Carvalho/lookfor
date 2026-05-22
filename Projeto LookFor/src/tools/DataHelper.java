@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class DataHelper 
 {	
+	public static String pathProjeto = "Projeto LookFor/src/";
+	
 	public static String lerTextoDoArquivo(Path path) {
 	    try {
 	        if (Files.exists(path)) {

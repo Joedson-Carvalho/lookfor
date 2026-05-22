@@ -30,7 +30,7 @@ public class Empresa {
 		
 		public void DefinirId()
 		{
-			Path path = Paths.get("Projeto LookFor/src/data/empresa.json");
+			Path path = Paths.get(DataHelper.pathProjeto + "data/empresa.json");
 			var texto = DataHelper.lerTextoDoArquivo(path);
 			
 			var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);

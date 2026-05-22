@@ -31,7 +31,7 @@ public class Eletronico extends CadastrarItem{
 		
 		public void DefinirId()
 		{
-			Path path = Paths.get("Projeto LookFor/src/data/eletronico.json");
+			Path path = Paths.get(DataHelper.pathProjeto + "data/eletronico.json");
 			var texto = DataHelper.lerTextoDoArquivo(path);
 			
 			var eletronicos = ConversorJson.desserializarListaDaString(texto, Eletronico.class);
