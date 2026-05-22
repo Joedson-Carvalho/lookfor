@@ -27,6 +27,15 @@ public class CadastrarItem {
 		this.empresaId = empresaId;
 	}
 	
+	public String showInfo() 
+	{
+		return "ID: " + id + "\n" +
+		           "Nome: " + nome + "\n" +
+		           "Código: " + codItem + "\n" +
+		           "Preço: R$ " + String.format("%.2f", preco) + "\n" +
+		           "Descrição: " + descricaoItem;
+	}
+	
 	public TipoItemsEnum getTipo() {
 		return tipo;
 	}

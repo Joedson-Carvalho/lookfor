@@ -549,6 +549,7 @@ public class MenuPrincipal extends JFrame {
 		btnExcluirLojista.setBackground(new Color(55, 114, 251));
 		btnExcluirLojista.setBounds(503, 95, 132, 23);
 		panelMenuLojista.add(btnExcluirLojista);
+		JButton btnEditarItem = new JButton("Editar Item");
 		
 		JButton btnBuscarNoLojista = new JButton("Buscar");
 		btnBuscarNoLojista.setForeground(new Color(255, 255, 255));
@@ -655,6 +656,7 @@ public class MenuPrincipal extends JFrame {
 		    @Override
 		    public void mouseClicked(MouseEvent e) {
 		    	btnExcluirLojista.setEnabled(true);
+		    	btnEditarItem.setEnabled(true);
 		        // 1. Pega o ponto (coordenadas X e Y) onde o clique aconteceu
 		        java.awt.Point ponto = e.getPoint();
 		        
@@ -740,44 +742,50 @@ public class MenuPrincipal extends JFrame {
 		JButton btnSalvarEletronico = new JButton("Salvar");
 		JButton btnSalvarAlimento = new JButton("Salvar");
 		
-		JButton btnEditarItem = new JButton("Editar Item");
+		
 		btnEditarItem.setEnabled(false);
 		btnEditarItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tabbedMenuLojista.setSelectedIndex(1);
-				
-				var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
-				var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
-				
-				var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
-				var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
-				
-				if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
-					btnSalvarAlimento.setText("Editar");
-					tabbedSubMenuCadastrar.setSelectedIndex(1);
-					var alimento = alimentos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
-					System.out.println(alimento.getNome());
+				if (itemSelecionadoLojista == null) 
+				{
+					AlertaUtil.aviso("Nenhum item selecionado para exclusão.");
+				} else 
+				{
+					tabbedMenuLojista.setSelectedIndex(1);
 					
-					txtDescricaoAlimento.setText(alimento.getDescricaoItem());
-					txtIngredientes.setText(alimento.getIngredientes());
-					txtFabricacao.setText(alimento.getDataFabricacao());
-					txtVencimento.setText(alimento.getDataVencimento());
-					txtCodAlimento.setText(alimento.getCodItem());
-					txtPrecoAlimento.setText(""+alimento.getPreco()+"");
-					txtNomeAlimento.setText(alimento.getNome());
-				} else {
-					btnSalvarEletronico.setText("Editar");
-					var eletronico = eletronicos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
-					tabbedSubMenuCadastrar.setSelectedIndex(0);
-					System.out.println(eletronico.getNome());
-					txtNomeEletronico.setText(eletronico.getNome());
-					txtCodItemEletronico.setText(eletronico.getCodItem());
-					txtDescricaoEletronico.setText(eletronico.getDescricaoItem());
-					txtPrecoEletronico.setText(""+eletronico.getPreco()+"");
-					txtModelo.setText(""+eletronico.getModelo()+"");
-					txtGarantia.setText(""+eletronico.getGarantia()+"");
+					var eletronicosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var eletronicos = ConversorJson.desserializarListaDaString(eletronicosJson, Eletronico.class);
+					
+					var alimentosJson = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var alimentos = ConversorJson.desserializarListaDaString(alimentosJson, Alimento.class);
+					
+					if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
+						btnSalvarAlimento.setText("Editar");
+						tabbedSubMenuCadastrar.setSelectedIndex(1);
+						var alimento = alimentos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
+						System.out.println(alimento.getNome());
+						
+						txtDescricaoAlimento.setText(alimento.getDescricaoItem());
+						txtIngredientes.setText(alimento.getIngredientes());
+						txtFabricacao.setText(alimento.getDataFabricacao());
+						txtVencimento.setText(alimento.getDataVencimento());
+						txtCodAlimento.setText(alimento.getCodItem());
+						txtPrecoAlimento.setText(""+alimento.getPreco()+"");
+						txtNomeAlimento.setText(alimento.getNome());
+					} else {
+						btnSalvarEletronico.setText("Editar");
+						var eletronico = eletronicos.stream().filter(x -> x.getId() == itemSelecionadoLojista.getId()).findFirst().get();
+						tabbedSubMenuCadastrar.setSelectedIndex(0);
+						System.out.println(eletronico.getNome());
+						txtNomeEletronico.setText(eletronico.getNome());
+						txtCodItemEletronico.setText(eletronico.getCodItem());
+						txtDescricaoEletronico.setText(eletronico.getDescricaoItem());
+						txtPrecoEletronico.setText(""+eletronico.getPreco()+"");
+						txtModelo.setText(""+eletronico.getModelo()+"");
+						txtGarantia.setText(""+eletronico.getGarantia()+"");
+					}
 				}
-				
+								
 			}
 		});
 		btnEditarItem.setForeground(Color.WHITE);

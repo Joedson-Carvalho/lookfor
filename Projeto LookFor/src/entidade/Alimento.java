@@ -39,9 +39,25 @@ public class Alimento extends CadastrarItem {
 		var texto = DataHelper.lerTextoDoArquivo(path);
 		
 		var alimentos = ConversorJson.desserializarListaDaString(texto, Alimento.class);
-		var ultimoAlimento = alimentos.getLast();
+		
+		if (alimentos.isEmpty()) {
+			this.id = 0;
+		} else 
+		{
+			var ultimoAlimento = alimentos.getLast();
 
-    	this.id = ultimoAlimento.getId() + 1; 
+	    	this.id = ultimoAlimento.getId() + 1; 
+		}
+		
+		
+	}
+	
+	@Override
+	public String toString() {
+	    return super.showInfo() + "\n" +
+	           "Ingredientes: " + this.ingredientes + "\n" +
+	           "Data de Fabricação: " + this.dataFabricacao + "\n" +
+	           "Data de Vencimento: " + this.dataVencimento;
 	}
 	
 	public boolean ehPerecivel()

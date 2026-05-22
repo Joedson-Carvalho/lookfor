@@ -35,9 +35,25 @@ public class Eletronico extends CadastrarItem{
 			var texto = DataHelper.lerTextoDoArquivo(path);
 			
 			var eletronicos = ConversorJson.desserializarListaDaString(texto, Eletronico.class);
-			var ultimoEletro = eletronicos.getLast();
+			
+			if (eletronicos.isEmpty()) 
+			{
+				this.id = 0;
+			} else 
+			{
+				var ultimoEletro = eletronicos.getLast();
 
-	    	this.id = ultimoEletro.getId() + 1; 
+		    	this.id = ultimoEletro.getId() + 1; 
+			}
+			
+		}
+		
+		@Override
+		public String showInfo() {
+		    // super.showInfo() traz nome, preco, codigo, etc., da classe CadastrarItem
+		    return super.showInfo() + "\n" +
+		           "Garantia: " + this.garantia + " meses\n" +
+		           "Modelo: " + this.modelo;
 		}
 
 		public int getGarantia() {

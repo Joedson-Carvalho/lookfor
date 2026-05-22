@@ -33,9 +33,15 @@ public class CadastrarLojista {
         var texto = DataHelper.lerTextoDoArquivo(path);
 
         var lojistas = ConversorJson.desserializarListaDaString(texto, CadastrarLojista.class);
-        var ultimoLojista = lojistas.getLast();
+        
+        if (lojistas.isEmpty()) {
+        	this.id = 0;
+        } else {
+        	 var ultimoLojista = lojistas.getLast();
 
-        this.id = ++ultimoLojista.id; 
+             this.id = ++ultimoLojista.id; 
+        }
+       
     }
     
     public boolean verificaDuplicata(List<CadastrarLojista> duplicata) 

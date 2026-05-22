@@ -34,9 +34,15 @@ public class Empresa {
 			var texto = DataHelper.lerTextoDoArquivo(path);
 			
 			var empresas = ConversorJson.desserializarListaDaString(texto, Empresa.class);
-			var ultimaEmpresa = empresas.getLast();
 			
-	    	this.id = ++ultimaEmpresa.id; 
+			if (empresas.isEmpty()) {
+				this.id = 0;
+			} else {
+				var ultimaEmpresa = empresas.getLast();
+				
+		    	this.id = ++ultimaEmpresa.id; 
+			}
+			
 		}
 		
 		public boolean verificaDuplicidadeEmpresa(List<Empresa> listaEmpresas) 
