@@ -20,7 +20,8 @@ import javax.swing.AbstractListModel;
 import javax.swing.JToggleButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import tools.ConversorJson;
 import tools.DataHelper;
 import entidade.Alimento;
@@ -29,6 +30,7 @@ import entidade.CadastrarLojista;
 import entidade.Eletronico;
 import entidade.Empresa;
 import entidade.Endereco;
+import enums.TipoItemsEnum;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JTabbedPane;
@@ -54,6 +56,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.ListSelectionModel;
 
 public class MenuPrincipal extends JFrame {
 
@@ -89,6 +92,7 @@ public class MenuPrincipal extends JFrame {
 	private JTextField txtCodAlimento;
 	private JTextField txtDescricaoAlimento;
 	private CadastrarLojista lojistaLogado;
+	private CadastrarItem itemSelecionadoLojista;
 
 	/**
 	 * Launch the application.
@@ -439,8 +443,14 @@ public class MenuPrincipal extends JFrame {
 		panelMenuLojista.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tabbedMenuLojista.addTab("Menu Lojista", null, panelMenuLojista, null);
 		
-		String[] colunas = {"Nome do Item", "Código", "Preço"};
-		DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
+		String[] colunas = {"Id", "Nome do Item", "Código", "Preço"};
+		DefaultTableModel modelo = new DefaultTableModel(colunas, 0) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        // Retorna false para QUALQUER célula, tornando a tabela inteira somente leitura
+		        return false; 
+		    }
+		};
 		
 		JButton btnPaginaDeBusca = new JButton("Sair");
 		btnPaginaDeBusca.setForeground(new Color(255, 255, 255));
@@ -479,7 +489,8 @@ public class MenuPrincipal extends JFrame {
 		table.setFont(new Font("Dialog", Font.PLAIN, 12));
 		table.setSelectionBackground(new Color(55, 114, 251));
 		table.setGridColor(new Color(59, 59, 59));
-		table.setModel(tabelaDeBusca);
+		table.setModel(modelo);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(table);
 		
 		txtBuscarNoLojista = new JTextField();
@@ -489,6 +500,54 @@ public class MenuPrincipal extends JFrame {
 		txtBuscarNoLojista.setBounds(10, 46, 326, 20);
 		panelMenuLojista.add(txtBuscarNoLojista);
 		
+		JComboBox comboBoxLojista = new JComboBox();
+		comboBoxLojista.setBackground(new Color(55, 114, 251));
+		comboBoxLojista.setForeground(new Color(255, 255, 255));
+		comboBoxLojista.setFont(new Font("Dialog", Font.BOLD, 16));
+		comboBoxLojista.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "Menor Distancia"}));
+		comboBoxLojista.setBounds(489, 524, 247, 42);
+		panelMenuLojista.add(comboBoxLojista);
+		
+		JTextArea textAreaMenorPrecoLojista = new JTextArea();
+		textAreaMenorPrecoLojista.setBounds(489, 365, 247, 148);
+		panelMenuLojista.add(textAreaMenorPrecoLojista);
+		
+		JButton btnExcluirLojista = new JButton("Excluir Item");
+		btnExcluirLojista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (itemSelecionadoLojista == null) 
+				{
+					AlertaUtil.aviso("Nenhum item selecionado para exclusão.");
+				} else 
+				{
+					var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+					var alimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, Alimento.class);
+					var eletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, Eletronico.class);
+					
+					System.out.println(itemSelecionadoLojista.getTipo() + " " + itemSelecionadoLojista.getNome());
+					if (itemSelecionadoLojista.getTipo() == TipoItemsEnum.ALIMENTO) {
+						alimentos.removeIf(alimento -> alimento.getId() == itemSelecionadoLojista.getId());
+						
+						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"), alimentos);
+					} else {
+						eletronicos.removeIf(alimento -> alimento.getId() == itemSelecionadoLojista.getId());
+						
+						DataHelper.salvarArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"), eletronicos);
+					}
+					AlertaUtil.alerta("Item excluido com sucesso :)");
+					modelo.setRowCount(0);
+				}
+			}
+		});
+		btnExcluirLojista.setEnabled(false);
+		btnExcluirLojista.setForeground(Color.WHITE);
+		btnExcluirLojista.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnExcluirLojista.setBorder(new SoftBevelBorder(BevelBorder.RAISED, new Color(255, 255, 255), new Color(255, 255, 255), new Color(0, 0, 128), new Color(0, 0, 128)));
+		btnExcluirLojista.setBackground(new Color(55, 114, 251));
+		btnExcluirLojista.setBounds(503, 95, 132, 23);
+		panelMenuLojista.add(btnExcluirLojista);
+		
 		JButton btnBuscarNoLojista = new JButton("Buscar");
 		btnBuscarNoLojista.setForeground(new Color(255, 255, 255));
 		btnBuscarNoLojista.setBackground(new Color(55, 114, 251));
@@ -496,54 +555,171 @@ public class MenuPrincipal extends JFrame {
 		btnBuscarNoLojista.setFont(new Font("Dialog", Font.BOLD, 16));
 		btnBuscarNoLojista.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Disância 0 significa que a empresa/loja esta o mai perto possivel do consumidor.
 				var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
 				var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+				var empresaTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/empresa.json"));
+				var enderecoTexto = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/endereco.json"));
+				
+				var empresas = ConversorJson.desserializarListaDaString(empresaTexto, Empresa.class).stream();
+				var enderecos = ConversorJson.desserializarListaDaString(enderecoTexto, Endereco.class);
 				
 				List<CadastrarItem> verItems = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
 				verItems.addAll(ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class));
 				if(!verItems.isEmpty()) 
 				{
+					
 					String buscar = txtBuscarNoLojista.getText().trim().toLowerCase();
 					
-					var itemsFiltrados = verItems.stream()
-						    .filter(x -> x.getNome().toLowerCase().startsWith(buscar) ||
-					                 x.getCodItem().toLowerCase().startsWith(buscar))
-					    .sorted(Comparator.comparingDouble(CadastrarItem::getPreco))
-					    .toList();
-					
-					tabelaDeBusca.setRowCount(0);
-					
-					itemsFiltrados.forEach(p -> {
-						tabelaDeBusca.addRow(new Object[]{
-								p.getNome(),
-								p.getCodItem(),
-								"R$ " + p.getPreco(),
-						}
-								);
+					var streamBase = verItems.stream()
+					    .filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && 
+						    (x.getNome().toLowerCase().startsWith(buscar) ||
+			                 x.getCodItem().toLowerCase().startsWith(buscar))
+					    );
+
+					var filtroEscolhido = comboBoxLojista.getSelectedItem().toString();
+					List<CadastrarItem> resultadoFinal;
+
+					// 2. Ordenação
+					if (filtroEscolhido.equals("Menor Distancia")) {
+					    System.out.println("Ordenando por menor distancia...");
+					    
+					    resultadoFinal = streamBase.sorted((item1, item2) -> {
+					        int dist1 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item1.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        int dist2 = enderecos.stream()
+					                .filter(x -> x.getEmpresaId() == item2.getEmpresaId())
+					                .findFirst()
+					                .map(x -> x.getDistancia())
+					                .orElse(Integer.MAX_VALUE);
+
+					        return Integer.compare(dist1, dist2);
+					    }).toList();
+
+					} else {
+						
+					    // Ordenação por preço
+					    resultadoFinal = streamBase.sorted(Comparator.comparingDouble(CadastrarItem::getPreco)).toList();
+					    
+					    System.out.println(resultadoFinal.get(0).getNome());
+					}
+
+					// 3. Preenchimento da Tabela (Usando a Lista resultadoFinal)
+					modelo.setRowCount(0);
+					resultadoFinal.forEach(p -> {
+					    modelo.addRow(new Object[]{
+					    		p.getId(),
+					            p.getNome(),
+					            p.getCodItem(),
+					            "R$ " + p.getPreco(),
+					    });
 					});
 					
+					if (!resultadoFinal.isEmpty()) {
+					    // Pega o primeiro item da lista (índice 0)
+					    CadastrarItem primeiroItem = resultadoFinal.get(0);
+					    
+					    // Formata o texto que vai aparecer no TextArea
+					    String textoResultado = "PRODUTO EM DESTAQUE\n\n" +
+					                            "Nome: " + primeiroItem.getNome() + "\n" +
+					                            "Código: " + primeiroItem.getCodItem() + "\n" +
+					                            "Preço: R$ " + primeiroItem.getPreco();
+					                            
+					    // Adiciona um aviso extra dependendo do filtro usado
+					    if (filtroEscolhido.equals("Menor Distancia")) {
+					        textoResultado += "\n\n(Item mais próximo da sua localização!)";
+					    } else {
+					        textoResultado += "\n\n(Item com o menor preço encontrado!)";
+					    }
+					    
+					    textAreaMenorPrecoLojista.setText(textoResultado);
+					} else {
+					    // Se a busca não retornar nada, limpa a tabela e avisa
+						textAreaMenorPrecoLojista.setText("Nenhum item encontrado para essa busca.");
+					}
+					
 				}
+							
+				
+			
 			}
 		});
+		
+		table.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(MouseEvent e) {
+		    	btnExcluirLojista.setEnabled(true);
+		        // 1. Pega o ponto (coordenadas X e Y) onde o clique aconteceu
+		        java.awt.Point ponto = e.getPoint();
+		        
+		        // 2. Descobre o índice da linha correspondente a esse ponto
+		        int linhaClicada = table.rowAtPoint(ponto);
+		        
+		        // 3. Verifica se o clique foi realmente em uma linha válida
+		        if (linhaClicada != -1) {
+		            System.out.println("O usuário clicou na linha: " + linhaClicada);
+		            
+		            // Exemplo: Pegar o valor da primeira coluna (índice 0) da linha clicada
+		            Object valor = table.getValueAt(linhaClicada, 0);
+		            System.out.println("Valor da primeira coluna: " + valor);
+		            
+		            int idItem = Integer.parseInt(valor.toString());
+		            
+		            var itemsEletronicosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/eletronico.json"));
+					var itemsAlimentosListar = DataHelper.lerTextoDoArquivo(Paths.get("Projeto LookFor/src/data/alimento.json"));
+		            
+					List<CadastrarItem> itemsAlimentos = ConversorJson.desserializarListaDaString(itemsAlimentosListar, CadastrarItem.class);
+					for (CadastrarItem item : itemsAlimentos) {
+					    item.setTipo(TipoItemsEnum.ALIMENTO);
+					}
+					
+					var itemsEletronicos = ConversorJson.desserializarListaDaString(itemsEletronicosListar, CadastrarItem.class);
+					for (CadastrarItem item : itemsEletronicos) {
+					    item.setTipo(TipoItemsEnum.ELETRONICO);
+					}
+		            
+					var verItems = itemsEletronicos;
+					verItems.addAll(itemsAlimentos);
+					
+					verItems = verItems.stream().filter(x -> x.getEmpresaId() == lojistaLogado.getEmpresaId() && x.getId() == idItem).toList();
+					
+		            CadastrarItem itemSelecionado = verItems.getFirst();
+		            System.out.println(itemSelecionado.getNome());
+		            if (itemSelecionado.getTipo() == TipoItemsEnum.ALIMENTO) {
+		                // O Java já sabe que é um Alimento.
+		                // Lógica para deletar de alimento.json
+		            	System.out.println("alimento");
+		            	itemSelecionadoLojista = itemSelecionado;
+		            	System.out.println(itemsAlimentos.size());
+		                
+		            } else if (itemSelecionado.getTipo() == TipoItemsEnum.ELETRONICO) {
+		                // O Java já sabe que é um Eletrônico.
+		                // Lógica para deletar de eletronico.json
+		            	System.out.println("alimento");
+		            	itemSelecionadoLojista = itemSelecionado;
+		            } else 
+		            {
+		            	AlertaUtil.alerta("Não foi possivel identificar o tipo do item");
+		            	System.out.println("nenhum dos dois");
+		            }
+		            
+		        }
+		    }
+		});
+		
 		btnBuscarNoLojista.setBounds(377, 45, 89, 23);
 		panelMenuLojista.add(btnBuscarNoLojista);
-		
-		JTextArea textAreaMenorPreco_1 = new JTextArea();
-		textAreaMenorPreco_1.setBounds(489, 365, 247, 148);
-		panelMenuLojista.add(textAreaMenorPreco_1);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBackground(new Color(55, 114, 251));
-		comboBox_1.setForeground(new Color(255, 255, 255));
-		comboBox_1.setFont(new Font("Dialog", Font.BOLD, 16));
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Menor Preço", "MEnor Distancia"}));
-		comboBox_1.setBounds(489, 524, 247, 42);
-		panelMenuLojista.add(comboBox_1);
-		
+				
 		JLabel lblLogoLojista = new JLabel("");
 		lblLogoLojista.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/imagens/lookforblack.png")));
 		lblLogoLojista.setBounds(483, 29, 258, 55);
 		panelMenuLojista.add(lblLogoLojista);
+		
+		
 		
 		JPanel panelCadastrarItem = new JPanel();
 		panelCadastrarItem.setLayout(null);

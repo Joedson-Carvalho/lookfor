@@ -1,6 +1,8 @@
 package entidade;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import enums.TipoItemsEnum;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CadastrarItem {
 	
@@ -10,6 +12,7 @@ public class CadastrarItem {
 	protected int id;
 	protected String descricaoItem;
 	protected int empresaId;
+	protected TipoItemsEnum tipo;
 
 	public CadastrarItem()
 	{}
@@ -22,6 +25,14 @@ public class CadastrarItem {
 		this.codItem = codItem;
 		this.descricaoItem = descricaoItem; 
 		this.empresaId = empresaId;
+	}
+	
+	public TipoItemsEnum getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoItemsEnum t) {
+		this.tipo = t;
 	}
 	
 	public String getCodItem() {
