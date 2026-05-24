@@ -14,8 +14,7 @@ public class CadastrarItem {
 	protected int empresaId;
 	protected TipoItemsEnum tipo;
 
-	public CadastrarItem()
-	{}
+	public CadastrarItem(){}
 	
 	public CadastrarItem(String nome, double preco, String codItem, String 
 			descricaoItem, int empresaId) 

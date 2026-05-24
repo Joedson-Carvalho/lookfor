@@ -12,8 +12,7 @@ public class Alimento extends CadastrarItem {
 	private String dataVencimento;
 	private String dataFabricacao;
 	
-	public Alimento()
-	{}
+	public Alimento(){}
 	
 	public Alimento(
 			String nome, 
@@ -53,7 +52,7 @@ public class Alimento extends CadastrarItem {
 	}
 	
 	@Override
-	public String toString() {
+	public String showInfo() {
 	    return super.showInfo() + "\n" +
 	           "Ingredientes: " + this.ingredientes + "\n" +
 	           "Data de Fabricação: " + this.dataFabricacao + "\n" +
